@@ -9,11 +9,10 @@
 Pod::Spec.new do |s|
   s.name             = 'BothSidesCamera'
   s.version          = '0.1.5'
-  s.summary          = 'A short description of BothSidesCamera.'
+  s.summary          = 'infomation BothSidesCamera.'
 
-  s.description      = <<-DESC
-  TODO:　Simultaneous recording of both screens.
-                       DESC
+  s.description      = 'TODO:　Simultaneous recording of both screens.'
+
 
   s.homepage         = 'https://github.com/daisukenagata/BothSidesCamera'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
