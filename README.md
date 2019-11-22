@@ -17,7 +17,7 @@ You can shoot in-camera and out-camera at the same time. Both screen ratios can 
 
 ```
 Generation
-### import BothSidesCamera
+import BothSidesCamera
 private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
