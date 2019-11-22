@@ -66,7 +66,7 @@ class ViewController: UIViewController {
 
     var flg = false
     @objc func btaction() {
-        // // start camera
+        // start camera
         previewView?.cmaeraStart(flg: flg, completion: saveBtn)
         if flg == false {
             self.tabBarController?.tabBar.backgroundColor = .red
