@@ -10,10 +10,10 @@ import AVFoundation
 
 public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
-    var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
-
     public var backCameraVideoPreviewView  = BothSidesPreviewView()
     public var frontCameraVideoPreviewView = BothSidesPreviewView()
+
+    var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
     private var tapFlg                     = false
     private var pinchGesture               : UIPinchGestureRecognizer?
