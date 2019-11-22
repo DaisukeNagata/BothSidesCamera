@@ -51,6 +51,29 @@ it, simply add the following line to your Podfile:
 pod 'BothSidesCamera'
 ```
 
+## [Charthage](https://github.com/Carthage/Carthage)
+
+Officially supported: Carthage 0.34 and up.
+
+Add this to Cartfile
+```
+github "daisukenagata/BothSidesCamera"
+```
+
+Terminal command
+```bash
+$ carthage update --platform iOS
+```
+
+## Author
+
+daisukenagata, dbank0208@gmail.com
+
+## License
+
+RecordARFace is available under the MIT license. See the LICENSE file for more info.
+
+
 ## Author
 
 daisukenagata, dbank0208@gmail.com
