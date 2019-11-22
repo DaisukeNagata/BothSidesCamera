@@ -1,4 +1,7 @@
 # BothSidesCamera
+<p align="center">
+<img src="https://user-images.githubusercontent.com/16457165/69422323-bef87280-0d66-11ea-98c3-cd397f7041e2.png" width="800" height="600">
+</p>
 
 [![CI Status](https://img.shields.io/travis/daisukenagata/BothSidesCamera.svg?style=flat)](https://travis-ci.org/daisukenagata/BothSidesCamera)
 [![Version](https://img.shields.io/cocoapods/v/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
