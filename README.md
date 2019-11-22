@@ -25,16 +25,16 @@ import BothSidesCamera
 private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
-resolution
+Resolution
 previewView?.setSessionPreset(state: .hd1920x1080)
 
 Start and stop recording
 previewView?.cmaeraStart(flg: flg, completion: saveBtn)
 
-this is call
+This is call
 func saveBtn() { print("movie save") }
 
-all stop 
+All stop 
 previewView.stopRunning()
 
 
