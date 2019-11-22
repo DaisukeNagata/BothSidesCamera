@@ -30,7 +30,7 @@ Resolution
 previewView?.setSessionPreset(state: .hd1920x1080)
 
 Start and stop recording
-previewView?.cmaeraStart(flg: flg, completion: saveBtn)
+previewView?.cmaeraStart(completion: saveBtn)
 
 This is call
 func saveBtn() { print("movie save") }
@@ -38,6 +38,8 @@ func saveBtn() { print("movie save") }
 All stop 
 previewView.stopRunning()
 
+Resize
+previewView.preViewSizeSet()
 
 ```
 
