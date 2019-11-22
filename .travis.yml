@@ -10,5 +10,5 @@ language: objective-c
 # - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
-- xcodebuild -SocketStreamSwift.xcodeproj -scheme SocketStreamSwift -destination destinationspecifier -sdk iphonesimulator test | xcpretty -c
+- xcodebuild -BothSidesCamera.xcodeproj -scheme BothSidesCamera -destination destinationspecifier -sdk iphonesimulator test | xcpretty -c
 - pod lib lint
