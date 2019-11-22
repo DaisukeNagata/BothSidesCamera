@@ -44,7 +44,18 @@ previewView.stopRunning()
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+## How to
+
+```
+pinchGesture　→Scale
+
+2 continuous taps →Preview screen switching 
+
+Trace the preview screen　→Move preview screen
+
+```
+
+
 
 ## Installation
 
