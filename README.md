@@ -8,6 +8,34 @@
 [![License](https://img.shields.io/cocoapods/l/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 [![Platform](https://img.shields.io/cocoapods/p/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 
+
+## Function
+
+You can shoot in-camera and out-camera at the same time. Both screen ratios can be adjusted.
+
+## code
+
+```
+Generation
+### import BothSidesCamera
+private var previewView: BothSidesView?
+previewView = BothSidesView(frame: view.frame)
+
+resolution
+previewView?.setSessionPreset(state: .hd1920x1080)
+
+Start and stop recording
+previewView?.cmaeraStart(flg: flg, completion: saveBtn)
+
+this is call
+func saveBtn() { print("movie save") }
+
+all stop 
+previewView.stopRunning()
+
+
+```
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
