@@ -23,15 +23,38 @@ class ViewController: UIViewController {
         
         // 画面ロック
         UIApplication.shared.isIdleTimerDisabled = true
-        
+
         previewView = BothSidesView(frame: view.frame)
+        previewView?.setSessionPreset(state: .hd1920x1080)
         view.addSubview(previewView!)
         view.addSubview(btAction)
 
         btAction.frame.size = CGSize(width: 100, height: 100)
+        btAction.frame.origin.y = 100
         btAction.backgroundColor = .red
         btAction.addTarget(self, action: #selector(aaaa), for: .touchUpInside)
         
+        NotificationCenter.default.addObserver( self,
+                                                selector:#selector(background),
+                                                name: UIApplication.didEnterBackgroundNotification,object: nil)
+        NotificationCenter.default.addObserver( self, selector: #selector(foreground),
+                                                name: UIApplication.willEnterForegroundNotification,object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let pre = previewView else { return }
+        pre.frontCameraVideoPreviewView.transform = pre.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+    }
+
+    @objc func background() {
+        print("background")
+        previewView!.stopRunning()
+    }
+    
+    @objc func foreground() {
+        print("foreground")
+        previewView?.cmaeraStart(flg: flg, completion: saveBtn)
     }
 
     var flg = false

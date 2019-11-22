@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 
-
 extension AVCaptureVideoOrientation {
     init?(deviceOrientation: UIDeviceOrientation) {
         switch deviceOrientation {

@@ -1,5 +1,5 @@
 //
-//  BothSidesMultiCamVideoMixer.swift
+//  BothSidesMixer.swift
 //  BothSidesCamera
 //
 //  Created by 永田大祐 on 2019/11/18.
@@ -9,7 +9,7 @@
 import CoreMedia
 import CoreVideo
 
-class BothSidesMultiCamVideoMixer {
+final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
 

@@ -12,12 +12,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
-    private var backCameraVideoPreviewView  = BothSidesPreviewView()
-    private var frontCameraVideoPreviewView = BothSidesPreviewView()
+    public var backCameraVideoPreviewView  = BothSidesPreviewView()
+    public var frontCameraVideoPreviewView = BothSidesPreviewView()
 
     private var tapFlg                     = false
-    private let margin                     : CGFloat = 30
-    private let animationTimer             : Double = 3.0
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
@@ -36,7 +34,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         self.frame = UIScreen.main.bounds
         backCameraVideoPreviewView.frame = self.frame
         frontCameraVideoPreviewView.frame = self.frame
-        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
 
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
@@ -49,6 +46,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer)
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer)
         aVCaptureMultiCamViewModel?.configureMicrophone()
+        
+        aVCaptureMultiCamViewModel?.aModel?.recorderSet()
+
         session.startRunning()
         initSetting(self)
     }
@@ -57,8 +57,28 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func stopRunning() {
+        guard let session = aVCaptureMultiCamViewModel?.session else {
+            print("AVCaptureMultiCamViewModel_session")
+            return
+        }
+        session.stopRunning()
+    }
+    
     public func cmaeraStart(flg: Bool, completion: @escaping() -> Void) {
-        aVCaptureMultiCamViewModel?.aModel?.recordAction(flg: flg, completion: completion)
+        guard let session = self.aVCaptureMultiCamViewModel?.session else {
+            print("AVCaptureMultiCamViewModel_session")
+            return
+        }
+        if session.isRunning == false {
+            session.startRunning()
+        } else {
+            aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
+        }
+    }
+    
+    public func setSessionPreset(state: SetSessionPreset) {
+        aVCaptureMultiCamViewModel?.session = aVCaptureMultiCamViewModel?.setSessionPreset(state: state) ?? AVCaptureMultiCamSession()
     }
 
     private func initSetting(_ view: UIView? = nil) {

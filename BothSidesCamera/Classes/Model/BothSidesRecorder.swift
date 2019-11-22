@@ -9,8 +9,9 @@
 import Foundation
 import AVFoundation
 
-class BothSidesRecorder {
+final class BothSidesRecorder {
 
+    var isRunning                     = false
     private var assetWriter           : AVAssetWriter?
     private var assetWriterVideoInput : AVAssetWriterInput?
     private var assetWriterAudioInput : AVAssetWriterInput?
@@ -26,6 +27,8 @@ class BothSidesRecorder {
     }
 
     func startRecording() {
+
+        isRunning = true
 
         let outputFileName = NSUUID().uuidString
         let outputFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(outputFileName).appendingPathExtension("MOV")
@@ -51,6 +54,7 @@ class BothSidesRecorder {
 
     func stopRecording(completion: @escaping (URL) -> Void) {
 
+        isRunning = false
         guard let assetWriter = assetWriter else { return }
 
         self.assetWriter = nil

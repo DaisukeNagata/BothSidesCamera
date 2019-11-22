@@ -506,6 +506,7 @@
 			baseConfigurationReference = 1D25FCEF31D1BCBA943065F0 /* Pods-BothSidesCamera_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BothSidesCamera/Info.plist;
@@ -525,6 +526,7 @@
 			baseConfigurationReference = DABDA790F8E59A6CBA685090 /* Pods-BothSidesCamera_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BothSidesCamera/Info.plist;
@@ -543,6 +545,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E212C6CDE19EB34CBE2606BA /* Pods-BothSidesCamera_Tests.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -569,6 +573,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BC1EBB42C920E01332E8404 /* Pods-BothSidesCamera_Tests.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (

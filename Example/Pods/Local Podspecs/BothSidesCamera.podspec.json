@@ -18,5 +18,5 @@
   "platforms": {
     "ios": "13.2"
   },
-  "source_files": "BothSidesCamera/Classes/**/*.{swift,metal}"
+  "source_files": "BothSidesCamera/Classes/**/*"
 }

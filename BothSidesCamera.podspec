@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'BothSidesCamera'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A short description of BothSidesCamera.'
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '13.2'
 
-  s.source_files = 'BothSidesCamera/Classes/**/*.{swift,metal}'
+  s.source_files = 'BothSidesCamera/Classes/**/*'
   
   # s.resource_bundles = {
   #   'BothSidesCamera' => ['BothSidesCamera/Assets/*.png']

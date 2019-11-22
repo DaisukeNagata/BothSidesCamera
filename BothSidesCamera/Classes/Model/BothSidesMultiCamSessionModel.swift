@@ -10,17 +10,15 @@ import UIKit
 import Photos
 import AVFoundation
 
-
 final class BothSidesMultiCamSessionModel: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate,
 AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     var normalizedPipFrame                       = CGRect.zero
     var movieRecorder                            : BothSidesRecorder?
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
-
+    var currentPiPSampleBuffer                   : CMSampleBuffer?
+    var videoMixer                               = BothSidesMixer()
     private var renderingEnabled                 = true
-    private var videoMixer                       = BothSidesMultiCamVideoMixer()
-    private var currentPiPSampleBuffer           : CMSampleBuffer?
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
     private var backCameraVideoDataOutput        : AVCaptureVideoDataOutput?
@@ -36,6 +34,11 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         frontCameraVideoDataOutput = frontDataOutput
         backMicrophoneAudioDataOutput = backicrophoneDataOutput
         frontMicrophoneAudioDataOutput = fronticrophoneDataOutput
+
+    }
+
+    func recorderSet() {
+        movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
     }
 
     private func processPiPSampleBuffer(_ pipSampleBuffer: CMSampleBuffer) {
@@ -158,9 +161,9 @@ extension BothSidesMultiCamSessionModel {
 }
 
 extension BothSidesMultiCamSessionModel {
-    func recordAction(flg: Bool, completion: @escaping() -> Void){
-        if flg == false {
-            movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
+    func recordAction(completion: @escaping() -> Void){
+
+        if movieRecorder?.isRunning == false {
             movieRecorder?.startRecording()
         } else {
             movieRecorder?.stopRecording { movieURL in

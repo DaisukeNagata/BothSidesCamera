@@ -9,14 +9,14 @@
 import UIKit
 import AVFoundation
 
-class BothSidesPreviewView: UIView {
+public class BothSidesPreviewView: UIView {
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
             fatalError("Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation.")
         }
         return layer
     }
-    override class var layerClass: AnyClass {
+    public override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
 }

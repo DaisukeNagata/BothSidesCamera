@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BothSidesCamera: 9b26fd27f0d2d841b0f66fa14e330c4359cbd251
+  BothSidesCamera: 9b0fca12d5d6880dc173c56820a2e59ade70b57f
   Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
   Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
 

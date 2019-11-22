@@ -8,6 +8,10 @@
 
 import AVFoundation
 
+public enum SetSessionPreset: String {
+    case low, medium, high, hd1920x1080, hd4K3840x2160
+}
+
 final class BothSidesMultiCamViewModel: NSObject {
 
     var aModel  : BothSidesMultiCamSessionModel?
@@ -28,6 +32,28 @@ final class BothSidesMultiCamViewModel: NSObject {
         aModel = BothSidesMultiCamSessionModel()
         super.init()
         dataSet()
+    }
+    
+    func setSessionPreset(state: SetSessionPreset?) -> AVCaptureMultiCamSession? {
+        switch state {
+        case .low:
+            session.canSetSessionPreset(.low)
+            return session
+        case .medium:
+            session.canSetSessionPreset(.medium)
+            return session
+        case .high:
+            session.canSetSessionPreset(.high)
+            return session
+        case .hd1920x1080:
+            session.canSetSessionPreset(.hd1920x1080)
+            return session
+        case .hd4K3840x2160:
+            session.canSetSessionPreset(.hd4K3840x2160)
+            return session
+        case .none:
+            return session
+        }
     }
 
     func dataSet() {
