@@ -50,14 +50,11 @@ final class BothSidesMixer {
 
         (outputPixelBufferPool, _, outputFormatDescription) = allocateOutputBufferPool(with: videoFormatDescription,
                                                                                        outputRetainedBufferCountHint: outputRetainedBufferCountHint)
-        if outputPixelBufferPool == nil {
-            return
-        }
+        if outputPixelBufferPool == nil { return }
+
         inputFormatDescription = videoFormatDescription
 
-        guard let metalDevice = metalDevice else {
-                return
-        }
+        guard let metalDevice = metalDevice else { return }
 
         var metalTextureCache: CVMetalTextureCache?
         guard  CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, metalDevice, nil, &metalTextureCache) == kCVReturnSuccess else { return }
