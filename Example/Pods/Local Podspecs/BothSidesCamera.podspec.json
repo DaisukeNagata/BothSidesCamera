@@ -1,0 +1,22 @@
+{
+  "name": "BothSidesCamera",
+  "version": "0.1.0",
+  "summary": "A short description of BothSidesCamera.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/daisukenagata/BothSidesCamera",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "daisukenagata": "dbank0208@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/daisukenagata/BothSidesCamera.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "13.2"
+  },
+  "source_files": "BothSidesCamera/Classes/**/*.{swift,metal}"
+}

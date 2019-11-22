@@ -1,0 +1,6 @@
+framework module BothSidesCamera {
+  umbrella header "BothSidesCamera-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,27 @@
+PODS:
+  - BothSidesCamera (0.1.0)
+  - Nimble (8.0.4)
+  - Quick (2.2.0)
+
+DEPENDENCIES:
+  - BothSidesCamera (from `../`)
+  - Nimble
+  - Quick
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Nimble
+    - Quick
+
+EXTERNAL SOURCES:
+  BothSidesCamera:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  BothSidesCamera: 9b26fd27f0d2d841b0f66fa14e330c4359cbd251
+  Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
+  Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
+
+PODFILE CHECKSUM: 8d9ea8371fa03e6af2d13985cab0b183e3d3b4e7
+
+COCOAPODS: 1.7.5
