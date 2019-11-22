@@ -20,25 +20,25 @@ You can shoot in-camera and out-camera at the same time. Both screen ratios can 
 
 ## code
 
-```
-Generation
+```ruby
+// Generation
 import BothSidesCamera
 private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
-Resolution
+// Resolution
 previewView?.setSessionPreset(state: .hd1920x1080)
 
-Start and stop recording
+// Start and stop recording
 previewView?.cmaeraStart(completion: saveBtn)
 
-This is call
+// This is call
 func saveBtn() { print("movie save") }
 
-All stop 
+// All stop 
 previewView.stopRunning()
 
-Resize
+// Resize
 previewView.preViewSizeSet()
 
 ```
@@ -46,7 +46,7 @@ previewView.preViewSizeSet()
 
 ## How to
 
-```
+```ruby
 pinchGesture　→Scale
 
 2 continuous taps →Preview screen switching 
@@ -70,7 +70,7 @@ pod 'BothSidesCamera'
 Officially supported: Carthage 0.34 and up.
 
 Add this to Cartfile
-```
+```ruby
 github "daisukenagata/BothSidesCamera"
 ```
 
