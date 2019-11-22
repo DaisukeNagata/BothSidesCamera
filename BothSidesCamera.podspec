@@ -22,14 +22,12 @@ TODO: Add long description of the pod here.
                        DESC
 
   s.homepage         = 'https://github.com/daisukenagata/BothSidesCamera'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'daisukenagata' => 'dbank0208@gmail.com' }
   s.source           = { :git => 'https://github.com/daisukenagata/BothSidesCamera.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '13.2'
-
+  s.swift_version = '5.0'
   s.source_files = 'BothSidesCamera/Classes/**/*'
   
   # s.resource_bundles = {
