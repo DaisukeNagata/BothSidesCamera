@@ -80,6 +80,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     public func setSessionPreset(state: SetSessionPreset) {
         aVCaptureMultiCamViewModel?.session = aVCaptureMultiCamViewModel?.setSessionPreset(state: state) ?? AVCaptureMultiCamSession()
     }
+    
+    public func preViewSizeSet() { updateNormalizedPiPFrame() }
 
     private func initSetting(_ view: UIView? = nil) {
 
@@ -95,23 +97,23 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func updateNormalizedPiPFrame() {
-        var fullScreenVideoPreviewView = BothSidesPreviewView()
-        var pipVideoPreviewView = BothSidesPreviewView()
-        
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-        case .back:
+        let fullScreenVideoPreviewView: BothSidesPreviewView
+        let pipVideoPreviewView: BothSidesPreviewView
+
+        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .back {
             fullScreenVideoPreviewView = frontCameraVideoPreviewView
             pipVideoPreviewView = backCameraVideoPreviewView
-        case .front:
+        } else if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
             fullScreenVideoPreviewView = backCameraVideoPreviewView
             pipVideoPreviewView = frontCameraVideoPreviewView
-        default:
+        } else {
+            fatalError("Unexpected pip device position: \(String(describing: aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition))")
+        }
+
         let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
         let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
-    
+
         aVCaptureMultiCamViewModel?.aModel?.normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
-        break
-        }
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {

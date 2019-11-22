@@ -50,6 +50,7 @@ class ViewController: UIViewController {
         // PreviewView Size
         guard let pre = previewView else { return }
         pre.frontCameraVideoPreviewView.transform = pre.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+        pre.preViewSizeSet()
     }
 
     @objc func background() {
