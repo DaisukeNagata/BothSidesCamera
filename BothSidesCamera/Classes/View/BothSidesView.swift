@@ -95,30 +95,32 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func updateNormalizedPiPFrame() {
-        let fullScreenVideoPreviewView: BothSidesPreviewView
-        let pipVideoPreviewView: BothSidesPreviewView
-
-        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .back {
+        var fullScreenVideoPreviewView = BothSidesPreviewView()
+        var pipVideoPreviewView = BothSidesPreviewView()
+        
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+        case .back:
             fullScreenVideoPreviewView = frontCameraVideoPreviewView
             pipVideoPreviewView = backCameraVideoPreviewView
-        } else if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+        case .front:
             fullScreenVideoPreviewView = backCameraVideoPreviewView
             pipVideoPreviewView = frontCameraVideoPreviewView
-        } else {
-            fatalError("Unexpected pip device position: \(String(describing: aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition))")
-        }
-
+        default:
         let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
         let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
-
+    
         aVCaptureMultiCamViewModel?.aModel?.normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
+        break
+        }
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
-        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+        case .front:
             frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-        } else {
+        case .back:
             backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+        default: break
         }
         if sender.state == .ended { updateNormalizedPiPFrame() }
     }
@@ -127,7 +129,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         let position: CGPoint = sender.location(in: self)
         switch sender.state {
         case .ended:
-             updateNormalizedPiPFrame()
+            updateNormalizedPiPFrame()
             break
         case .possible:
             break
@@ -141,13 +143,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width
                 backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
             }
-            break
-        case .cancelled:
-            break
-        case .failed:
-            break
-        @unknown default:
-            fatalError()
+        default: break
         }
     }
 
@@ -174,11 +170,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
             self.bringSubviewToFront(frontCameraVideoPreviewView)
             initSetting(frontCameraVideoPreviewView)
-        case .none: break
-        case .some(.unspecified): break
-        case .some(_): break
+        default: break
         }
-    
+
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
