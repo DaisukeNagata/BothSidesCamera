@@ -65,7 +65,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         session.stopRunning()
     }
     
-    public func cmaeraStart(flg: Bool, completion: @escaping() -> Void) {
+    public func cmaeraStart(completion: @escaping() -> Void) {
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
