@@ -158,21 +158,27 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+        case .front:
             frontCameraVideoPreviewView.transform = .identity
             frontCameraVideoPreviewView.frame = self.frame
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
             self.bringSubviewToFront(backCameraVideoPreviewView)
             initSetting(backCameraVideoPreviewView)
-        } else {
+        case .back:
             backCameraVideoPreviewView.transform = .identity
             backCameraVideoPreviewView.frame = self.frame
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
             self.bringSubviewToFront(frontCameraVideoPreviewView)
             initSetting(frontCameraVideoPreviewView)
+        case .none: break
+        case .some(.unspecified): break
+        case .some(_): break
         }
+    
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
