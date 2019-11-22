@@ -201,8 +201,8 @@ extension BothSidesMultiCamSessionModel {
 
     func createAudioSettings() -> [String: NSObject]? {
         [backMicrophoneAudioDataOutput?.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject],
-        frontMicrophoneAudioDataOutput?.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject]].compactMap{ settings in
-                        return settings
+         frontMicrophoneAudioDataOutput?.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject]].compactMap{ settings in
+            return settings
         }.last
     }
 
