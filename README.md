@@ -71,13 +71,4 @@ daisukenagata, dbank0208@gmail.com
 
 ## License
 
-RecordARFace is available under the MIT license. See the LICENSE file for more info.
-
-
-## Author
-
-daisukenagata, dbank0208@gmail.com
-
-## License
-
 BothSidesCamera is available under the MIT license. See the LICENSE file for more info.
