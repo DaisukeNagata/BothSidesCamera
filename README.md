@@ -8,6 +8,10 @@
 [![License](https://img.shields.io/cocoapods/l/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 [![Platform](https://img.shields.io/cocoapods/p/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 
+## Action
+
+https://twitter.com/dbank0208/status/1197425202365251584?s=20
+
 
 ## Function
 
