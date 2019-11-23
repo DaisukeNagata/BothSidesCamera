@@ -133,10 +133,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         case .ended:
             updateNormalizedPiPFrame()
             break
-        case .possible:
-            break
-        case .began:
-            break
         case .changed:
             if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                 frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width
