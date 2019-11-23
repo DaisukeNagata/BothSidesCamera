@@ -18,7 +18,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
     var videoMixer                               = BothSidesMixer()
-    private var renderingEnabled                 = true
+
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
     private var backCameraVideoDataOutput        : AVCaptureVideoDataOutput?
@@ -42,19 +42,10 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     }
 
     private func processPiPSampleBuffer(_ pipSampleBuffer: CMSampleBuffer) {
-        guard renderingEnabled else {
-            print("AVCaptureMultiCamSessionModel_renderingEnabled")
-            return
-        }
         currentPiPSampleBuffer = pipSampleBuffer
     }
 
     private func processFullScreenSampleBuffer(_ fullScreenSampleBuffer: CMSampleBuffer) {
-        guard renderingEnabled else {
-            print("AVCaptureMultiCamSessionModel_processFullScreenSampleBuffer")
-            return
-        }
-
         guard let fullScreenPixelBuffer = CMSampleBufferGetImageBuffer(fullScreenSampleBuffer),
             let formatDescription = CMSampleBufferGetFormatDescription(fullScreenSampleBuffer) else {
                 print("AVCaptureMultiCamSessionModel_formatDescription")
@@ -199,21 +190,21 @@ extension BothSidesMultiCamSessionModel {
         }
     }
 
-    func createAudioSettings() -> [String: NSObject]? {
+    private func createAudioSettings() -> [String: NSObject]? {
         [backMicrophoneAudioDataOutput?.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject],
          frontMicrophoneAudioDataOutput?.recommendedAudioSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject]].compactMap{ settings in
             return settings
         }.last
     }
 
-    func createVideoSettings() -> [String: NSObject]? {
+    private func createVideoSettings() -> [String: NSObject]? {
         [backCameraVideoDataOutput?.recommendedVideoSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject],
          frontCameraVideoDataOutput?.recommendedVideoSettingsForAssetWriter(writingTo: .mov) as? [String: NSObject]].compactMap{ settings in
             return settings
         }.last
     }
 
-    func createVideoTransform() -> CGAffineTransform? {
+    private func createVideoTransform() -> CGAffineTransform? {
         guard let backCameraVideoConnection = backCameraVideoDataOutput?.connection(with: .video) else {
                 print("AVCaptureMultiCamSessionModel_backCameraVideoConnection")
                 return nil

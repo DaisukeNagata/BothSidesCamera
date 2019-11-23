@@ -141,7 +141,7 @@ final class BothSidesMixer {
         return texture
     }
 
-    func allocateOutputBufferPool(with inputFormatDescription: CMFormatDescription, outputRetainedBufferCountHint: Int) -> (
+    private func allocateOutputBufferPool(with inputFormatDescription: CMFormatDescription, outputRetainedBufferCountHint: Int) -> (
         outputBufferPool: CVPixelBufferPool?,
         outputColorSpace: CGColorSpace?,
         outputFormatDescription: CMFormatDescription?) {
