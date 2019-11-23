@@ -5,6 +5,7 @@
 
 [![CI Status](https://img.shields.io/travis/daisukenagata/BothSidesCamera.svg?style=flat)](https://travis-ci.org/daisukenagata/BothSidesCamera)
 [![Version](https://img.shields.io/cocoapods/v/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 [![Platform](https://img.shields.io/cocoapods/p/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 
@@ -19,31 +20,33 @@ You can shoot in-camera and out-camera at the same time. Both screen ratios can 
 
 ## code
 
-```
-Generation
+```ruby
+// Generation
 import BothSidesCamera
 private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
-Resolution
+// Resolution
 previewView?.setSessionPreset(state: .hd1920x1080)
 
-Start and stop recording
-previewView?.cmaeraStart(flg: flg, completion: saveBtn)
+// Start and stop recording
+previewView?.cmaeraStart(completion: saveBtn)
 
-This is call
+// This is call
 func saveBtn() { print("movie save") }
 
-All stop 
+// All stop 
 previewView.stopRunning()
 
+// Resize
+previewView.preViewSizeSet()
 
 ```
 
 
 ## How to
 
-```
+```ruby
 pinchGesture　→Scale
 
 2 continuous taps →Preview screen switching 
@@ -67,7 +70,7 @@ pod 'BothSidesCamera'
 Officially supported: Carthage 0.34 and up.
 
 Add this to Cartfile
-```
+```ruby
 github "daisukenagata/BothSidesCamera"
 ```
 
