@@ -55,6 +55,8 @@ class ViewController: UIViewController {
 
     @objc func background() {
         print("background")
+        flg = false
+        tabBarController?.tabBar.backgroundColor = .gray
         // stop camera
         previewView!.stopRunning()
     }
@@ -70,10 +72,10 @@ class ViewController: UIViewController {
         // start camera
         previewView?.cmaeraStart(completion: saveBtn)
         if flg == false {
-            self.tabBarController?.tabBar.backgroundColor = .red
+            tabBarController?.tabBar.backgroundColor = .red
             flg = true
         } else {
-            self.tabBarController?.tabBar.backgroundColor = .gray
+            tabBarController?.tabBar.backgroundColor = .gray
             flg = false
         }
     }
