@@ -77,9 +77,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    public func setSessionPreset(state: SetSessionPreset) {
-        aVCaptureMultiCamViewModel?.session = aVCaptureMultiCamViewModel?.setSessionPreset(state: state) ?? AVCaptureMultiCamSession()
-    }
     
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
 
