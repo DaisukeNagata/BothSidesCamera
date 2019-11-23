@@ -21,7 +21,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
-    private var backCameraVideoDataOutput        : AVCaptureVideoDataOutput?
+    var backCameraVideoDataOutput        : AVCaptureVideoDataOutput?
     private var backMicrophoneAudioDataOutput    : AVCaptureAudioDataOutput?
     private var frontMicrophoneAudioDataOutput   : AVCaptureAudioDataOutput?
     private var callBack                         = { () -> Void in }

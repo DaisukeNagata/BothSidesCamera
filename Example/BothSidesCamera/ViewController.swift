@@ -13,6 +13,9 @@ import BothSidesCamera
 class ViewController: UIViewController {
 
     private var previewView: BothSidesView?
+    
+    @IBOutlet weak var segmentBtn: UISegmentedControl!
+
     lazy var  btn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: ""), for: .normal)
@@ -41,6 +44,8 @@ class ViewController: UIViewController {
                                                 name: UIApplication.didEnterBackgroundNotification,object: nil)
         NotificationCenter.default.addObserver( self, selector: #selector(foreground),
                                                 name: UIApplication.willEnterForegroundNotification,object: nil)
+        
+        view.bringSubviewToFront(segmentBtn)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -63,10 +68,6 @@ class ViewController: UIViewController {
         print("foreground")
         // start camera
         previewView?.cmaeraStart(completion: saveBtn)
-
-        guard let pre = previewView else { return }
-        pre.preViewReset(backDeviceType: .builtInWideAngleCamera,
-                         frontDeviceType:.builtInWideAngleCamera)
     }
 
     var flg = false
@@ -106,6 +107,18 @@ class ViewController: UIViewController {
             
         } catch {
             print("not be used")
+        }
+    }
+    
+    @IBAction func choice(_ sender: UISegmentedControl) {
+        if  sender.selectedSegmentIndex == 0 {
+            guard let pre = previewView else { return }
+            pre.preViewReset(backDeviceType: .builtInWideAngleCamera,
+                             frontDeviceType:.builtInWideAngleCamera)
+        } else {
+            guard let pre = previewView else { return }
+            pre.preViewReset(backDeviceType: .builtInUltraWideCamera,
+                             frontDeviceType:.builtInWideAngleCamera)
         }
     }
 }

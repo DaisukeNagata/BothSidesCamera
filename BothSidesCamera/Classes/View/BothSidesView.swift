@@ -46,6 +46,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         updateNormalizedPiPFrame()
 
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+        // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         
@@ -81,25 +82,27 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
 
-    public func preViewReset (backDeviceType : AVCaptureDevice.DeviceType,
+    // Stop Record
+    public func preViewReset(backDeviceType : AVCaptureDevice.DeviceType,
                              frontDeviceType: AVCaptureDevice.DeviceType) {
+        stopRunning()
         aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
         }
-
+    
         backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
         frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
-        
+
         updateNormalizedPiPFrame()
-        
+
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
-        
+
         aVCaptureMultiCamViewModel?.aModel?.recorderSet()
-        
+
         session.startRunning()
         initSetting(self)
     }
