@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import BothSidesCamera
 
 class ViewController: UIViewController {
@@ -15,8 +16,8 @@ class ViewController: UIViewController {
     lazy var  btn: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: ""), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.layer.cornerRadius = 15
+        btn.frame = CGRect(x: UIScreen.main.bounds.width/2 - 25, y: -25, width: 50, height: 50)
+        btn.layer.cornerRadius = btn.frame.height/2
         btn.backgroundColor = .red
         return btn
     }()
@@ -35,9 +36,7 @@ class ViewController: UIViewController {
         btn.addTarget(self, action: #selector(btaction), for: .touchUpInside)
         
         self.tabBarController?.tabBar.addSubview(btn)
-        self.tabBarController?.tabBar.centerXAnchor.constraint(equalTo: btn.centerXAnchor).isActive = true
-        self.tabBarController?.tabBar.topAnchor.constraint(equalTo: btn.centerYAnchor).isActive = true
-
+       
         NotificationCenter.default.addObserver( self,
                                                 selector:#selector(background),
                                                 name: UIApplication.didEnterBackgroundNotification,object: nil)
@@ -71,16 +70,39 @@ class ViewController: UIViewController {
     @objc func btaction() {
         // start camera
         previewView?.cmaeraStart(completion: saveBtn)
+        
+        // Flash
+        // pushFlash()
         if flg == false {
             tabBarController?.tabBar.backgroundColor = .red
             flg = true
+            btn.frame.origin.y = 0
         } else {
             tabBarController?.tabBar.backgroundColor = .gray
             flg = false
+            btn.frame.origin.y = -25
         }
     }
 
     func saveBtn() {
         print("movie save")
+    }
+
+    // Flash
+    func pushFlash() {
+        guard let avDevice = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        do {
+            try avDevice.lockForConfiguration()
+            
+            if avDevice.torchMode == .off {
+                avDevice.torchMode = AVCaptureDevice.TorchMode.on
+            } else {
+                avDevice.torchMode = AVCaptureDevice.TorchMode.off
+            }
+            avDevice.unlockForConfiguration()
+            
+        } catch {
+            print("not be used")
+        }
     }
 }
