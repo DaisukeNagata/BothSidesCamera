@@ -38,13 +38,77 @@ final class BothSidesMultiCamViewModel: NSObject {
                               fronticrophoneDataOutput: frontMicrophoneAudioDataOutput)
     }
 
-    func configureFrontCamera(_ frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?) {
+    func configureBackCamera(_ backCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?,deviceType :AVCaptureDevice.DeviceType) {
         session.beginConfiguration()
         defer {
             session.commitConfiguration()
         }
 
-        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+        guard let backCamera = AVCaptureDevice.default(deviceType, for: .video, position: .back) else {
+            print("AVCaptureMultiCamViewModel_backCamera")
+            return
+        }
+
+        do {
+            backDeviceInput = try AVCaptureDeviceInput(device: backCamera)
+
+            guard let backCameraDeviceInput = backDeviceInput,
+                session.canAddInput(backCameraDeviceInput) else {
+                    print("AVCaptureMultiCamViewModel_backCameraDeviceInput")
+                    return
+            }
+    
+            session.addInputWithNoConnections(backCameraDeviceInput)
+        } catch {
+            return
+        }
+
+        guard let backCameraDeviceInput = backDeviceInput,
+            let backCameraVideoPort = backCameraDeviceInput.ports(for: .video,
+                                                                  sourceDeviceType: backCamera.deviceType,
+                                                                  sourceDevicePosition: backCamera.position).first else {
+                                                                    print("AVCaptureMultiCamViewModel_backCameraVideoPort")
+                                                                    return
+        }
+
+        guard session.canAddOutput(backCameraVideoDataOutput) else {
+            print("AVCaptureMultiCamViewModel_session.canAddOutput")
+            return
+        }
+
+        session.addOutputWithNoConnections(backCameraVideoDataOutput)
+        backCameraVideoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
+        backCameraVideoDataOutput.setSampleBufferDelegate(aModel, queue: dataOutputQueue)
+
+        let backCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [backCameraVideoPort], output: backCameraVideoDataOutput)
+        guard session.canAddConnection(backCameraVideoDataOutputConnection) else {
+            print("AVCaptureMultiCamViewModel_session.canAddConnection")
+            return
+        }
+
+        session.addConnection(backCameraVideoDataOutputConnection)
+        backCameraVideoDataOutputConnection.videoOrientation = .portrait
+
+        guard let backCameraVideoPreviewLayer = backCameraVideoPreviewLayer else {
+            print("AVCaptureMultiCamViewModel_backCameraVideoPreviewLayer")
+            return
+        }
+
+        let backCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: backCameraVideoPort, videoPreviewLayer: backCameraVideoPreviewLayer)
+        guard session.canAddConnection(backCameraVideoPreviewLayerConnection) else {
+            print("AVCaptureMultiCamViewModel_session.canAddConnection")
+            return
+        }
+        session.addConnection(backCameraVideoPreviewLayerConnection)
+    }
+
+    func configureFrontCamera(_ frontCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?, deviceType :AVCaptureDevice.DeviceType) {
+        session.beginConfiguration()
+        defer {
+            session.commitConfiguration()
+        }
+
+        guard let frontCamera = AVCaptureDevice.default(deviceType, for: .video, position: .front) else {
             print("AVCaptureMultiCamViewModel_frontCamera")
             return
         }
@@ -102,70 +166,6 @@ final class BothSidesMultiCamViewModel: NSObject {
         session.addConnection(frontCameraVideoPreviewLayerConnection)
         frontCameraVideoPreviewLayerConnection.automaticallyAdjustsVideoMirroring = false
         frontCameraVideoPreviewLayerConnection.isVideoMirrored = true
-    }
-
-    func configureBackCamera(_ backCameraVideoPreviewLayer: AVCaptureVideoPreviewLayer?) {
-        session.beginConfiguration()
-        defer {
-            session.commitConfiguration()
-        }
-
-        guard let backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-            print("AVCaptureMultiCamViewModel_backCamera")
-            return
-        }
-
-        do {
-            backDeviceInput = try AVCaptureDeviceInput(device: backCamera)
-
-            guard let backCameraDeviceInput = backDeviceInput,
-                session.canAddInput(backCameraDeviceInput) else {
-                    print("AVCaptureMultiCamViewModel_backCameraDeviceInput")
-                    return
-            }
-    
-            session.addInputWithNoConnections(backCameraDeviceInput)
-        } catch {
-            return
-        }
-
-        guard let backCameraDeviceInput = backDeviceInput,
-            let backCameraVideoPort = backCameraDeviceInput.ports(for: .video,
-                                                                  sourceDeviceType: backCamera.deviceType,
-                                                                  sourceDevicePosition: backCamera.position).first else {
-                                                                    print("AVCaptureMultiCamViewModel_backCameraVideoPort")
-                                                                    return
-        }
-
-        guard session.canAddOutput(backCameraVideoDataOutput) else {
-            print("AVCaptureMultiCamViewModel_session.canAddOutput")
-            return
-        }
-
-        session.addOutputWithNoConnections(backCameraVideoDataOutput)
-        backCameraVideoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
-        backCameraVideoDataOutput.setSampleBufferDelegate(aModel, queue: dataOutputQueue)
-
-        let backCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [backCameraVideoPort], output: backCameraVideoDataOutput)
-        guard session.canAddConnection(backCameraVideoDataOutputConnection) else {
-            print("AVCaptureMultiCamViewModel_session.canAddConnection")
-            return
-        }
-
-        session.addConnection(backCameraVideoDataOutputConnection)
-        backCameraVideoDataOutputConnection.videoOrientation = .portrait
-
-        guard let backCameraVideoPreviewLayer = backCameraVideoPreviewLayer else {
-            print("AVCaptureMultiCamViewModel_backCameraVideoPreviewLayer")
-            return
-        }
-
-        let backCameraVideoPreviewLayerConnection = AVCaptureConnection(inputPort: backCameraVideoPort, videoPreviewLayer: backCameraVideoPreviewLayer)
-        guard session.canAddConnection(backCameraVideoPreviewLayerConnection) else {
-            print("AVCaptureMultiCamViewModel_session.canAddConnection")
-            return
-        }
-        session.addConnection(backCameraVideoPreviewLayerConnection)
     }
 
     func configureMicrophone() {

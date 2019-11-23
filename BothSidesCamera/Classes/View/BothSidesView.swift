@@ -22,7 +22,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     private var doubleTapGestureRecognizer : UITapGestureRecognizer?
 
 
-    public override init(frame: CGRect) {
+    public  init(frame: CGRect,
+                 backDeviceType: AVCaptureDevice.DeviceType,
+                 frontDeviceType: AVCaptureDevice.DeviceType) {
         super.init(frame: .zero)
 
         aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
@@ -43,8 +45,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         updateNormalizedPiPFrame()
 
-        aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer)
-        aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer)
+        aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+        aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         
         aVCaptureMultiCamViewModel?.aModel?.recorderSet()
@@ -76,9 +78,31 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
         }
     }
-    
-    
+
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
+
+    public func preViewReset (backDeviceType : AVCaptureDevice.DeviceType,
+                             frontDeviceType: AVCaptureDevice.DeviceType) {
+        aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
+        guard let session = self.aVCaptureMultiCamViewModel?.session else {
+            print("AVCaptureMultiCamViewModel_session")
+            return
+        }
+
+        backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
+        frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
+        
+        updateNormalizedPiPFrame()
+        
+        aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+        aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
+        aVCaptureMultiCamViewModel?.configureMicrophone()
+        
+        aVCaptureMultiCamViewModel?.aModel?.recorderSet()
+        
+        session.startRunning()
+        initSetting(self)
+    }
 
     private func initSetting(_ view: UIView? = nil) {
 

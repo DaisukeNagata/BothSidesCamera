@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         btn.backgroundColor = .red
         return btn
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,11 +29,11 @@ class ViewController: UIViewController {
 
         UIApplication.shared.isIdleTimerDisabled = true
 
-        previewView = BothSidesView(frame: view.frame)
+        // front is builtInWideAngleCamera only
+        previewView = BothSidesView(frame: view.frame, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
         view.addSubview(previewView!)
-        view.addSubview(btn)
+
         btn.addTarget(self, action: #selector(btaction), for: .touchUpInside)
-        
         self.tabBarController?.tabBar.addSubview(btn)
        
         NotificationCenter.default.addObserver( self,
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver( self, selector: #selector(foreground),
                                                 name: UIApplication.willEnterForegroundNotification,object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // PreviewView Size
@@ -63,6 +63,10 @@ class ViewController: UIViewController {
         print("foreground")
         // start camera
         previewView?.cmaeraStart(completion: saveBtn)
+
+        guard let pre = previewView else { return }
+        pre.preViewReset(backDeviceType: .builtInWideAngleCamera,
+                         frontDeviceType:.builtInWideAngleCamera)
     }
 
     var flg = false
