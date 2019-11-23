@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         guard let pre = previewView else { return }
         if  sender.selectedSegmentIndex == 0 {
             pre.changeDviceTpe(backDeviceType: .builtInUltraWideCamera,
-                             frontDeviceType:.builtInWideAngleCamera)
+                             frontDeviceType:.builtInUltraWideCamera)
         } else {
             pre.changeDviceTpe(backDeviceType: .builtInWideAngleCamera,
                              frontDeviceType:.builtInWideAngleCamera)

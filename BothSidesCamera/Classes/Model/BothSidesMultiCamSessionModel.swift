@@ -19,9 +19,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var currentPiPSampleBuffer                   : CMSampleBuffer?
     var videoMixer                               = BothSidesMixer()
 
+    var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
-    var backCameraVideoDataOutput        : AVCaptureVideoDataOutput?
     private var backMicrophoneAudioDataOutput    : AVCaptureAudioDataOutput?
     private var frontMicrophoneAudioDataOutput   : AVCaptureAudioDataOutput?
     private var callBack                         = { () -> Void in }

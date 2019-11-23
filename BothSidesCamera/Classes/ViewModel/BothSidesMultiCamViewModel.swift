@@ -13,13 +13,14 @@ final class BothSidesMultiCamViewModel: NSObject {
 
     var aModel  : BothSidesMultiCamSessionModel?
     var session = AVCaptureMultiCamSession()
+    let backCameraVideoDataOutput = AVCaptureVideoDataOutput()
+
     var frontDeviceInput                       : AVCaptureDeviceInput?
     var backDeviceInput                        : AVCaptureDeviceInput?
     var backCamera                             : AVCaptureDevice?
 
     private var microphoneDeviceInput          : AVCaptureDeviceInput?
     private let frontCameraVideoDataOutput     = AVCaptureVideoDataOutput()
-    let backCameraVideoDataOutput      = AVCaptureVideoDataOutput()
     private let backMicrophoneAudioDataOutput  = AVCaptureAudioDataOutput()
     private let frontMicrophoneAudioDataOutput = AVCaptureAudioDataOutput()
     private let sessionQueue                   = DispatchQueue(label: "session queue")
