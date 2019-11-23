@@ -110,14 +110,14 @@ class ViewController: UIViewController {
         }
     }
     
+    // Stop Record!
     @IBAction func choice(_ sender: UISegmentedControl) {
+        guard let pre = previewView else { return }
         if  sender.selectedSegmentIndex == 0 {
-            guard let pre = previewView else { return }
-            pre.preViewReset(backDeviceType: .builtInWideAngleCamera,
+            pre.preViewReset(backDeviceType: .builtInUltraWideCamera,
                              frontDeviceType:.builtInWideAngleCamera)
         } else {
-            guard let pre = previewView else { return }
-            pre.preViewReset(backDeviceType: .builtInUltraWideCamera,
+            pre.preViewReset(backDeviceType: .builtInWideAngleCamera,
                              frontDeviceType:.builtInWideAngleCamera)
         }
     }
