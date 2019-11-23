@@ -26,9 +26,6 @@ import BothSidesCamera
 private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
-// Resolution
-previewView?.setSessionPreset(state: .hd1920x1080)
-
 // Start and stop recording
 previewView?.cmaeraStart(completion: saveBtn)
 
