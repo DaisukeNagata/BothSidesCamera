@@ -82,29 +82,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
 
-    // Stop Record
-    public func preViewReset(backDeviceType : AVCaptureDevice.DeviceType,
+    public func changeDviceTpe(backDeviceType : AVCaptureDevice.DeviceType,
                              frontDeviceType: AVCaptureDevice.DeviceType) {
-        stopRunning()
-        aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
-        guard let session = self.aVCaptureMultiCamViewModel?.session else {
+
+        guard let session = self.aVCaptureMultiCamViewModel?.session,
+              let backDeviceInput = aVCaptureMultiCamViewModel?.backDeviceInput,
+              let backCameraVideoDataOutput = aVCaptureMultiCamViewModel?.backCameraVideoDataOutput else {
             print("AVCaptureMultiCamViewModel_session")
             return
         }
-    
-        backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
-        frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
 
+        session.removeInput(backDeviceInput)
+        session.removeOutput(backCameraVideoDataOutput)
+        aVCaptureMultiCamViewModel?.backCamera = nil
         updateNormalizedPiPFrame()
 
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
-
-        aVCaptureMultiCamViewModel?.aModel?.recorderSet()
-
-        session.startRunning()
-        initSetting(self)
     }
 
     private func initSetting(_ view: UIView? = nil) {

@@ -15,10 +15,11 @@ final class BothSidesMultiCamViewModel: NSObject {
     var session = AVCaptureMultiCamSession()
     var frontDeviceInput                       : AVCaptureDeviceInput?
     var backDeviceInput                        : AVCaptureDeviceInput?
+    var backCamera                             : AVCaptureDevice?
 
     private var microphoneDeviceInput          : AVCaptureDeviceInput?
     private let frontCameraVideoDataOutput     = AVCaptureVideoDataOutput()
-    private let backCameraVideoDataOutput      = AVCaptureVideoDataOutput()
+    let backCameraVideoDataOutput      = AVCaptureVideoDataOutput()
     private let backMicrophoneAudioDataOutput  = AVCaptureAudioDataOutput()
     private let frontMicrophoneAudioDataOutput = AVCaptureAudioDataOutput()
     private let sessionQueue                   = DispatchQueue(label: "session queue")
@@ -44,11 +45,12 @@ final class BothSidesMultiCamViewModel: NSObject {
             session.commitConfiguration()
         }
 
-        guard let backCamera = AVCaptureDevice.default(deviceType, for: .video, position: .back) else {
-            print("AVCaptureMultiCamViewModel_backCamera")
+        backCamera = AVCaptureDevice.default(deviceType, for: .video, position: .back)
+        guard let backCamera = backCamera else {
+            print("BothSidesMultiCamViewModel_backCamera")
             return
         }
-
+        
         do {
             backDeviceInput = try AVCaptureDeviceInput(device: backCamera)
 
