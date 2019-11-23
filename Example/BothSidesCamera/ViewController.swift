@@ -30,7 +30,6 @@ class ViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = true
 
         previewView = BothSidesView(frame: view.frame)
-        previewView?.setSessionPreset(state: .hd1920x1080)
         view.addSubview(previewView!)
         view.addSubview(btn)
         btn.addTarget(self, action: #selector(btaction), for: .touchUpInside)
