@@ -98,8 +98,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         updateNormalizedPiPFrame()
 
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-        aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
-        aVCaptureMultiCamViewModel?.configureMicrophone()
     }
 
     private func initSetting(_ view: UIView? = nil) {
