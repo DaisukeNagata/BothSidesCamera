@@ -215,7 +215,7 @@ final class BothSidesMixer {
     private func preallocateBuffers(pool: CVPixelBufferPool, allocationThreshold: Int) {
         var pixelBuffer     : CVPixelBuffer?
         var pixelBuffers    = [CVPixelBuffer?]()
-        var error: CVReturn = kCVReturnSuccess
+        var error           : CVReturn = kCVReturnSuccess
         let auxAttributes   = [kCVPixelBufferPoolAllocationThresholdKey as String: allocationThreshold] as NSDictionary
         while error == kCVReturnSuccess {
             error = CVPixelBufferPoolCreatePixelBufferWithAuxAttributes(kCFAllocatorDefault, pool, auxAttributes, &pixelBuffer)
