@@ -59,7 +59,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
+
     public func stopRunning() {
         guard let session = aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
@@ -67,8 +69,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
         session.stopRunning()
     }
-    
-    public func cmaeraStart(completion: @escaping() -> Void) {
+
+    public func cameraStart(completion: @escaping() -> Void) {
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
@@ -85,18 +87,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     public func changeDviceTpe(backDeviceType : AVCaptureDevice.DeviceType,
                              frontDeviceType: AVCaptureDevice.DeviceType) {
 
-        guard let session = self.aVCaptureMultiCamViewModel?.session,
-              let backDeviceInput = aVCaptureMultiCamViewModel?.backDeviceInput,
-              let backCameraVideoDataOutput = aVCaptureMultiCamViewModel?.backCameraVideoDataOutput else {
-            print("AVCaptureMultiCamViewModel_session")
-            return
-        }
-
-        session.removeInput(backDeviceInput)
-        session.removeOutput(backCameraVideoDataOutput)
-        aVCaptureMultiCamViewModel?.backCamera = nil
+        aVCaptureMultiCamViewModel?.changeDviceType()
         updateNormalizedPiPFrame()
-
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
     }
 

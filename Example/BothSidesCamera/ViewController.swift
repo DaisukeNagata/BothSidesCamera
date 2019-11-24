@@ -24,6 +24,17 @@ class ViewController: UIViewController {
         btn.backgroundColor = .red
         return btn
     }()
+    
+    lazy var  btn2: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: ""), for: .normal)
+        btn.frame = CGRect(x: UIScreen.main.bounds.width - 50, y: 25, width: 25, height: 25)
+        btn.layer.cornerRadius = btn.frame.height/2
+        btn.backgroundColor = .black
+        btn.setTitle("F", for: .normal)
+        btn.tintColor = .white
+        return btn
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +49,9 @@ class ViewController: UIViewController {
 
         btn.addTarget(self, action: #selector(btaction), for: .touchUpInside)
         self.tabBarController?.tabBar.addSubview(btn)
+        
+        btn2.addTarget(self, action: #selector(pushFlash), for: .touchUpInside)
+        self.tabBarController?.tabBar.addSubview(btn2)
        
         NotificationCenter.default.addObserver( self,
                                                 selector:#selector(background),
@@ -67,16 +81,15 @@ class ViewController: UIViewController {
     @objc func foreground() {
         print("foreground")
         // start camera
-        previewView?.cmaeraStart(completion: saveBtn)
+        previewView?.cameraStart(completion: saveBtn)
     }
 
     var flg = false
     @objc func btaction() {
         // start camera
-        previewView?.cmaeraStart(completion: saveBtn)
+        previewView?.cameraStart(completion: saveBtn)
         
         // Flash
-        // pushFlash()
         if flg == false {
             tabBarController?.tabBar.backgroundColor = .red
             flg = true
@@ -88,27 +101,10 @@ class ViewController: UIViewController {
         }
     }
 
-    func saveBtn() {
-        print("movie save")
-    }
+    func saveBtn() { print("movie save") }
 
     // Flash
-    func pushFlash() {
-        guard let avDevice = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        do {
-            try avDevice.lockForConfiguration()
-            
-            if avDevice.torchMode == .off {
-                avDevice.torchMode = AVCaptureDevice.TorchMode.on
-            } else {
-                avDevice.torchMode = AVCaptureDevice.TorchMode.off
-            }
-            avDevice.unlockForConfiguration()
-            
-        } catch {
-            print("not be used")
-        }
-    }
+    @objc func pushFlash() { previewView?.pushFlash() }
     
     @IBAction func choice(_ sender: UISegmentedControl) {
         guard let pre = previewView else { return }
