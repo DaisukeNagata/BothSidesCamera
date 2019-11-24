@@ -16,7 +16,7 @@
 
 ## Action
 
-https://twitter.com/dbank0208/status/1197425202365251584?s=20
+![](https://user-images.githubusercontent.com/16457165/69488327-5070fd00-0eab-11ea-841f-08cf82e95971.gif)
 
 
 ## Function
