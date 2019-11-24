@@ -1,5 +1,5 @@
 PODS:
-  - BothSidesCamera (0.1.0)
+  - BothSidesCamera (0.2.5)
   - Nimble (8.0.4)
   - Quick (2.2.0)
 
@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BothSidesCamera: 9b0fca12d5d6880dc173c56820a2e59ade70b57f
+  BothSidesCamera: 7cc9fe2fb92ccaa07dcc616236d9b7335e3e157f
   Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
   Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
 

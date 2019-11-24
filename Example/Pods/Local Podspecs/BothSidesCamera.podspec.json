@@ -1,8 +1,8 @@
 {
   "name": "BothSidesCamera",
-  "version": "0.1.0",
-  "summary": "A short description of BothSidesCamera.",
-  "description": "TODO: Add long description of the pod here.",
+  "version": "0.2.5",
+  "summary": "infomation BothSidesCamera.",
+  "description": "TODO:　Simultaneous recording of both screens.",
   "homepage": "https://github.com/daisukenagata/BothSidesCamera",
   "license": {
     "type": "MIT",
@@ -13,10 +13,12 @@
   },
   "source": {
     "git": "https://github.com/daisukenagata/BothSidesCamera.git",
-    "tag": "0.1.0"
+    "tag": "0.2.5"
   },
   "platforms": {
     "ios": "13.2"
   },
-  "source_files": "BothSidesCamera/Classes/**/*"
+  "swift_versions": "5.0",
+  "source_files": "BothSidesCamera/Classes/**/*",
+  "swift_version": "5.0"
 }
