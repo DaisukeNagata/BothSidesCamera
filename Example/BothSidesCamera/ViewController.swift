@@ -109,10 +109,10 @@ class ViewController: UIViewController {
     @IBAction func choice(_ sender: UISegmentedControl) {
         guard let pre = previewView else { return }
         if  sender.selectedSegmentIndex == 0 {
-            pre.changeDviceTpe(backDeviceType: .builtInUltraWideCamera,
+            pre.changeDviceType(backDeviceType: .builtInUltraWideCamera,
                              frontDeviceType:.builtInUltraWideCamera)
         } else {
-            pre.changeDviceTpe(backDeviceType: .builtInWideAngleCamera,
+            pre.changeDviceType(backDeviceType: .builtInWideAngleCamera,
                              frontDeviceType:.builtInWideAngleCamera)
         }
     }
