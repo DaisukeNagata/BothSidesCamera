@@ -50,16 +50,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         
-        aVCaptureMultiCamViewModel?.aModel?.recorderSet()
+        aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
 
-        session.startRunning()
         initSetting(self)
     }
 
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
 
     public func stopRunning() {
@@ -77,14 +76,21 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
         if session.isRunning == false {
             session.startRunning()
+            aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning = false
         } else {
-            aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
+            if aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == false {
+                aVCaptureMultiCamViewModel?.aModel?.recorderSet{
+                    self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
+                }
+            } else {
+                self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
+            }
         }
     }
 
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
 
-    public func changeDviceTpe(backDeviceType : AVCaptureDevice.DeviceType,
+    public func changeDviceType(backDeviceType : AVCaptureDevice.DeviceType,
                              frontDeviceType: AVCaptureDevice.DeviceType) {
 
         aVCaptureMultiCamViewModel?.changeDviceType()

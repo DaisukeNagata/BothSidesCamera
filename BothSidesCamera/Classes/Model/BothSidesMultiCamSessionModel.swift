@@ -37,8 +37,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     }
 
-    func recorderSet() {
+    func recorderSet(bind: ()->()) {
         movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
+        bind()
     }
 
     private func processPiPSampleBuffer(_ pipSampleBuffer: CMSampleBuffer) {
