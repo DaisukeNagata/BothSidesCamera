@@ -32,7 +32,7 @@ private var previewView: BothSidesView?
 previewView = BothSidesView(frame: view.frame)
 
 // Start and stop recording
-previewView?.cmaeraStart(completion: saveBtn)
+previewView?.cameraStart(completion: saveBtn)
 
 // This is call
 func saveBtn() { print("movie save") }
