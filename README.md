@@ -9,6 +9,11 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 
+## Requirements
+
+- iOS 13.2+
+- Xcode 11.2.1
+
 ## Action
 
 https://twitter.com/dbank0208/status/1197425202365251584?s=20
