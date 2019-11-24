@@ -32,7 +32,7 @@ class ViewController: UIViewController {
 
         UIApplication.shared.isIdleTimerDisabled = true
 
-        // front is builtInWideAngleCamera only
+        // front is builtInWideAngleCamera and builtInTrueDepthCamera only
         previewView = BothSidesView(frame: view.frame, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
         view.addSubview(previewView!)
 
