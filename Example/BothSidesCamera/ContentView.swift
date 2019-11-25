@@ -45,7 +45,14 @@ struct ContentView: View {
                         self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
                     }
             },
-                label: { Text("Click Me") }
+                label: {
+                    Image(systemName: .init())
+                        .frame(width: 50, height: 50)
+                        .imageScale(.large)
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+            }
             )
         }.onAppear {
 
