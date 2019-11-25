@@ -22,6 +22,7 @@
 ## Function
 
 You can shoot in-camera and out-camera at the same time. Both screen ratios can be adjusted.
+While using, use about 260MB of memory with iPhonePro. Memory usage is about 80MB with the stop method.
 
 ## code
 
