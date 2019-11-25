@@ -30,32 +30,45 @@ struct ContentView: View {
                     Text(self.numbers[index]).tag(index)
                 }
             }.pickerStyle(SegmentedPickerStyle())
-
-            Button(
-                action: {
-                    if self.selectorIndex > 1 {
-                        if self.numbers[2] == "Start" {
-                            self.numbers[2] = "Stop"
-                            self.bView.cameraStart()
+            
+            HStack {
+                Button(
+                    action: {
+                        if self.selectorIndex > 1 {
+                            if self.numbers[2] == "Start" {
+                                self.numbers[2] = "Stop"
+                                self.bView.cameraStart()
+                            } else {
+                                self.numbers[2] = "Start"
+                                self.bView.cameraStart()
+                            }
                         } else {
-                            self.numbers[2] = "Start"
-                            self.bView.cameraStart()
+                            self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
                         }
-                    } else {
-                        self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-                    }
-            },
-                label: {
-                    Image(systemName: .init())
-                        .frame(width: 50, height: 50)
-                        .imageScale(.large)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
+                },
+                    label: {
+                        Image(systemName: .init())
+                            .padding(100)
+                            .frame(width: 50, height: 50)
+                            .imageScale(.large)
+                            .background(Color.red)
+                            .clipShape(Circle())
+                }
+                ).padding(.top, 10)
+                
+                Button(
+                    action: {
+                        self.bView.flash()
+                },
+                    label: {
+                        Image(systemName: .init())
+                            .frame(width: 50, height: 50)
+                            .imageScale(.large)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                }
+                ) .padding(.leading, 100).padding(.top, 10)
             }
-            )
-        }.onAppear {
-
         }
     }
 }
@@ -77,28 +90,30 @@ struct bothSidesView: UIViewRepresentable {
         bothSidesView = bView
         bView.preViewSizeSet()
     }
-
+    
     func changeDviceType(_ bView: BothSidesView, numbers: Int) {
         if numbers == 0 {
-             print(bView)
+            print(bView)
             bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera)
         } else {
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
         }
     }
+    
+    func flash() { bothSidesView.pushFlash() }
 
     func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
-
+    
     func saveBtn() { print("movie save") }
 }
 
 final class KeyboardResponder: ObservableObject {
     private var notificationCenter: NotificationCenter
-
+    
     init(center: NotificationCenter = .default) {
         notificationCenter = center
     }
-
+    
     deinit {
         notificationCenter.removeObserver(self)
     }
@@ -106,7 +121,7 @@ final class KeyboardResponder: ObservableObject {
     func setObserver() {
         notificationCenter.addObserver( self, selector: #selector(foreground), name: UIApplication.willEnterForegroundNotification,object: nil)
     }
-
+    
     @objc func foreground(notification: Notification) {
         print("foreground")
         _ = bothSidesView()
