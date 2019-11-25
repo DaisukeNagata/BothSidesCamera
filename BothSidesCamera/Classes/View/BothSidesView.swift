@@ -61,7 +61,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
 
-    public func stopRunning() {
+    public func cameraStop() {
         guard let session = aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
