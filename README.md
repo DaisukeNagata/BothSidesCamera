@@ -29,8 +29,8 @@ While using, use about 260MB of memory with iPhonePro. Memory usage is about 80M
 ```ruby
 // Generation
 import BothSidesCamera
-private var previewView: BothSidesView?
-previewView = BothSidesView(frame: view.frame)
+@ObservedObject private var observer = KeyboardResponder()
+
 
 // Start and stop recording
 previewView?.cameraStart(completion: saveBtn)
@@ -39,7 +39,7 @@ previewView?.cameraStart(completion: saveBtn)
 func saveBtn() { print("movie save") }
 
 // All stop 
-previewView.stopRunning()
+previewView.cameraStop()
 
 // Resize
 previewView.preViewSizeSet()
