@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
     @State private var bView =  bothSidesView()
-    @State private var numbers = ["usually","Wide","Stop"]
+    @State private var numbers = ["Wide","Usually","Stop"]
     @ObservedObject private var observer = KeyboardResponder()
 
     var body: some View {
