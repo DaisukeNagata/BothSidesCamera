@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  ddddddd
+//  BothSidesCamera
 //
 //  Created by 永田大祐 on 2019/11/26.
 //  Copyright © 2019 永田大祐. All rights reserved.
@@ -12,14 +12,12 @@ import BothSidesCamera
 
 struct ContentView: View {
 
-    @State private var enableLogging = false
+    @State var didTap:Bool = false
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
     @State private var bView =  bothSidesView()
     @State var numbers = ["Wide","Usually"]
     @EnvironmentObject var env: ViewModel
-
-    @ObservedObject private var observer = notificationObserver()
 
     var body: some View {
         VStack {
@@ -35,6 +33,7 @@ struct ContentView: View {
             HStack {
                 Button(
                     action: {
+                       self.didTap = self.didTap ? false : true
                        self.bView.cameraStart()
                 },
                     label: {
@@ -42,7 +41,7 @@ struct ContentView: View {
                             .padding(100)
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
-                            .background(Color.red)
+                            .background(didTap ? Color.red : Color.white)
                             .clipShape(Circle())
                 }
                 ).padding(.top, 10)
@@ -107,23 +106,4 @@ struct bothSidesView: UIViewRepresentable {
     func cameraStop() { bothSidesView.cameraStop() }
     
     func saveBtn() { print("movie save") }
-}
-
-final class notificationObserver: ObservableObject {
-    
-    private var notificationCenter: NotificationCenter
-    
-    init(center: NotificationCenter = .default) {
-        notificationCenter = center
-        notificationCenter.addObserver( self, selector: #selector(foreground), name: UIApplication.willEnterForegroundNotification,object: nil)
-    }
-    
-    deinit {
-        notificationCenter.removeObserver(self)
-    }
-    
-    @objc func foreground(notification: Notification) {
-        print("foreground")
-        _ = bothSidesView()
-    }
 }
