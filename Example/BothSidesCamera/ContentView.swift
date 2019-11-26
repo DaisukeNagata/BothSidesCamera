@@ -16,8 +16,8 @@ struct ContentView: View {
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
     @State private var bView =  bothSidesView()
-    @State var numbers = ["Wide","Usually","Stop"]
-    @ObservedObject var n = Numbers()
+    @State var numbers = ["Wide","Usually"]
+    @EnvironmentObject var env: ViewModel
 
     @ObservedObject private var observer = notificationObserver()
 
@@ -25,31 +25,17 @@ struct ContentView: View {
         VStack {
             bView
                 .frame(minWidth: margin, maxWidth: .infinity, minHeight: margin, maxHeight: .infinity)
-
             Picker("Numbers", selection: $selectorIndex) {
                 ForEach(0 ..< self.numbers.count) { index in
                     Text( self.numbers[index]).tag(index)
                 }
             }.pickerStyle(SegmentedPickerStyle())
-            
+            self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+
             HStack {
                 Button(
                     action: {
-                        if self.selectorIndex > 1 {
-                            if  self.n.numbers[2] == "Stop" {
-                                self.numbers[2] = "Start"
-                                self.n.numberCheck(st: "Start")
-                                self.bView.cameraStart()
-                                _ = self.n.numberSet(st: self.n.numbers[2])
-                            } else {
-                                self.numbers[2] = "Stop"
-                                self.n.numberCheck(st: "Stop")
-                                self.bView.cameraStart()
-                                _ = self.n.numberSet(st: self.n.numbers[2])
-                            }
-                        } else {
-                            self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-                        }
+                       self.bView.cameraStart()
                 },
                     label: {
                         Image(systemName: .init())
@@ -60,7 +46,7 @@ struct ContentView: View {
                             .clipShape(Circle())
                 }
                 ).padding(.top, 10)
-                
+
                 Button(
                     action: {
                         self.bView.flash()
@@ -85,6 +71,15 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+class ViewModel: ObservableObject {
+    @Published var sel = 0 {
+        didSet {
+            oneSelected = oldValue == 1
+        }
+    }
+    var oneSelected = false
+}
+
 struct bothSidesView: UIViewRepresentable {
     @State var bothSidesView = BothSidesView(frame: UIScreen.main.bounds, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
     func makeUIView(context: UIViewRepresentableContext<bothSidesView>) -> BothSidesView {
@@ -96,12 +91,13 @@ struct bothSidesView: UIViewRepresentable {
         bView.preViewSizeSet()
     }
     
-    func changeDviceType(_ bView: BothSidesView, numbers: Int) {
+    func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
         if numbers == 0 {
             bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera)
         } else {
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
         }
+        return nil
     }
     
     func flash() { bothSidesView.pushFlash() }
@@ -129,17 +125,5 @@ final class notificationObserver: ObservableObject {
     @objc func foreground(notification: Notification) {
         print("foreground")
         _ = bothSidesView()
-    }
-}
-
-final class Numbers: ObservableObject {
-    var numbers = ["Wide","Usually","Stop"]
-    
-    func numberCheck(st: String) {
-        numbers[2] = st
-    }
-    
-    func numberSet(st: String) -> String {
-        return st
     }
 }
