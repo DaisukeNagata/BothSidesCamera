@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 import BothSidesCamera
 
 struct ContentView: View {
