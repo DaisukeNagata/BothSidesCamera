@@ -15,9 +15,9 @@ struct ContentView: View {
     @State var didTap:Bool = false
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
-    @State private var bView =  bothSidesView()
     @State var numbers = ["Wide","Usually"]
-    @EnvironmentObject var env: ViewModel
+    @State private var bView =  bothSidesView()
+    @ObservedObject private var observer = notificationObserver()
 
     var body: some View {
         VStack {
@@ -58,6 +58,8 @@ struct ContentView: View {
                             .clipShape(Circle())
                 }
                 ) .padding(.leading, 100).padding(.top, 10)
+            }.onAppear {
+                self.observer.contentView = self
             }
         }
     }
@@ -106,4 +108,24 @@ struct bothSidesView: UIViewRepresentable {
     func cameraStop() { bothSidesView.cameraStop() }
     
     func saveBtn() { print("movie save") }
+}
+
+final class notificationObserver: ObservableObject {
+    
+    var contentView: ContentView?
+    private var notificationCenter: NotificationCenter
+    
+    init(center: NotificationCenter = .default) {
+        notificationCenter = center
+        notificationCenter.addObserver( self, selector: #selector(backGround), name: UIApplication.didEnterBackgroundNotification,object: nil)
+    }
+    
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+    
+    @objc func backGround(notification: Notification) {
+        guard let contentView = contentView else { return }
+        contentView.didTap = false
+    }
 }
