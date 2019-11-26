@@ -72,15 +72,6 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-class ViewModel: ObservableObject {
-    @Published var sel = 0 {
-        didSet {
-            oneSelected = oldValue == 1
-        }
-    }
-    var oneSelected = false
-}
-
 struct bothSidesView: UIViewRepresentable {
     @State var bothSidesView = BothSidesView(frame: UIScreen.main.bounds, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
     func makeUIView(context: UIViewRepresentableContext<bothSidesView>) -> BothSidesView {
