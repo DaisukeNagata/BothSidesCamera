@@ -45,7 +45,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         updateNormalizedPiPFrame()
 
-        aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
