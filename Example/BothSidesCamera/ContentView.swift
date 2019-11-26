@@ -15,8 +15,8 @@ struct ContentView: View {
     @State var didTap:Bool = false
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
-    @State var numbers = ["Wide","Usually"]
     @State private var bView =  bothSidesView()
+    @State private var numbers = ["Wide","Usually"]
     @ObservedObject private var observer = notificationObserver()
 
     var body: some View {
@@ -54,7 +54,7 @@ struct ContentView: View {
                         Image(systemName: .init())
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
-                            .background(Color.white)
+                            .background(Color.yellow)
                             .clipShape(Circle())
                 }
                 ) .padding(.leading, 100).padding(.top, 10)
