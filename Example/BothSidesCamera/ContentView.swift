@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
     @State private var bView =  bothSidesView()
+    @State var numbers = ["Wide","Usually","Stop"]
 
     @ObservedObject private var observer = notificationObserver()
 
@@ -26,8 +27,8 @@ struct ContentView: View {
                 .frame(minWidth: margin, maxWidth: .infinity, minHeight: margin, maxHeight: .infinity)
 
             Picker("Numbers", selection: $selectorIndex) {
-                ForEach(0 ..< self.bView.numbers.count) { index in
-                    Text( self.bView.numbers[index]).tag(index)
+                ForEach(0 ..< self.numbers.count) { index in
+                    Text( self.numbers[index]).tag(index)
                 }
             }.pickerStyle(SegmentedPickerStyle())
             
@@ -35,11 +36,11 @@ struct ContentView: View {
                 Button(
                     action: {
                         if self.selectorIndex > 1 {
-                            if  self.bView.numbers[2] == self.bView.st {
-                                self.bView.numbers[2] = "Start"
+                            if  self.numbers[2] == "Stop" {
+                                self.numbers[2] = "Start"
                                 self.bView.cameraStart()
                             } else {
-                                self.bView.numbers[2] = "Stop"
+                                self.numbers[2] = "Stop"
                                 self.bView.cameraStart()
                             }
                         } else {
@@ -81,8 +82,6 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct bothSidesView: UIViewRepresentable {
-    @State var st = "Stop"
-    @State var numbers = ["Wide","Usually","Stop"]
     @State var bothSidesView = BothSidesView(frame: UIScreen.main.bounds, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
     func makeUIView(context: UIViewRepresentableContext<bothSidesView>) -> BothSidesView {
         bothSidesView.frontCameraVideoPreviewView.transform = bothSidesView.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
@@ -123,7 +122,6 @@ final class notificationObserver: ObservableObject {
     
     @objc func foreground(notification: Notification) {
         print("foreground")
-        let b = bothSidesView()
-        b.numbers = ["Wide","Usually","Stop"]
+        _ = bothSidesView()
     }
 }
