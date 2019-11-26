@@ -73,11 +73,14 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct bothSidesView: UIViewRepresentable {
+
     @State var bothSidesView = BothSidesView(frame: UIScreen.main.bounds, backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
+
     func makeUIView(context: UIViewRepresentableContext<bothSidesView>) -> BothSidesView {
         bothSidesView.frontCameraVideoPreviewView.transform = bothSidesView.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
         return  bothSidesView
     }
+
     func updateUIView(_ bView: BothSidesView, context: Context) {
         bothSidesView = bView
         bView.preViewSizeSet()
