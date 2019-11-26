@@ -17,13 +17,13 @@ struct ContentView: View {
     @State private var margin: CGFloat = 0
     @State private var bView =  bothSidesView()
     @State var numbers = ["Wide","Usually","Stop"]
+    @ObservedObject var n = Numbers()
 
     @ObservedObject private var observer = notificationObserver()
 
     var body: some View {
         VStack {
             bView
-
                 .frame(minWidth: margin, maxWidth: .infinity, minHeight: margin, maxHeight: .infinity)
 
             Picker("Numbers", selection: $selectorIndex) {
@@ -36,12 +36,16 @@ struct ContentView: View {
                 Button(
                     action: {
                         if self.selectorIndex > 1 {
-                            if  self.numbers[2] == "Stop" {
+                            if  self.n.numbers[2] == "Stop" {
                                 self.numbers[2] = "Start"
+                                self.n.numberCheck(st: "Start")
                                 self.bView.cameraStart()
+                                _ = self.n.numberSet(st: self.n.numbers[2])
                             } else {
                                 self.numbers[2] = "Stop"
+                                self.n.numberCheck(st: "Stop")
                                 self.bView.cameraStart()
+                                _ = self.n.numberSet(st: self.n.numbers[2])
                             }
                         } else {
                             self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
@@ -94,7 +98,6 @@ struct bothSidesView: UIViewRepresentable {
     
     func changeDviceType(_ bView: BothSidesView, numbers: Int) {
         if numbers == 0 {
-            print(bView)
             bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera)
         } else {
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
@@ -105,10 +108,13 @@ struct bothSidesView: UIViewRepresentable {
 
     func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
     
+    func cameraStop() { bothSidesView.cameraStop() }
+    
     func saveBtn() { print("movie save") }
 }
 
 final class notificationObserver: ObservableObject {
+    
     private var notificationCenter: NotificationCenter
     
     init(center: NotificationCenter = .default) {
@@ -123,5 +129,17 @@ final class notificationObserver: ObservableObject {
     @objc func foreground(notification: Notification) {
         print("foreground")
         _ = bothSidesView()
+    }
+}
+
+final class Numbers: ObservableObject {
+    var numbers = ["Wide","Usually","Stop"]
+    
+    func numberCheck(st: String) {
+        numbers[2] = st
+    }
+    
+    func numberSet(st: String) -> String {
+        return st
     }
 }
