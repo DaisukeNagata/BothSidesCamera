@@ -87,11 +87,11 @@ struct bothSidesView: UIViewRepresentable {
     }
     
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
-        if numbers == 0 {
-            bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera)
-        } else {
+
+        numbers == 0 ?
+            bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
-        }
+        
         return nil
     }
     
