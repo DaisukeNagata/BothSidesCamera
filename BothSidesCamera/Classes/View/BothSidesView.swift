@@ -131,14 +131,16 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-        case .front:
-            frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-        case .back:
-            backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-        default: break
+        UIView.animate(withDuration: 0.5) {
+            switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                self.frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+            case .back:
+                self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+            default: break
+            }
+            if sender.state == .ended { self.updateNormalizedPiPFrame() }
         }
-        if sender.state == .ended { updateNormalizedPiPFrame() }
     }
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
