@@ -101,6 +101,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
 
 extension BothSidesMultiCamSessionModel {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+
         if let videoDataOutput = output as? AVCaptureVideoDataOutput {
             processVideoSampleBuffer(sampleBuffer, fromOutput: videoDataOutput)
         } else if let audioDataOutput = output as? AVCaptureAudioDataOutput {
@@ -110,30 +111,24 @@ extension BothSidesMultiCamSessionModel {
 
     private func processVideoSampleBuffer(_ sampleBuffer: CMSampleBuffer, fromOutput videoDataOutput: AVCaptureVideoDataOutput) {
         
-        if videoTrackSourceFormatDescription == nil {
-            videoTrackSourceFormatDescription = CMSampleBufferGetFormatDescription( sampleBuffer )
-        }
+        if videoTrackSourceFormatDescription == nil { videoTrackSourceFormatDescription = CMSampleBufferGetFormatDescription( sampleBuffer ) }
 
         var fullScreenSampleBuffer: CMSampleBuffer?
         var pipSampleBuffer: CMSampleBuffer?
 
-        if pipDevicePosition == .back && videoDataOutput == backCameraVideoDataOutput {
-            pipSampleBuffer = sampleBuffer
-        } else if pipDevicePosition == .back && videoDataOutput == frontCameraVideoDataOutput {
-            fullScreenSampleBuffer = sampleBuffer
-        } else if pipDevicePosition == .front && videoDataOutput == backCameraVideoDataOutput {
-            fullScreenSampleBuffer = sampleBuffer
-        } else if pipDevicePosition == .front && videoDataOutput == frontCameraVideoDataOutput {
-            pipSampleBuffer = sampleBuffer
+        switch pipDevicePosition {
+        case .back:
+            videoDataOutput == backCameraVideoDataOutput  ? pipSampleBuffer = sampleBuffer: nil
+            videoDataOutput == frontCameraVideoDataOutput ? fullScreenSampleBuffer = sampleBuffer: nil
+        case.front:
+            videoDataOutput == backCameraVideoDataOutput  ? fullScreenSampleBuffer = sampleBuffer: nil
+            videoDataOutput == frontCameraVideoDataOutput ? pipSampleBuffer = sampleBuffer: nil
+        default: break
         }
 
-        if let fullScreenSampleBuffer = fullScreenSampleBuffer {
-            processFullScreenSampleBuffer(fullScreenSampleBuffer)
-        }
+        if let fullScreenSampleBuffer = fullScreenSampleBuffer { processFullScreenSampleBuffer(fullScreenSampleBuffer) }
 
-        if let pipSampleBuffer = pipSampleBuffer {
-            processPiPSampleBuffer(pipSampleBuffer)
-        }
+        if let pipSampleBuffer = pipSampleBuffer { processPiPSampleBuffer(pipSampleBuffer) }
     }
 
     private func processsAudioSampleBuffer(_ sampleBuffer: CMSampleBuffer, fromOutput audioDataOutput: AVCaptureAudioDataOutput) {
@@ -144,21 +139,16 @@ extension BothSidesMultiCamSessionModel {
                 return
         }
 
-        if let recorder = movieRecorder {
-            recorder.recordAudio(sampleBuffer: sampleBuffer)
-        }
+        if let recorder = movieRecorder { recorder.recordAudio(sampleBuffer: sampleBuffer) }
     }
 }
 
 extension BothSidesMultiCamSessionModel {
+
     func recordAction(completion: @escaping() -> Void){
 
-        if movieRecorder?.isRunning == false {
-            movieRecorder?.startRecording()
-        } else {
-            movieRecorder?.stopRecording { movieURL in
-                self.saveMovieToPhotoLibrary(movieURL, call: completion )
-            }
+        movieRecorder?.isRunning == false ? movieRecorder?.startRecording() :
+            movieRecorder?.stopRecording { movieURL in self.saveMovieToPhotoLibrary(movieURL, call: completion )
         }
     }
 

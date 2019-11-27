@@ -15,7 +15,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
-    private var tapFlg                     = false
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
@@ -113,6 +112,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func updateNormalizedPiPFrame() {
+
         let fullScreenVideoPreviewView: BothSidesPreviewView
         let pipVideoPreviewView: BothSidesPreviewView
 
