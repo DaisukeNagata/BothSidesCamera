@@ -36,11 +36,12 @@ final class BothSidesMultiCamViewModel: NSObject {
     func pushFlash() {
         do {
             try backCamera?.lockForConfiguration()
-            
-            if backCamera?.torchMode == .off {
+            switch backCamera?.torchMode {
+            case .off:
                 backCamera?.torchMode = AVCaptureDevice.TorchMode.on
-            } else {
+            case .on:
                 backCamera?.torchMode = AVCaptureDevice.TorchMode.off
+            default: break
             }
             backCamera?.unlockForConfiguration()
         } catch {

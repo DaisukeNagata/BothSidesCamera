@@ -69,22 +69,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func cameraStart(completion: @escaping() -> Void) {
+
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
         }
-        if session.isRunning == false {
+
+        guard session.isRunning == true  else {
             session.startRunning()
             aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning = false
-        } else {
-            if aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == false {
-                aVCaptureMultiCamViewModel?.aModel?.recorderSet{
-                    self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
-                }
-            } else {
-                self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
-            }
+            return
         }
+
+        guard aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == true  else {
+            aVCaptureMultiCamViewModel?.aModel?.recorderSet{ self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion) }
+            return
+        }
+
+        self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
     }
 
     public func preViewSizeSet() { updateNormalizedPiPFrame() }

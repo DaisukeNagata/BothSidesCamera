@@ -59,9 +59,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
                 return
         }
 
-        if !videoMixer.isPrepared {
-            videoMixer.prepare(with: formatDescription, outputRetainedBufferCountHint: 3)
-        }
+        if !videoMixer.isPrepared { videoMixer.prepare(with: formatDescription, outputRetainedBufferCountHint: 3) }
 
         videoMixer.pipFrame = normalizedPipFrame
         guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
@@ -95,9 +93,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
                                                      formatDescription: videoTrackSourceFormatDescription,
                                                      sampleTiming: &timingInfo,
                                                      sampleBufferOut: &sampleBuffer)
-        if sampleBuffer == nil {
-            print("sampleBuffer: \(err))")
-        }
+
+        if sampleBuffer == nil { print("sampleBuffer: \(err))") }
         return sampleBuffer
     }
 }
@@ -112,6 +109,7 @@ extension BothSidesMultiCamSessionModel {
     }
 
     private func processVideoSampleBuffer(_ sampleBuffer: CMSampleBuffer, fromOutput videoDataOutput: AVCaptureVideoDataOutput) {
+        
         if videoTrackSourceFormatDescription == nil {
             videoTrackSourceFormatDescription = CMSampleBufferGetFormatDescription( sampleBuffer )
         }
