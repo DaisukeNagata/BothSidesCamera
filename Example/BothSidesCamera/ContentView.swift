@@ -59,6 +59,7 @@ struct ContentView: View {
                 ) .padding(.leading, 100).padding(.top, 10)
             }.onAppear {
                 self.observer.contentView = self
+                self.observer.bothSidesView = self.bView
             }
         }
     }
@@ -105,20 +106,28 @@ struct bothSidesView: UIViewRepresentable {
 
 final class notificationObserver: ObservableObject {
     
+    var bothSidesView: bothSidesView?
     var contentView: ContentView?
     private var notificationCenter: NotificationCenter
     
     init(center: NotificationCenter = .default) {
         notificationCenter = center
+        notificationCenter.addObserver( self, selector: #selector(foreGround), name: UIApplication.willEnterForegroundNotification,object: nil)
         notificationCenter.addObserver( self, selector: #selector(backGround), name: UIApplication.didEnterBackgroundNotification,object: nil)
     }
     
     deinit {
         notificationCenter.removeObserver(self)
     }
-    
+
+    @objc func foreGround(notification: Notification) {
+        guard let bothSidesView = bothSidesView else { return }
+        bothSidesView.cameraStart()
+    }
+
     @objc func backGround(notification: Notification) {
-        guard let contentView = contentView else { return }
+        guard let contentView = contentView ,let bothSidesView = bothSidesView else { return }
         contentView.didTap = false
+        bothSidesView.cameraStop()
     }
 }
