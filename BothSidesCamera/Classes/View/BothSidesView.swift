@@ -22,8 +22,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     private var doubleTapGestureRecognizer : UITapGestureRecognizer?
 
 
-    public  init(frame: CGRect,
-                 backDeviceType: AVCaptureDevice.DeviceType,
+    public  init(backDeviceType: AVCaptureDevice.DeviceType,
                  frontDeviceType: AVCaptureDevice.DeviceType) {
         super.init(frame: .zero)
 
