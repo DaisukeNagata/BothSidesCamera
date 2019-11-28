@@ -29,11 +29,10 @@ struct ContentView: View {
                 }
             }.pickerStyle(SegmentedPickerStyle())
             self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-            self.bView.orientation(model: model ,btFlg: bView.btFlg)
+            self.bView.orientation(model: model)
             HStack {
                 Button(
                     action: {
-                        self.bView.btFlg = true
                         self.didTap = self.didTap ? false : true
                         self.bView.cameraStart()
                 },
@@ -62,7 +61,6 @@ struct ContentView: View {
             }.onAppear {
                 self.model.contentView = self
                 self.model.bothSidesView = self.bView
-                _ = self.bView.orientation(model: self.model ,btFlg: true)
             }
         }
     }
@@ -77,7 +75,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct SidesView: UIViewRepresentable {
 
-    @State var btFlg = false
+    var value = 0
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
                                              frontDeviceType: .builtInWideAngleCamera)
 
@@ -98,11 +96,9 @@ struct SidesView: UIViewRepresentable {
         return nil
     }
     
-    func orientation(model: OrientationModel, btFlg: Bool) -> ContentView? {
-        guard btFlg == true else { return nil }
+    mutating func orientation(model: OrientationModel) -> ContentView? {
         bothSidesView.preViewSizeSet(orientation:  model.orientation)
         bothSidesView.isHidden = false
-        self.btFlg = false
         return nil
     }
     
@@ -136,8 +132,6 @@ final class OrientationModel: ObservableObject {
     @objc func foreGround(notification: Notification) {
         guard let bothSidesView = bothSidesView else { return }
         bothSidesView.cameraStart()
-        _ = bothSidesView.orientation(model: self, btFlg: true)
-        
     }
 
     @objc func backGround(notification: Notification) {
