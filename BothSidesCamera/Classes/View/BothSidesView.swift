@@ -133,9 +133,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             } else {
                 self.frame = UIScreen.main.bounds
-                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
-                frontCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         default: break
