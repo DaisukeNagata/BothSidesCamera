@@ -14,6 +14,9 @@
 - iOS 13.2+
 - Xcode 11.2.1
 
+## Version 0.4 ~　We made horizontal and vertical correspondence. Please release the screen lock when implementing.
+![](https://user-images.githubusercontent.com/16457165/69804145-42134000-1221-11ea-921a-24b67b05f2da.PNG)
+
 ## Action
 
 ![](https://user-images.githubusercontent.com/16457165/69488327-5070fd00-0eab-11ea-841f-08cf82e95971.gif)
