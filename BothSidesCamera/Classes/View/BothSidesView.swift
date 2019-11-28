@@ -92,7 +92,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func preViewSizeSet(orientation : UIInterfaceOrientation) -> Void {
         self.orientation = orientation
-        updateNormalizedPiPFrame()
         initSetting(frontCameraVideoPreviewView)
         oriantation {
             return
