@@ -229,12 +229,14 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         if orientation.isPortrait {
             switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
+                frontCameraVideoPreviewView.transform = .identity
                 frontCameraVideoPreviewView.frame = UIScreen.main.bounds
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
                 self.bringSubviewToFront(backCameraVideoPreviewView)
                 initSetting(backCameraVideoPreviewView)
             case .back:
+                backCameraVideoPreviewView.transform = .identity
                 backCameraVideoPreviewView.frame = UIScreen.main.bounds
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
@@ -245,6 +247,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         } else {
             switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
+                frontCameraVideoPreviewView.transform = .identity
                 frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
@@ -252,6 +255,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 self.bringSubviewToFront(backCameraVideoPreviewView)
                 initSetting(backCameraVideoPreviewView)
             case .back:
+                backCameraVideoPreviewView.transform = .identity
                 backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
                 frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
