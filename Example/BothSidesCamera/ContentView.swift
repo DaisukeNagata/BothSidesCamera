@@ -14,7 +14,7 @@ struct ContentView: View {
     @State var didTap:Bool = false
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 0
-    @State private var bView =  bothSidesView()
+    @State private var bView =  SidesView()
     @State private var numbers = ["Wide","Usually"]
     @ObservedObject private var observer = notificationObserver()
 
@@ -72,11 +72,11 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct bothSidesView: UIViewRepresentable {
+struct SidesView: UIViewRepresentable {
 
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
 
-    func makeUIView(context: UIViewRepresentableContext<bothSidesView>) -> BothSidesView {
+    func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView {
         bothSidesView.frontCameraVideoPreviewView.transform = bothSidesView.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
         return  bothSidesView
     }
@@ -106,7 +106,7 @@ struct bothSidesView: UIViewRepresentable {
 
 final class notificationObserver: ObservableObject {
     
-    var bothSidesView: bothSidesView?
+    var bothSidesView: SidesView?
     var contentView: ContentView?
     private var notificationCenter: NotificationCenter
     
