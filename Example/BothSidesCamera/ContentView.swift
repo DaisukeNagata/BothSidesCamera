@@ -21,7 +21,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             bView
-                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.width, minHeight: 0, maxHeight: UIScreen.main.bounds.height)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             
             Picker("Numbers", selection: $selectorIndex) {
                 ForEach(0 ..< self.numbers.count) { index in

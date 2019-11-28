@@ -15,7 +15,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
-    private var margin                     : CGFloat = 50
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
@@ -123,8 +122,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             } else {
                 frontCameraVideoPreviewView.transform = .identity
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-                self.backCameraVideoPreviewView.frame.origin.y = -margin
-                self.frontCameraVideoPreviewView.frame.origin.y = -margin
+                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             }
@@ -140,8 +139,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             } else {
                 backCameraVideoPreviewView.transform = .identity
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-                self.backCameraVideoPreviewView.frame.origin.y = -margin
-                self.backCameraVideoPreviewView.frame.origin.y = -margin
+                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             }
@@ -239,8 +238,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             case .front:
                 frontCameraVideoPreviewView.transform = .identity
                 frontCameraVideoPreviewView.frame = UIScreen.main.bounds
-                backCameraVideoPreviewView.frame.origin.y = -margin
-                frontCameraVideoPreviewView.frame.origin.y = -margin
+                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
                 self.bringSubviewToFront(backCameraVideoPreviewView)
@@ -248,8 +247,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             case .back:
                 backCameraVideoPreviewView.transform = .identity
                 backCameraVideoPreviewView.frame = UIScreen.main.bounds
-                backCameraVideoPreviewView.frame.origin.y = -margin
-                frontCameraVideoPreviewView.frame.origin.y = -margin
+                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
                 self.bringSubviewToFront(frontCameraVideoPreviewView)
