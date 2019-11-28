@@ -113,36 +113,30 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         case .front:
             self.bringSubviewToFront(frontCameraVideoPreviewView)
             if orientation.isPortrait {
-                frontCameraVideoPreviewView.transform = .identity
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
                 self.frame = UIScreen.main.bounds
-                frontCameraVideoPreviewView.frame = UIScreen.main.bounds
-                
+                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             } else {
-                frontCameraVideoPreviewView.transform = .identity
-                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                self.frame = UIScreen.main.bounds
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                
+                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         case .back:
             self.bringSubviewToFront(backCameraVideoPreviewView)
             if orientation.isPortrait {
-                backCameraVideoPreviewView.transform = .identity
-                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
                 self.frame = UIScreen.main.bounds
-                backCameraVideoPreviewView.frame = UIScreen.main.bounds
-                
+                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             } else {
-                backCameraVideoPreviewView.transform = .identity
-                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                self.frame = UIScreen.main.bounds
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
+                frontCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         default: break
         }
