@@ -55,7 +55,7 @@ final class BothSidesMultiCamViewModel: NSObject {
                               backicrophoneDataOutput: backMicrophoneAudioDataOutput,
                               fronticrophoneDataOutput: frontMicrophoneAudioDataOutput)
     }
-    
+
     func changeDviceType() {
         guard let backDeviceInput = backDeviceInput else {
             print("AVCaptureMultiCamViewModel_session")
@@ -86,7 +86,7 @@ final class BothSidesMultiCamViewModel: NSObject {
                     print("AVCaptureMultiCamViewModel_backCameraDeviceInput")
                     return
             }
-    
+
             session.addInputWithNoConnections(backCameraDeviceInput)
         } catch {
             return

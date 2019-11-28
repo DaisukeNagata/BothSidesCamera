@@ -15,10 +15,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
+    private var margin                     : CGFloat = 50
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
     private var doubleTapGestureRecognizer : UITapGestureRecognizer?
+    private var orientation                : UIInterfaceOrientation = .unknown
 
 
     public  init(backDeviceType: AVCaptureDevice.DeviceType,
@@ -35,6 +37,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         backCameraVideoPreviewView.frame = self.frame
         frontCameraVideoPreviewView.frame = self.frame
 
+        self.addSubview(backCameraVideoPreviewView)
+        self.addSubview(frontCameraVideoPreviewView)
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
 
@@ -46,7 +50,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         aVCaptureMultiCamViewModel?.configureMicrophone()
-        
+
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
 
         initSetting(self)
@@ -55,7 +59,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
 
     public func cameraStop() {
@@ -87,7 +91,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
     }
 
-    public func preViewSizeSet() { updateNormalizedPiPFrame() }
+    public func preViewSizeSet(orientation : UIInterfaceOrientation) -> Void {
+        self.orientation = orientation
+        updateNormalizedPiPFrame()
+        initSetting(frontCameraVideoPreviewView)
+        oriantation {
+            return
+        }
+        return
+    }
 
     public func changeDviceType(backDeviceType : AVCaptureDevice.DeviceType,
                              frontDeviceType: AVCaptureDevice.DeviceType) {
@@ -95,6 +107,47 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.changeDviceType()
         updateNormalizedPiPFrame()
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+    }
+    
+    private func oriantation(_ bind: ()->()) {
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition  {
+        case .front:
+            self.bringSubviewToFront(frontCameraVideoPreviewView)
+            if orientation.isPortrait {
+                frontCameraVideoPreviewView.transform = .identity
+                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                self.frame = UIScreen.main.bounds
+                frontCameraVideoPreviewView.frame = UIScreen.main.bounds
+                
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            } else {
+                frontCameraVideoPreviewView.transform = .identity
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                self.backCameraVideoPreviewView.frame.origin.y = -margin
+                self.frontCameraVideoPreviewView.frame.origin.y = -margin
+                
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            }
+        case .back:
+            self.bringSubviewToFront(backCameraVideoPreviewView)
+            if orientation.isPortrait {
+                backCameraVideoPreviewView.transform = .identity
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                self.frame = UIScreen.main.bounds
+                backCameraVideoPreviewView.frame = UIScreen.main.bounds
+                
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            } else {
+                backCameraVideoPreviewView.transform = .identity
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                self.backCameraVideoPreviewView.frame.origin.y = -margin
+                self.backCameraVideoPreviewView.frame.origin.y = -margin
+                
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            }
+        default: break
+        }
+        bind()
     }
 
     private func initSetting(_ view: UIView? = nil) {
@@ -127,36 +180,48 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         let pipFrameInFullScreenVideoPreview = pipVideoPreviewView.convert(pipVideoPreviewView.bounds, to: fullScreenVideoPreviewView)
         let normalizedTransform = CGAffineTransform(scaleX: 1.0 / fullScreenVideoPreviewView.frame.width, y: 1.0 / fullScreenVideoPreviewView.frame.height)
-
         aVCaptureMultiCamViewModel?.aModel?.normalizedPipFrame = pipFrameInFullScreenVideoPreview.applying(normalizedTransform)
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
+        
         UIView.animate(withDuration: 0.5) {
             switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
                 self.frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             case .back:
                 self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-            default: break
+            default:
+                if sender.state == .ended { self.updateNormalizedPiPFrame() }
+                break
             }
-            if sender.state == .ended { self.updateNormalizedPiPFrame() }
         }
     }
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
         let position: CGPoint = sender.location(in: self)
+
         switch sender.state {
         case .ended:
             updateNormalizedPiPFrame()
             break
         case .changed:
-            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width
-                frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+            if orientation.isPortrait {
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
+                    frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+                } else {
+                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width
+                    backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+                }
             } else {
-                backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width
-                backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/3
+                    frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+                } else {
+                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/3
+                    backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+                }
             }
         default: break
         }
@@ -169,23 +234,46 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
+        if orientation.isPortrait {
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                frontCameraVideoPreviewView.transform = .identity
+                frontCameraVideoPreviewView.frame = UIScreen.main.bounds
+                backCameraVideoPreviewView.frame.origin.y = -margin
+                frontCameraVideoPreviewView.frame.origin.y = -margin
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
+                self.bringSubviewToFront(backCameraVideoPreviewView)
+                initSetting(backCameraVideoPreviewView)
+            case .back:
+                backCameraVideoPreviewView.transform = .identity
+                backCameraVideoPreviewView.frame = UIScreen.main.bounds
+                backCameraVideoPreviewView.frame.origin.y = -margin
+                frontCameraVideoPreviewView.frame.origin.y = -margin
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
+                self.bringSubviewToFront(frontCameraVideoPreviewView)
+                initSetting(frontCameraVideoPreviewView)
+            default: break
+            }
+        } else {
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
+        
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
+                self.bringSubviewToFront(backCameraVideoPreviewView)
+                initSetting(backCameraVideoPreviewView)
+            case .back:
+                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
 
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-        case .front:
-            frontCameraVideoPreviewView.transform = .identity
-            frontCameraVideoPreviewView.frame = self.frame
-            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-            aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
-            self.bringSubviewToFront(backCameraVideoPreviewView)
-            initSetting(backCameraVideoPreviewView)
-        case .back:
-            backCameraVideoPreviewView.transform = .identity
-            backCameraVideoPreviewView.frame = self.frame
-            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-            aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
-            self.bringSubviewToFront(frontCameraVideoPreviewView)
-            initSetting(frontCameraVideoPreviewView)
-        default: break
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
+                self.bringSubviewToFront(frontCameraVideoPreviewView)
+                initSetting(frontCameraVideoPreviewView)
+            default: break
+            }
         }
 
         CATransaction.commit()

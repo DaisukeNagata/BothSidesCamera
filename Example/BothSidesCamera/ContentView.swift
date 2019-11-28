@@ -12,38 +12,39 @@ import BothSidesCamera
 struct ContentView: View {
 
     @State var didTap:Bool = false
+    @State var bView =  SidesView()
     @State private var selectorIndex = 0
-    @State private var margin: CGFloat = 0
-    @State private var bView =  SidesView()
+    @State private var margin: CGFloat = 100
     @State private var numbers = ["Wide","Usually"]
-    @ObservedObject private var observer = notificationObserver()
+    @EnvironmentObject var model: OrientationModel
 
     var body: some View {
         VStack {
             bView
-                .frame(minWidth: margin, maxWidth: .infinity, minHeight: margin, maxHeight: .infinity)
+                .frame(minWidth: 0, maxWidth: UIScreen.main.bounds.width, minHeight: 0, maxHeight: UIScreen.main.bounds.height)
+            
             Picker("Numbers", selection: $selectorIndex) {
                 ForEach(0 ..< self.numbers.count) { index in
                     Text( self.numbers[index]).tag(index)
                 }
             }.pickerStyle(SegmentedPickerStyle())
             self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-
+            self.bView.orientation(model: model)
             HStack {
                 Button(
                     action: {
                        self.didTap = self.didTap ? false : true
-                       self.bView.cameraStart()
+                        self.bView.cameraStart()
                 },
                     label: {
                         Image(systemName: .init())
-                            .padding(100)
-                            .frame(width: 50, height: 50)
+                            .padding(margin)
+                            .frame(width: margin/2, height: margin/2)
                             .imageScale(.large)
                             .background(didTap ? Color.red : Color.white)
                             .clipShape(Circle())
                 }
-                ).padding(.top, 10)
+                ).padding(.top, margin/10)
 
                 Button(
                     action: {
@@ -51,15 +52,15 @@ struct ContentView: View {
                 },
                     label: {
                         Image(systemName: .init())
-                            .frame(width: 50, height: 50)
+                            .frame(width: margin/2, height: margin/2)
                             .imageScale(.large)
                             .background(Color.yellow)
                             .clipShape(Circle())
                 }
-                ) .padding(.leading, 100).padding(.top, 10)
+                ) .padding(.leading, margin).padding(.top, margin/10)
             }.onAppear {
-                self.observer.contentView = self
-                self.observer.bothSidesView = self.bView
+                self.model.contentView = self
+                self.model.bothSidesView = self.bView
             }
         }
     }
@@ -74,16 +75,15 @@ struct ContentView_Previews: PreviewProvider {
 
 struct SidesView: UIViewRepresentable {
 
-    @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
+    @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
+                                             frontDeviceType: .builtInWideAngleCamera)
 
     func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView {
-        bothSidesView.frontCameraVideoPreviewView.transform = bothSidesView.frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
         return  bothSidesView
     }
 
     func updateUIView(_ bView: BothSidesView, context: Context) {
         bothSidesView = bView
-        bView.preViewSizeSet()
     }
     
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
@@ -95,6 +95,12 @@ struct SidesView: UIViewRepresentable {
         return nil
     }
     
+    func orientation(model: OrientationModel) -> ContentView? {
+        bothSidesView.preViewSizeSet(orientation:  model.orientation)
+        bothSidesView.isHidden = false
+        return nil
+    }
+    
     func flash() { bothSidesView.pushFlash() }
 
     func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
@@ -102,13 +108,15 @@ struct SidesView: UIViewRepresentable {
     func cameraStop() { bothSidesView.cameraStop() }
     
     func saveBtn() { print("movie save") }
+    
 }
 
-final class notificationObserver: ObservableObject {
+final class OrientationModel: ObservableObject {
     
     var bothSidesView: SidesView?
     var contentView: ContentView?
     private var notificationCenter: NotificationCenter
+    @Published var orientation: UIInterfaceOrientation = .unknown
     
     init(center: NotificationCenter = .default) {
         notificationCenter = center
@@ -130,4 +138,5 @@ final class notificationObserver: ObservableObject {
         contentView.didTap = false
         bothSidesView.cameraStop()
     }
+    
 }
