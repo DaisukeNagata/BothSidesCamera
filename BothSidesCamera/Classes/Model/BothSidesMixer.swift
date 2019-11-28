@@ -97,9 +97,7 @@ final class BothSidesMixer {
             let computePipelineState = computePipelineState else {
                 print("BothSidesMixer_computePipelineState")
 
-                if let textureCache = textureCache {
-                    CVMetalTextureCacheFlush(textureCache, 0)
-                }
+                if let textureCache = textureCache { CVMetalTextureCacheFlush(textureCache, 0) }
 
                 return nil
         }

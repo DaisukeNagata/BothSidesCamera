@@ -23,7 +23,6 @@ final class BothSidesMultiCamViewModel: NSObject {
     private let frontCameraVideoDataOutput     = AVCaptureVideoDataOutput()
     private let backMicrophoneAudioDataOutput  = AVCaptureAudioDataOutput()
     private let frontMicrophoneAudioDataOutput = AVCaptureAudioDataOutput()
-    private let sessionQueue                   = DispatchQueue(label: "session queue")
     private let dataOutputQueue                = DispatchQueue(label: "data output queue")
 
 
@@ -37,11 +36,12 @@ final class BothSidesMultiCamViewModel: NSObject {
     func pushFlash() {
         do {
             try backCamera?.lockForConfiguration()
-            
-            if backCamera?.torchMode == .off {
+            switch backCamera?.torchMode {
+            case .off:
                 backCamera?.torchMode = AVCaptureDevice.TorchMode.on
-            } else {
+            case .on:
                 backCamera?.torchMode = AVCaptureDevice.TorchMode.off
+            default: break
             }
             backCamera?.unlockForConfiguration()
         } catch {

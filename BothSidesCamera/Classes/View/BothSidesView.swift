@@ -15,7 +15,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
-    private var tapFlg                     = false
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
@@ -68,22 +67,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func cameraStart(completion: @escaping() -> Void) {
+
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
         }
-        if session.isRunning == false {
+
+        guard session.isRunning == true  else {
             session.startRunning()
             aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning = false
-        } else {
-            if aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == false {
-                aVCaptureMultiCamViewModel?.aModel?.recorderSet{
-                    self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
-                }
-            } else {
-                self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
-            }
+            return
         }
+
+        guard aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == true  else {
+            aVCaptureMultiCamViewModel?.aModel?.recorderSet{ self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion) }
+            return
+        }
+
+        self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
     }
 
     public func preViewSizeSet() { updateNormalizedPiPFrame() }
@@ -110,6 +111,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func updateNormalizedPiPFrame() {
+
         let fullScreenVideoPreviewView: BothSidesPreviewView
         let pipVideoPreviewView: BothSidesPreviewView
 
@@ -130,14 +132,16 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-        case .front:
-            frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-        case .back:
-            backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-        default: break
+        UIView.animate(withDuration: 0.5) {
+            switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                self.frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+            case .back:
+                self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+            default: break
+            }
+            if sender.state == .ended { self.updateNormalizedPiPFrame() }
         }
-        if sender.state == .ended { updateNormalizedPiPFrame() }
     }
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
