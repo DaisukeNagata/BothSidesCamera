@@ -52,7 +52,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
 
-        initSetting(self)
+        tappedLogic()
     }
 
     public required init?(coder: NSCoder) {
@@ -114,13 +114,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
-                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             } else {
                 self.frame = UIScreen.main.bounds
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         case .back:
@@ -128,13 +124,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
-                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             } else {
                 self.frame = UIScreen.main.bounds
                 frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         default: break
@@ -219,7 +211,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
     }
 
-    @objc private func tapped(sender: UIPanGestureRecognizer) {
+    @objc private func tapped(sender: UIPanGestureRecognizer) { tappedLogic() }
+
+    private func tappedLogic() {
         tapPanGesture = nil
         pinchGesture = nil
         doubleTapGestureRecognizer = nil
