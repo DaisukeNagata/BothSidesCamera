@@ -29,7 +29,7 @@ struct ContentView: View {
                 }
             }.pickerStyle(SegmentedPickerStyle())
             self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-        
+
             HStack {
                 Button(
                     action: {
@@ -81,7 +81,7 @@ struct SidesView: UIViewRepresentable {
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
 
         numbers == 0 ?
-            bView.changeDviceType(backDeviceType: .builtInTelephotoCamera, frontDeviceType:.builtInWideAngleCamera) :
+            bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
         
         return nil

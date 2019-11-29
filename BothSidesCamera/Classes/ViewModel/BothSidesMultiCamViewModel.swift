@@ -71,6 +71,8 @@ final class BothSidesMultiCamViewModel: NSObject {
         defer {
             session.commitConfiguration()
         }
+        // Camera support is limited.
+        if deviceType == .builtInWideAngleCamera { backCamera?.focusMode = .continuousAutoFocus }
 
         backCamera = AVCaptureDevice.default(deviceType, for: .video, position: .back)
         guard let backCamera = backCamera else {
