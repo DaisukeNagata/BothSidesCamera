@@ -29,11 +29,28 @@ While using, use about 260MB of memory with iPhonePro. Memory usage is about 80M
 
 ## code
 
+####  Horizontal rotation movement
+
+```ruby
+class SceneDelegate
+func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
+        model.orientation = windowScene.interfaceOrientation
+        contentView.bView.orientation(model: model)     
+}
+
+struct ContentView 
+@EnvironmentObject var model: OrientationModel
+
+final class OrientationModel
+@Published var orientation: UIInterfaceOrientation = .unknown
+
+```
+<br>
+
 ```ruby
 // Generation
 import BothSidesCamera
 @ObservedObject private var observer = KeyboardResponder()
-
 
 // Start and stop recording
 previewView?.cameraStart(completion: saveBtn)
@@ -51,7 +68,6 @@ previewView.preViewSizeSet()
 previewView.changeDviceTpe(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInUltraWideCamera)
 
 ```
-
 
 ## How to
 
