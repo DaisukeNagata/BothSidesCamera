@@ -29,7 +29,7 @@ struct ContentView: View {
                 }
             }.pickerStyle(SegmentedPickerStyle())
             self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-            self.bView.orientation(model: model)
+        
             HStack {
                 Button(
                     action: {
@@ -96,10 +96,9 @@ struct SidesView: UIViewRepresentable {
         return nil
     }
     
-    mutating func orientation(model: OrientationModel) -> ContentView? {
+    func orientation(model: OrientationModel) {
         bothSidesView.preViewSizeSet(orientation:  model.orientation)
         bothSidesView.isHidden = false
-        return nil
     }
     
     func flash() { bothSidesView.pushFlash() }
