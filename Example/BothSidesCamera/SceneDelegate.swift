@@ -32,7 +32,6 @@ let contentView = ContentView()
     }
 
     func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
-        contentView.bView.bothSidesView.isHidden = true
         model.orientation = windowScene.interfaceOrientation
         contentView.bView.orientation(model: model)
         

@@ -98,7 +98,6 @@ struct SidesView: UIViewRepresentable {
     
     func orientation(model: OrientationModel) {
         bothSidesView.preViewSizeSet(orientation:  model.orientation)
-        bothSidesView.isHidden = false
     }
     
     func flash() { bothSidesView.pushFlash() }
