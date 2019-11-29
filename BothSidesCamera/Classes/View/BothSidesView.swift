@@ -36,8 +36,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         backCameraVideoPreviewView.frame = self.frame
         frontCameraVideoPreviewView.frame = self.frame
 
-        self.addSubview(backCameraVideoPreviewView)
-        self.addSubview(frontCameraVideoPreviewView)
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
 
@@ -48,11 +46,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
+        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         aVCaptureMultiCamViewModel?.configureMicrophone()
 
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
 
-        tappedLogic()
+        initSetting(self)
     }
 
     public required init?(coder: NSCoder) {
@@ -92,10 +91,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func preViewSizeSet(orientation : UIInterfaceOrientation) -> Void {
         self.orientation = orientation
-        initSetting(frontCameraVideoPreviewView)
-        oriantation {
-            return
-        }
+        oriantation { return }
         return
     }
 
