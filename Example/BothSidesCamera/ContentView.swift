@@ -75,17 +75,8 @@ struct ContentView_Previews: PreviewProvider {
 
 struct SidesView: UIViewRepresentable {
 
-    var value = 0
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
                                              frontDeviceType: .builtInWideAngleCamera)
-
-    func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView {
-        return  bothSidesView
-    }
-
-    func updateUIView(_ bView: BothSidesView, context: Context) {
-        bothSidesView = bView
-    }
     
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
 
@@ -95,19 +86,21 @@ struct SidesView: UIViewRepresentable {
         
         return nil
     }
-    
-    func orientation(model: OrientationModel) {
-        bothSidesView.preViewSizeSet(orientation:  model.orientation)
-    }
+
+    func saveBtn() { print("movie save") }
     
     func flash() { bothSidesView.pushFlash() }
 
+    func cameraStop() { bothSidesView.cameraStop()}
+
     func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
-    
-    func cameraStop() { bothSidesView.cameraStop() }
-    
-    func saveBtn() { print("movie save") }
-    
+
+    func updateUIView(_ bView: BothSidesView, context: Context) { bothSidesView = bView }
+
+    func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView { return  bothSidesView }
+
+    func orientation(model: OrientationModel) { bothSidesView.preViewSizeSet(orientation:  model.orientation) }
+
 }
 
 final class OrientationModel: ObservableObject {
