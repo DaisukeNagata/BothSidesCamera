@@ -88,7 +88,7 @@ struct SidesView: UIViewRepresentable {
     }
 
     func saveBtn() { print("movie save") }
-    
+
     func flash() { bothSidesView.pushFlash() }
 
     func cameraStop() { bothSidesView.cameraStop()}
@@ -104,18 +104,18 @@ struct SidesView: UIViewRepresentable {
 }
 
 final class OrientationModel: ObservableObject {
-    
+
     var bothSidesView: SidesView?
     var contentView: ContentView?
     private var notificationCenter: NotificationCenter
     @Published var orientation: UIInterfaceOrientation = .unknown
-    
+
     init(center: NotificationCenter = .default) {
         notificationCenter = center
         notificationCenter.addObserver( self, selector: #selector(foreGround), name: UIApplication.willEnterForegroundNotification,object: nil)
         notificationCenter.addObserver( self, selector: #selector(backGround), name: UIApplication.didEnterBackgroundNotification,object: nil)
     }
-    
+
     deinit {
         notificationCenter.removeObserver(self)
     }
@@ -130,5 +130,5 @@ final class OrientationModel: ObservableObject {
         contentView.didTap = false
         bothSidesView.cameraStop()
     }
-    
+
 }
