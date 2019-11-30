@@ -15,7 +15,7 @@ struct ContentView: View {
     @State var bView =  SidesView()
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 100
-    @State private var numbers = ["Wide","Usually"]
+    @State private var numbers = ["Wide","UltraWide"]
     @EnvironmentObject var model: OrientationModel
 
     var body: some View {
@@ -79,7 +79,7 @@ struct SidesView: UIViewRepresentable {
                                              frontDeviceType: .builtInWideAngleCamera)
     
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
-
+        // Super wide angle compatible
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
