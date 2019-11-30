@@ -13,9 +13,7 @@ import BothSidesCamera
 
 class ViewController: UIViewController {
 
-    var window: UIWindow?
     private var previewView: BothSidesView?
-    @ObservedObject(initialValue: OrientationModel()) var model: OrientationModel
 
     @IBOutlet weak var segmentBtn: UISegmentedControl!
 

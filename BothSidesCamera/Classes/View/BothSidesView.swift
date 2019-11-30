@@ -22,7 +22,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     private var orientation                : UIInterfaceOrientation = .unknown
 
 
-    public  init(backDeviceType: AVCaptureDevice.DeviceType,
+    public init(backDeviceType: AVCaptureDevice.DeviceType,
                  frontDeviceType: AVCaptureDevice.DeviceType) {
         super.init(frame: .zero)
 
@@ -51,7 +51,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureMicrophone()
 
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
-
         initSetting(self)
     }
 

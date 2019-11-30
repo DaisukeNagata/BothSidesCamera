@@ -27,7 +27,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
         model.orientation = windowScene.interfaceOrientation
         contentView.bView.orientation(model: model)
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
