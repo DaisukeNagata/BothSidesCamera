@@ -17,10 +17,15 @@
 ## Version 0.5 ~　If you want to check the rotation with SwitUI, please make it look like the photo.
 ![](https://user-images.githubusercontent.com/16457165/69897118-9128b480-138a-11ea-9d0e-3daef5d93acc.png)
 
+### Select camera design as SwiftUI or Storyboard
+<p align="center">
+<img src=https://user-images.githubusercontent.com/16457165/69897887-3fd1f280-1395-11ea-9016-6127f0b3cadb.png width="350" height="700">
+</p>
+
 ## Action
-
-![](https://user-images.githubusercontent.com/16457165/69488327-5070fd00-0eab-11ea-841f-08cf82e95971.gif)
-
+<p align="center">
+<img src=https://user-images.githubusercontent.com/16457165/69488327-5070fd00-0eab-11ea-841f-08cf82e95971.gif>
+</p>
 
 ## Function
 
