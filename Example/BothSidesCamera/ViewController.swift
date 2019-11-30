@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import SwiftUI
 import AVFoundation
 import BothSidesCamera
 
 class ViewController: UIViewController {
 
+    var window: UIWindow?
+    let contentView = ContentView()
     private var previewView: BothSidesView?
-    
+    @ObservedObject(initialValue: OrientationModel()) var model: OrientationModel
+
     @IBOutlet weak var segmentBtn: UISegmentedControl!
 
     lazy var  btn: UIButton = {
@@ -24,7 +28,7 @@ class ViewController: UIViewController {
         btn.backgroundColor = .red
         return btn
     }()
-    
+
     lazy var  btn2: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: ""), for: .normal)
@@ -36,27 +40,41 @@ class ViewController: UIViewController {
         return btn
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let alertController = UIAlertController(title: NSLocalizedString("Camera Option", comment: ""), message: "", preferredStyle: .alert)
+        let storyBoard = UIAlertAction(title: NSLocalizedString("StoryBoard", comment: ""), style: .default) {
+            action in
+            self.start()
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        let swiftUI = UIAlertAction(title: NSLocalizedString("SwiftUI", comment: ""), style: .default) {
+            action in
+            SceneDelegate.delegate.window?.makeKeyAndVisible()
+            self.view.removeFromSuperview()
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(swiftUI)
+        alertController.addAction(storyBoard)
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func start() {
         // front is builtInWideAngleCamera and builtInTrueDepthCamera only
         previewView = BothSidesView(backDeviceType: .builtInUltraWideCamera, frontDeviceType: .builtInWideAngleCamera)
         view.addSubview(previewView!)
 
         btn.addTarget(self, action: #selector(btaction), for: .touchUpInside)
         self.tabBarController?.tabBar.addSubview(btn)
-        
+
         btn2.addTarget(self, action: #selector(pushFlash), for: .touchUpInside)
         self.tabBarController?.tabBar.addSubview(btn2)
-       
 
         if segmentBtn != nil {
-        view.bringSubviewToFront(segmentBtn)
+            view.bringSubviewToFront(segmentBtn)
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         // PreviewView Size
         guard let pre = previewView else { return }
         pre.preViewSizeSet(orientation: UIInterfaceOrientation.portrait)
@@ -70,7 +88,7 @@ class ViewController: UIViewController {
         // stop camera
         previewView!.cameraStop()
     }
-    
+
     @objc func foreground() {
         print("foreground")
         // start camera
@@ -81,7 +99,7 @@ class ViewController: UIViewController {
     @objc func btaction() {
         // start camera
         previewView?.cameraStart(completion: saveBtn)
-        
+
         // Flash
         if flg == false {
             tabBarController?.tabBar.backgroundColor = .red
@@ -98,7 +116,7 @@ class ViewController: UIViewController {
 
     // Flash
     @objc func pushFlash() { previewView?.pushFlash() }
-    
+
     @IBAction func choice(_ sender: UISegmentedControl) {
         guard let pre = previewView else { return }
         // Super wide angle compatible
@@ -107,4 +125,3 @@ class ViewController: UIViewController {
             pre.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
     }
 }
-

@@ -61,6 +61,9 @@ struct ContentView: View {
             }.onAppear {
                 self.model.contentView = self
                 self.model.bothSidesView = self.bView
+
+                self.bView.cameraStop()
+                self.bView.cameraStart()
             }
         }
     }
