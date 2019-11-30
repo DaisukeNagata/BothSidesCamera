@@ -16,6 +16,8 @@
 		BB34C4C7238C44B500692CA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34C4C5238C44B500692CA5 /* SceneDelegate.swift */; };
 		BB34C4C8238C44B500692CA5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34C4C6238C44B500692CA5 /* ContentView.swift */; };
 		BB34C4CF238C45DE00692CA5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB34C4CE238C458600692CA5 /* Preview Assets.xcassets */; };
+		BB8317A223923BDC00BA174A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8317A123923BDC00BA174A /* ViewController.swift */; };
+		BB8317A423923BF500BA174A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB8317A323923BF500BA174A /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		BB34C4C5238C44B500692CA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BB34C4C6238C44B500692CA5 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BB34C4CE238C458600692CA5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BB8317A123923BDC00BA174A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BB8317A323923BF500BA174A /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		DABDA790F8E59A6CBA685090 /* Pods-BothSidesCamera_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BothSidesCamera_Example.release.xcconfig"; path = "Target Support Files/Pods-BothSidesCamera_Example/Pods-BothSidesCamera_Example.release.xcconfig"; sourceTree = "<group>"; };
 		E212C6CDE19EB34CBE2606BA /* Pods-BothSidesCamera_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BothSidesCamera_Tests.debug.xcconfig"; path = "Target Support Files/Pods-BothSidesCamera_Tests/Pods-BothSidesCamera_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F920D7137E442B274B1C9D29 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				BB34C4C6238C44B500692CA5 /* ContentView.swift */,
+				BB8317A123923BDC00BA174A /* ViewController.swift */,
+				BB8317A323923BF500BA174A /* Main.storyboard */,
 				BB34C4C5238C44B500692CA5 /* SceneDelegate.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -262,6 +268,7 @@
 				BB34C4CF238C45DE00692CA5 /* Preview Assets.xcassets in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				BB8317A423923BF500BA174A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +373,7 @@
 			files = (
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				BB34C4C8238C44B500692CA5 /* ContentView.swift in Sources */,
+				BB8317A223923BDC00BA174A /* ViewController.swift in Sources */,
 				BB34C4C7238C44B500692CA5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
