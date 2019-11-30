@@ -14,7 +14,6 @@ import BothSidesCamera
 class ViewController: UIViewController {
 
     var window: UIWindow?
-    let contentView = ContentView()
     private var previewView: BothSidesView?
     @ObservedObject(initialValue: OrientationModel()) var model: OrientationModel
 
@@ -79,13 +78,12 @@ class ViewController: UIViewController {
         guard let pre = previewView else { return }
         pre.preViewSizeSet(orientation: UIInterfaceOrientation.portrait)
         pre.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera)
-        
+
         NotificationCenter.default.addObserver( self,
                                                 selector:#selector(background),
                                                 name: UIApplication.didEnterBackgroundNotification,object: nil)
         NotificationCenter.default.addObserver( self, selector: #selector(foreground),
-                                                name: UIApplication.willEnterForegroundNotification,object: nil)
-        
+                                                name: UIApplication.willEnterForegroundNotification,object: nil)        
     }
 
     @objc func background() {
