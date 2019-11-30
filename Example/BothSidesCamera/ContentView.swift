@@ -61,8 +61,6 @@ struct ContentView: View {
             }.onAppear {
                 self.model.contentView = self
                 self.model.bothSidesView = self.bView
-
-                self.bView.cameraStop()
                 self.bView.cameraStart()
             }
         }
@@ -111,7 +109,7 @@ final class OrientationModel: ObservableObject {
     var bothSidesView: SidesView?
     var contentView: ContentView?
     private var notificationCenter: NotificationCenter
-    @Published var orientation: UIInterfaceOrientation = .unknown
+    @Published var orientation: UIInterfaceOrientation = .portraitUpsideDown
 
     init(center: NotificationCenter = .default) {
         notificationCenter = center
