@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         flg = false
         tabBarController?.tabBar.backgroundColor = .gray
         // stop camera
-        previewView!.cameraStop()
+        previewView?.cameraStop()
     }
 
     @objc func foreground() {

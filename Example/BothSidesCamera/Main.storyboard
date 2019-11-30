@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hzr-De-MaA">
-                                <rect key="frame" x="5" y="694" width="404" height="32"/>
+                                <rect key="frame" x="0.0" y="694" width="414" height="32"/>
                                 <segments>
                                     <segment title="Wide"/>
                                     <segment title="UltraWide"/>
@@ -28,9 +28,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="hzr-De-MaA" firstAttribute="leading" secondItem="pdf-dX-DZD" secondAttribute="leading" constant="5" id="GB1-cG-xrn"/>
+                            <constraint firstItem="hzr-De-MaA" firstAttribute="leading" secondItem="pdf-dX-DZD" secondAttribute="leading" id="GB1-cG-xrn"/>
                             <constraint firstItem="pdf-dX-DZD" firstAttribute="bottom" secondItem="hzr-De-MaA" secondAttribute="bottom" constant="88" id="Ugy-g9-e68"/>
-                            <constraint firstItem="pdf-dX-DZD" firstAttribute="trailing" secondItem="hzr-De-MaA" secondAttribute="trailing" constant="5" id="tCi-1T-IJQ"/>
+                            <constraint firstItem="pdf-dX-DZD" firstAttribute="trailing" secondItem="hzr-De-MaA" secondAttribute="trailing" id="tCi-1T-IJQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pdf-dX-DZD"/>
                     </view>
@@ -41,7 +41,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yWc-mj-Yj0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-481" y="-551"/>
+            <point key="canvasLocation" x="-481.15942028985512" y="-551.11607142857144"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="pQV-iQ-t9o">
