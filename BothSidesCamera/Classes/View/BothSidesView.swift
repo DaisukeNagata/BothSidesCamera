@@ -111,6 +111,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
             } else {
                 self.frame = UIScreen.main.bounds
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
@@ -121,6 +122,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
             } else {
                 self.frame = UIScreen.main.bounds
                 frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
