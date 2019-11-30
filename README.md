@@ -70,7 +70,7 @@ previewView.cameraStop()
 previewView.preViewSizeSet()
 
 // Switch camera　Please check the in-camera as the camera type is different.
-previewView.changeDviceTpe(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInUltraWideCamera)
+previewView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInUltraWideCamera)
 
 ```
 
