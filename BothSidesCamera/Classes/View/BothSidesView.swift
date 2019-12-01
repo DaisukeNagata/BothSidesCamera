@@ -167,6 +167,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
         
+        updateNormalizedPiPFrame()
         UIView.animate(withDuration: 0.5) {
             switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
@@ -174,7 +175,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             case .back:
                 self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             default:
-                if sender.state == .ended { self.updateNormalizedPiPFrame() }
                 break
             }
         }
@@ -184,10 +184,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         let position: CGPoint = sender.location(in: self)
 
         switch sender.state {
-        case .ended:
-            updateNormalizedPiPFrame()
-            break
         case .changed:
+            updateNormalizedPiPFrame()
             if orientation.isPortrait {
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                     frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
