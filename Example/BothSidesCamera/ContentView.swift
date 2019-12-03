@@ -15,7 +15,7 @@ struct ContentView: View {
     @State var didTap:Bool = false
 
     @State private var selectorIndex = 0
-    @State private var margin: CGFloat = 100
+    @State private var margin: CGFloat = 10
 
     @State private var numbers = ["Wide","UltraWide"]
 
@@ -33,14 +33,14 @@ struct ContentView: View {
                 },
                     label: {
                         Image(systemName: .init())
-                            .frame(width: margin/2, height: margin/2)
+                            .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.gray)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10)
-                    .padding(.leading, margin/10)
-                    .padding(.trailing, margin/10)
+                ).padding(.top, margin)
+                    .padding(.leading, margin)
+                    .padding(.trailing, margin)
                     .alert(isPresented: $model.showingAlert) {
                     Alert(title: Text("Save Screen"))
                 }
@@ -53,14 +53,14 @@ struct ContentView: View {
                     label: {
                         Image(systemName: .init())
                             .padding(margin)
-                            .frame(width: margin/2, height: margin/2)
+                            .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(didTap ? Color.red : Color.white)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10)
-                    .padding(.leading, margin/10)
-                    .padding(.trailing, margin/10)
+                ).padding(.top, margin)
+                    .padding(.leading, margin)
+                    .padding(.trailing, margin)
 
                 Button(
                     action: {
@@ -78,9 +78,9 @@ struct ContentView: View {
                             .background(Color.blue)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10)
-                    .padding(.leading, margin/10)
-                    .padding(.trailing, margin/10)
+                ).padding(.top, margin)
+                    .padding(.leading, margin)
+                    .padding(.trailing, margin)
                 
                 Button(
                     action: {
@@ -89,14 +89,14 @@ struct ContentView: View {
                 },
                     label: {
                         Image(systemName: .init())
-                            .frame(width: margin/2, height: margin/2)
+                            .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.yellow)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10)
-                    .padding(.leading, margin/10)
-                    .padding(.trailing, margin/10)
+                ).padding(.top, margin)
+                    .padding(.leading, margin)
+                    .padding(.trailing, margin)
 
             }.onAppear {
                 self.model.contentView = self
