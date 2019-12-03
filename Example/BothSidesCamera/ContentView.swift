@@ -58,7 +58,9 @@ struct ContentView: View {
                             .background(didTap ? Color.red : Color.white)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
+                ).padding(.top, margin/10)
+                    .padding(.leading, margin/10)
+                    .padding(.trailing, margin/10)
 
                 Button(
                     action: {
@@ -76,7 +78,9 @@ struct ContentView: View {
                             .background(Color.blue)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
+                ).padding(.top, margin/10)
+                    .padding(.leading, margin/10)
+                    .padding(.trailing, margin/10)
                 
                 Button(
                     action: {
@@ -90,7 +94,9 @@ struct ContentView: View {
                             .background(Color.yellow)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
+                ).padding(.top, margin/10)
+                    .padding(.leading, margin/10)
+                    .padding(.trailing, margin/10)
 
             }.onAppear {
                 self.model.contentView = self
