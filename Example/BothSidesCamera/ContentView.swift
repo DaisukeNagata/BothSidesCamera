@@ -11,13 +11,11 @@ import BothSidesCamera
 
 struct ContentView: View {
 
-    @State var bView =  SidesView()
-    @State var didTap:Bool = false
+    @State var bView = SidesView()
+    @State var didTap: Bool = false
 
     @State private var selectorIndex = 0
     @State private var margin: CGFloat = 10
-
-    @State private var numbers = ["Wide","UltraWide"]
 
     @EnvironmentObject var model: OrientationModel
 
@@ -104,7 +102,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
