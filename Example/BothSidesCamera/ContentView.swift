@@ -64,11 +64,8 @@ struct ContentView: View {
 
                 Button(
                     action: {
-                        if self.selectorIndex == 0 {
-                            self.selectorIndex = 1
-                        } else {
-                            self.selectorIndex = 0
-                        }
+                        let index = self.selectorIndex == 0 ? 1 : 0
+                        self.selectorIndex = index
                         _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
                 },
                     label: {
@@ -81,7 +78,7 @@ struct ContentView: View {
                 ).padding(.top, margin)
                     .padding(.leading, margin)
                     .padding(.trailing, margin)
-                
+
                 Button(
                     action: {
                         
@@ -120,20 +117,20 @@ struct SidesView: UIViewRepresentable {
     var orientationModel: OrientationModel?
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
                                              frontDeviceType: .builtInWideAngleCamera)
-    
+
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
         // Super wide angle compatible
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
-        
+
         return nil
     }
 
     func saveBtn() { orientationModel?.showingAlert = true }
 
     func flash() { bothSidesView.pushFlash() }
-    
+
     func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 
     func cameraStop() { bothSidesView.cameraStop()}
@@ -151,7 +148,7 @@ struct SidesView: UIViewRepresentable {
 final class OrientationModel: ObservableObject {
 
     @Published var showingAlert = false
-    @Published var orientation: UIInterfaceOrientation = .portraitUpsideDown
+    @Published var orientation: UIInterfaceOrientation = .unknown
 
     var bothSidesView: SidesView?
     var contentView: ContentView?
