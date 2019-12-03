@@ -10,29 +10,24 @@ import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    /*
-     Type Storyboard
-     //let contentView = ContentView()
-     //window.rootViewController = UIHostingController(rootView: contentView.environmentObject(model))
-     //model.orientation = windowScene.interfaceOrientation
-     //contentView.bView.orientation(model: model)
-     */
+
     var window: UIWindow?
-//    let contentView = ContentView()
-    static var delegate = SceneDelegate()
+    let contentView = ContentView()
+
     @ObservedObject(initialValue: OrientationModel()) var model: OrientationModel
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-//            window.rootViewController = UIHostingController(rootView: contentView.environmentObject(model))
-            SceneDelegate.delegate.window = window
+            window.rootViewController = UIHostingController(rootView: contentView.environmentObject(model))
+            self.window = window
+            window.makeKeyAndVisible()
         }
     }
 
     func windowScene(_ windowScene: UIWindowScene, didUpdate previousCoordinateSpace: UICoordinateSpace, interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation, traitCollection previousTraitCollection: UITraitCollection) {
-//        model.orientation = windowScene.interfaceOrientation
-//        contentView.bView.orientation(model: model)
+        model.orientation = windowScene.interfaceOrientation
+        contentView.bView.orientation(model: model)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
