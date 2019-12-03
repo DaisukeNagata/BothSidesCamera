@@ -14,8 +14,10 @@
 - iOS 13.2+
 - Xcode 11.2.1
 
-## Version 0.5 ~　If you want to check the rotation with SwitUI, please make it look like the photo.
-![](https://user-images.githubusercontent.com/16457165/69897118-9128b480-138a-11ea-9d0e-3daef5d93acc.png)
+## Version 0.6 ~　Equipped with screenshot function. You can shoot images with the left button, even during video recording, when not recording.
+<p align="center">
+<img src=https://user-images.githubusercontent.com/16457165/70024317-13a8b280-15dd-11ea-925c-6e84e2aff3d8.jpeg width="350" height="700">
+</p>
 
 ### Select camera design as SwiftUI or Storyboard
 <p align="center">
