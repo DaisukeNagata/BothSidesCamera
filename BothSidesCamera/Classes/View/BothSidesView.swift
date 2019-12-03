@@ -38,6 +38,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
+        // TODO Screen ratio question
+        backCameraVideoPreviewView.frame.size.width = self.frame.width + 15
+        frontCameraVideoPreviewView.frame.size.width = self.frame.width + 15
 
         backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
         frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
