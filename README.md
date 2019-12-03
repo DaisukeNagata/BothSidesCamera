@@ -15,6 +15,17 @@
 - Xcode 11.2.1
 
 ## Version 0.6 ~　Equipped with screenshot function. You can shoot images with the left button, even during video recording, when not recording.
+
+```ruby
+Gray button screenshot
+
+White Button is a record button
+
+Blue Button switches camera
+
+Yellow Button is lighting.
+
+```
 <p align="center">
 <img src=https://user-images.githubusercontent.com/16457165/70024317-13a8b280-15dd-11ea-925c-6e84e2aff3d8.jpeg width="350" height="700">
 </p>
