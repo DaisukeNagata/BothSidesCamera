@@ -59,6 +59,11 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
+    
+    public func screenShot(call: @escaping() -> Void) {
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        aModel.screenShot(call: call)
+    }
 
     public func cameraStop() {
         guard let session = aVCaptureMultiCamViewModel?.session else {
@@ -166,17 +171,16 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
-        
-        updateNormalizedPiPFrame()
+
         UIView.animate(withDuration: 0.5) {
             switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
                 self.frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             case .back:
                 self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-            default:
-                break
+            default: break
             }
+            self.updateNormalizedPiPFrame()
         }
     }
 

@@ -206,3 +206,32 @@ extension BothSidesMultiCamSessionModel {
         return backCameraTransform
     }
 }
+
+extension BothSidesMultiCamSessionModel {
+
+    func screenShot(call: @escaping () -> Void) {
+        movieRecorder?.screenShot { movieURL in
+
+            var orientation = UIImage.Orientation(rawValue: 0)
+            if UIDevice.current.orientation.isPortrait == true {
+                orientation = UIImage.Orientation.up
+            } else {
+                orientation = UIImage.Orientation.right
+            }
+
+            let asset = AVURLAsset(url: movieURL, options: nil)
+            let lastFrameSeconds: Float64 = CMTimeGetSeconds(asset.duration)
+            let capturingTime: CMTime = CMTimeMakeWithSeconds(lastFrameSeconds * asset.duration.seconds, preferredTimescale: 1)
+            let imageGenerator: AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
+            do {
+                let cgImage: CGImage = try imageGenerator.copyCGImage(at: capturingTime, actualTime: nil)
+                let uiImage = UIImage(cgImage: cgImage, scale: 0, orientation: orientation!)
+                //Save it to the camera roll
+                UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
+                call()
+            } catch {
+                print("not save it to the camera roll,\(error)")
+            }
+        }
+    }
+}
