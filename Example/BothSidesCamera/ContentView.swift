@@ -25,12 +25,6 @@ struct ContentView: View {
         VStack {
             bView
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            
-            Picker("Numbers", selection: $selectorIndex) {
-                ForEach(0 ..< self.numbers.count) { index in
-                    Text( self.numbers[index]).tag(index)
-                }
-            }.pickerStyle(SegmentedPickerStyle())
 
             HStack {
                 Button(
@@ -44,7 +38,10 @@ struct ContentView: View {
                             .background(Color.gray)
                             .clipShape(Circle())
                 }
-                ).padding(.trailing, margin).padding(.top, margin/10).alert(isPresented: $model.showingAlert) {
+                ).padding(.top, margin/10)
+                    .padding(.leading, margin/10)
+                    .padding(.trailing, margin/10)
+                    .alert(isPresented: $model.showingAlert) {
                     Alert(title: Text("Save Screen"))
                 }
 
@@ -61,11 +58,30 @@ struct ContentView: View {
                             .background(didTap ? Color.red : Color.white)
                             .clipShape(Circle())
                 }
-                ).padding(.top, margin/10)
+                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
 
                 Button(
                     action: {
-                        self.bView.flash()
+                        if self.selectorIndex == 0 {
+                            self.selectorIndex = 1
+                        } else {
+                            self.selectorIndex = 0
+                        }
+                        _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+                },
+                    label: {
+                        Image(systemName: .init())
+                            .frame(width: margin/2, height: margin/2)
+                            .imageScale(.large)
+                            .background(Color.blue)
+                            .clipShape(Circle())
+                }
+                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
+                
+                Button(
+                    action: {
+                        
+                         self.bView.flash()
                 },
                     label: {
                         Image(systemName: .init())
@@ -74,18 +90,13 @@ struct ContentView: View {
                             .background(Color.yellow)
                             .clipShape(Circle())
                 }
-                ).padding(.leading, margin).padding(.top, margin/10)
-
-                if self.didTap == true {
-                    self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-                }
+                ).padding(.top, margin/10).padding(.leading, margin/10).padding(.trailing, margin/10)
 
             }.onAppear {
                 self.model.contentView = self
                 self.model.bothSidesView = self.bView
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
-                self.bView.cameraStart()
             }
         }
     }
@@ -113,9 +124,7 @@ struct SidesView: UIViewRepresentable {
         return nil
     }
 
-    func saveBtn() {
-        orientationModel?.showingAlert = true
-    }
+    func saveBtn() { orientationModel?.showingAlert = true }
 
     func flash() { bothSidesView.pushFlash() }
     
