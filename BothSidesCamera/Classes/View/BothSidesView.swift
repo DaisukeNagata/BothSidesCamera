@@ -62,7 +62,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     
     public func screenShot(call: @escaping() -> Void) {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        aModel.screenShot(call: call)
+        aModel.screenShot(call: call, orientation: orientation)
     }
 
     public func cameraStop() {

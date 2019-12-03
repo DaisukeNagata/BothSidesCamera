@@ -56,7 +56,7 @@ final class BothSidesMultiCamViewModel: NSObject {
                               fronticrophoneDataOutput: frontMicrophoneAudioDataOutput)
     }
     
-    func screenShot(call: @escaping() -> Void) { aModel?.screenShot(call: call) }
+    func screenShot(call: @escaping() -> Void, orientation: UIInterfaceOrientation) { aModel?.screenShot(call: call, orientation: orientation) }
 
     func changeDviceType() {
         guard let backDeviceInput = backDeviceInput else {
