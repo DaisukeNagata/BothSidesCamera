@@ -73,7 +73,7 @@ struct ContentView: View {
                 },
                     label: {
                         Image(systemName: .init())
-                            .frame(width: margin/2, height: margin/2)
+                            .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.blue)
                             .clipShape(Circle())
