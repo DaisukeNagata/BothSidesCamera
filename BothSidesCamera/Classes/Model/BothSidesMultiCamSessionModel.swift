@@ -213,7 +213,12 @@ extension BothSidesMultiCamSessionModel {
         movieRecorder?.screenShot { movieURL in
 
             var orientation = UIImage.Orientation(rawValue: 0)
+
             if UIDevice.current.orientation.isPortrait == true {
+                orientation = UIImage.Orientation.up
+            } else if UIDevice.current.orientation.isFlat == true && UIDevice.current.orientation.isPortrait == true{
+                orientation = UIImage.Orientation.right
+            } else if UIDevice.current.orientation.isFlat == false && UIDevice.current.orientation.isPortrait == false{
                 orientation = UIImage.Orientation.up
             } else {
                 orientation = UIImage.Orientation.right
