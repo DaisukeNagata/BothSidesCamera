@@ -85,6 +85,7 @@ struct ContentView: View {
                 self.model.bothSidesView = self.bView
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+                self.bView.cameraStart()
             }
         }
     }
