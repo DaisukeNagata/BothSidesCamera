@@ -30,10 +30,6 @@ Yellow Button is lighting.
 <img src=https://user-images.githubusercontent.com/16457165/70024317-13a8b280-15dd-11ea-925c-6e84e2aff3d8.jpeg width="350" height="700">
 </p>
 
-### Select camera design as SwiftUI or Storyboard
-<p align="center">
-<img src=https://user-images.githubusercontent.com/16457165/69897887-3fd1f280-1395-11ea-9016-6127f0b3cadb.png width="350" height="700">
-</p>
 
 ## Action
 <p align="center">
