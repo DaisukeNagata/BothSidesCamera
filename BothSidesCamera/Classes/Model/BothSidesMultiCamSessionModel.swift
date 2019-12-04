@@ -30,6 +30,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
                     frontDataOutput: AVCaptureVideoDataOutput? = nil,
                     backicrophoneDataOutput: AVCaptureAudioDataOutput? = nil,
                     fronticrophoneDataOutput: AVCaptureAudioDataOutput? = nil) {
+        reset()
         backCameraVideoDataOutput = backdataOutput
         frontCameraVideoDataOutput = frontDataOutput
         backMicrophoneAudioDataOutput = backicrophoneDataOutput
@@ -40,6 +41,13 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     func recorderSet(bind: ()->()) {
         movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
         bind()
+    }
+    
+    private func reset() {
+        backCameraVideoDataOutput = nil
+        frontCameraVideoDataOutput = nil
+        backMicrophoneAudioDataOutput = nil
+        frontMicrophoneAudioDataOutput = nil
     }
 
     private func processPiPSampleBuffer(_ pipSampleBuffer: CMSampleBuffer) {
