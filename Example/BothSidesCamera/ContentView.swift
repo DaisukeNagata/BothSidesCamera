@@ -124,13 +124,13 @@ struct SidesView: UIViewRepresentable {
         return nil
     }
 
-    func saveBtn() { orientationModel?.showingAlert = true }
-
     func flash() { bothSidesView.pushFlash() }
 
-    func screenShot() { bothSidesView.screenShot(call: saveBtn)}
-
     func cameraStop() { bothSidesView.cameraStop()}
+    
+    func saveBtn() { orientationModel?.showingAlert = true }
+    
+    func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 
     func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
 
