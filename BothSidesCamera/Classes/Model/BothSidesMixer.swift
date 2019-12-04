@@ -62,14 +62,6 @@ final class BothSidesMixer {
         isPrepared = true
     }
 
-    func reset() {
-        outputPixelBufferPool = nil
-        outputFormatDescription = nil
-        inputFormatDescription = nil
-        textureCache = nil
-        isPrepared = false
-    }
-
     struct MixerParameters {
         var pipPosition: SIMD2<Float>
         var pipSize: SIMD2<Float>
@@ -120,6 +112,14 @@ final class BothSidesMixer {
         commandBuffer.commit()
 
         return outputPixelBuffer
+    }
+    
+    private func reset() {
+        outputPixelBufferPool = nil
+        outputFormatDescription = nil
+        inputFormatDescription = nil
+        textureCache = nil
+        isPrepared = false
     }
 
     private func makeTextureFromCVPixelBuffer(pixelBuffer: CVPixelBuffer?) -> MTLTexture? {
