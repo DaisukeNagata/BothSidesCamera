@@ -269,4 +269,3 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         updateNormalizedPiPFrame()
     }
 }
-
