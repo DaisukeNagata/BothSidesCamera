@@ -132,7 +132,7 @@ struct SidesView: UIViewRepresentable {
     
     func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 
-    func cameraStart() { bothSidesView.cameraStart(completion: saveBtn) }
+    func cameraStart() { bothSidesView.cameraMixStart(completion: saveBtn) }
 
     func updateUIView(_ bView: BothSidesView, context: Context) { bothSidesView = bView }
 

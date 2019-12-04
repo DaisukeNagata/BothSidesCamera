@@ -76,7 +76,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         session.stopRunning()
     }
 
-    public func cameraStart(completion: @escaping() -> Void) {
+    public func cameraMixStart(completion: @escaping() -> Void) {
 
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
