@@ -13,8 +13,8 @@ struct ContentView: View {
 
     @State var bView = SidesView()
     @State var didTap: Bool = false
+    @State var selectorIndex = 0
 
-    @State private var selectorIndex = 0
     @State private var margin: CGFloat = 10
 
     @EnvironmentObject var model: OrientationModel
@@ -142,15 +142,22 @@ struct SidesView: UIViewRepresentable {
 
     func cameraStop() { bothSidesView.cameraStop()}
     
-    func saveBtn() { orientationModel?.showingAlert = true }
+    func saveBtn() {
+//        orientationModel?.showingAlert = true
+        
+    }
     
-    func sameRatioFlg() {bothSidesView.sameRatioFlg{}}
+    func sameRatioFlg() {bothSidesView.sameRatioFlg()}
     
     func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 
     func cameraStart() { bothSidesView.cameraMixStart(completion: saveBtn) }
 
-    func updateUIView(_ bView: BothSidesView, context: Context) { bothSidesView = bView }
+    func updateUIView(_ bView: BothSidesView, context: Context)
+    {
+//        bothSidesView = bView
+        
+    }
 
     func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView { return  bothSidesView }
 
@@ -187,6 +194,7 @@ final class OrientationModel: ObservableObject {
         guard let contentView = contentView ,let bothSidesView = bothSidesView else { return }
         contentView.didTap = false
         bothSidesView.cameraStop()
+        _ = bothSidesView.changeDviceType(bothSidesView.bothSidesView,numbers: contentView.selectorIndex)
     }
 
 }
