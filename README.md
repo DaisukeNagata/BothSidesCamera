@@ -15,7 +15,9 @@
 - Xcode 11.2.1
 
 ## Version 0.7 Preview screen with the same ratio and recording function 
-https://user-images.githubusercontent.com/16457165/70241701-d007a180-17b2-11ea-8aa4-ebb789200621.gif
+<p align="center">
+<img src=https://user-images.githubusercontent.com/16457165/70241701-d007a180-17b2-11ea-8aa4-ebb789200621.gif width="350" height="700">
+</p>
 
 ## Version 0.6 ~　Equipped with screenshot function. You can shoot images with the left button, even during video recording, when not recording.
 
