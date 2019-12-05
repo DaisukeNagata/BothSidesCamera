@@ -49,7 +49,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
-        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.4, y: 0.4)
+        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         frontCameraVideoPreviewView.frame.origin.y -= UINavigationController.init().navigationBar.frame.height
         aVCaptureMultiCamViewModel?.configureMicrophone()
 
@@ -117,7 +117,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
     }
 
-    //TODO: orientation.isPortrait only 
+    //TODO: orientation.isPortrait only
     private func sameBothViewSetting() {
         if orientation.isPortrait {
             if let recognizers = gestureView.gestureRecognizers {
@@ -288,7 +288,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 frontCameraVideoPreviewView.frame = self.frame
                 backCameraVideoPreviewView.frame = self.frame
                 frontCameraVideoPreviewView.frame.size.width = self.frame.width + 15
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.4, y: 0.4)
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
                 self.bringSubviewToFront(backCameraVideoPreviewView)
                 initSetting(backCameraVideoPreviewView)
@@ -297,7 +297,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 backCameraVideoPreviewView.frame = self.frame
                 frontCameraVideoPreviewView.frame = self.frame
                 backCameraVideoPreviewView.frame.size.width = self.frame.width + 15
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.4, y: 0.4)
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
                 self.bringSubviewToFront(frontCameraVideoPreviewView)
                 initSetting(frontCameraVideoPreviewView)
@@ -311,7 +311,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 backCameraVideoPreviewView.frame = self.frame
                 frontCameraVideoPreviewView.frame.size.width = self.frame.width + 15
                 backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.4, y: 0.4)
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
                 self.bringSubviewToFront(backCameraVideoPreviewView)
                 initSetting(backCameraVideoPreviewView)
@@ -321,7 +321,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 frontCameraVideoPreviewView.frame = self.frame
                 backCameraVideoPreviewView.frame.size.width = self.frame.width + 15
                 frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.4, y: 0.4)
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
                 self.bringSubviewToFront(frontCameraVideoPreviewView)
                 initSetting(frontCameraVideoPreviewView)
