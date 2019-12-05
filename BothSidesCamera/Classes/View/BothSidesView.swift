@@ -155,30 +155,39 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func oriantation(_ bind: ()->()) {
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition  {
-        case .front:
-            self.bringSubviewToFront(frontCameraVideoPreviewView)
-            if orientation.isPortrait {
-                self.frame = UIScreen.main.bounds
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
-                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-            } else {
-                self.frame = UIScreen.main.bounds
-                backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        if aModel.sameRatio == true {
+            if self.transform == CGAffineTransform(rotationAngle: CGFloat.pi/180*1) {
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-            }
-        case .back:
-            self.bringSubviewToFront(backCameraVideoPreviewView)
-            if orientation.isPortrait {
-                self.frame = UIScreen.main.bounds
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
-                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
             } else {
-                self.frame = UIScreen.main.bounds
-                frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
             }
-        default: break
+        } else {
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition  {
+            case .front:
+                self.bringSubviewToFront(frontCameraVideoPreviewView)
+                if orientation.isPortrait {
+                    self.frame = UIScreen.main.bounds
+                    transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                    backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                } else {
+                    self.frame = UIScreen.main.bounds
+                    backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                    self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                }
+            case .back:
+                self.bringSubviewToFront(backCameraVideoPreviewView)
+                if orientation.isPortrait {
+                    self.frame = UIScreen.main.bounds
+                    transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*1)
+                    frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                } else {
+                    self.frame = UIScreen.main.bounds
+                    frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+                    self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+                }
+            default: break
+            }
         }
         bind()
     }
