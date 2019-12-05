@@ -18,10 +18,10 @@ struct MixerParameters
 constant sampler kBilinearSampler(filter::linear,  coord::pixel, address::clamp_to_edge);
 
 // Compute kernel
-kernel void reporterMixer(texture2d<half, access::read>        fullScreenInput        [[ texture(0) ]],
-                          texture2d<half, access::sample>    pipInput            [[ texture(1) ]],
-                          texture2d<half, access::write>    outputTexture        [[ texture(2) ]],
-                          const device    MixerParameters&    mixerParameters        [[ buffer(0) ]],
+kernel void reporterMixer(texture2d<half, access::read>      newfullScreenTexture       [[ texture(0) ]],
+                          texture2d<half, access::sample>    pipInput                   [[ texture(1) ]],
+                          texture2d<half, access::write>     outputTexture              [[ texture(2) ]],
+                          const device    MixerParameters&   mixerParameters            [[ buffer(0) ]],
                           uint2 gid [[thread_position_in_grid]])
 
 {
@@ -40,9 +40,8 @@ kernel void reporterMixer(texture2d<half, access::read>        fullScreenInput  
     }
     else
     {
-        output = fullScreenInput.read(gid);
+        output = newfullScreenTexture.read(gid);
     }
 
     outputTexture.write(output, gid);
 }
-

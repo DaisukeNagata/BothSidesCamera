@@ -12,8 +12,11 @@ import CoreVideo
 final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
+    
+    let imageView = UIImageView()
 
-    private(set) var isPrepared              = false
+    private var margin: CGFloat              = 0
+    private (set) var isPrepared             = false
     private let metalDevice                  = MTLCreateSystemDefaultDevice()
     private var fullRangeVertexBuffer        : MTLBuffer?
     private var outputPixelBufferPool        : CVPixelBufferPool?
@@ -67,7 +70,9 @@ final class BothSidesMixer {
         var pipSize: SIMD2<Float>
     }
 
-    func mix(fullScreenPixelBuffer: CVPixelBuffer, pipPixelBuffer: CVPixelBuffer, fullScreenPixelBufferIsFrontCamera: Bool) -> CVPixelBuffer? {
+    func mix(fullScreenPixelBuffer: CVPixelBuffer,
+             pipPixelBuffer: CVPixelBuffer,
+             _ sameRatio: Bool) -> CVPixelBuffer? {
         guard let outputPixelBufferPool = outputPixelBufferPool else { return nil }
 
         var newPixelBuffer: CVPixelBuffer?
@@ -75,17 +80,45 @@ final class BothSidesMixer {
 
         let outputPixelBuffer = newPixelBuffer
         let outputTexture = makeTextureFromCVPixelBuffer(pixelBuffer: outputPixelBuffer)
-
-        guard let fullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: fullScreenPixelBuffer) else { return nil}
+        guard var fullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: fullScreenPixelBuffer) else { return nil}
         guard let pipTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pipPixelBuffer) else { return nil}
-
-        let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
+    
+        if sameRatio == true {
+            var pixelBuffer:CVPixelBuffer?
+            let options = [
+                kCVPixelBufferCGImageCompatibilityKey as String: true,
+                kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
+                kCVPixelBufferIOSurfacePropertiesKey as String: [:]
+                ] as [String : Any]
+            
+            let dummy = CVPixelBufferCreate(kCFAllocatorDefault,
+                                            Int(fullScreenTexture.width),
+                                            Int(fullScreenTexture.height),
+                                            kCVPixelFormatType_32BGRA,
+                                            options as CFDictionary,
+                                            &pixelBuffer)
+            
+            if (dummy == kCVReturnSuccess && pixelBuffer != nil) {
+                let ciContext = CIContext()
+                let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 0))
+                let colorSpace = CGColorSpaceCreateDeviceRGB()
+                ciContext.render(inputImage, to: pixelBuffer!, bounds: inputImage.extent, colorSpace: colorSpace)
+                guard let newfullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pixelBuffer) else { return nil}
+                margin = 15
+                fullScreenTexture = newfullScreenTexture
+            }
+        } else {
+            margin = 0
+        }
+        
+        let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y-margin) * Float(fullScreenTexture.height))
         let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
         var parameters = MixerParameters(pipPosition: pipPosition, pipSize: pipSize)
 
         guard let commandQueue = commandQueue,
             let commandBuffer = commandQueue.makeCommandBuffer(),
             let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
+
             let computePipelineState = computePipelineState else {
                 print("BothSidesMixer_computePipelineState")
 

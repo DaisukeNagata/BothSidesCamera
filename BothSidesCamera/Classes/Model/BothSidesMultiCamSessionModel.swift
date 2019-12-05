@@ -14,12 +14,13 @@ final class BothSidesMultiCamSessionModel: NSObject, AVCaptureAudioDataOutputSam
 AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     var normalizedPipFrame                       = CGRect.zero
+    var videoMixer                               = BothSidesMixer()
     var movieRecorder                            : BothSidesRecorder?
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
-    var videoMixer                               = BothSidesMixer()
-
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
+
+    private var sameRatio                        = false
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
     private var backMicrophoneAudioDataOutput    : AVCaptureAudioDataOutput?
@@ -42,7 +43,12 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
         bind()
     }
-    
+
+    func sameRatioFlg () -> Bool {
+        sameRatio = sameRatio ? false : true
+        return sameRatio
+    }
+
     private func reset() {
         backCameraVideoDataOutput = nil
         frontCameraVideoDataOutput = nil
@@ -54,7 +60,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         currentPiPSampleBuffer = pipSampleBuffer
     }
 
-    private func processFullScreenSampleBuffer(_ fullScreenSampleBuffer: CMSampleBuffer) {
+    private func processFullScreenSampleBuffer(_ fullScreenSampleBuffer: CMSampleBuffer, _ sameRatio: Bool) {
         guard let fullScreenPixelBuffer = CMSampleBufferGetImageBuffer(fullScreenSampleBuffer),
             let formatDescription = CMSampleBufferGetFormatDescription(fullScreenSampleBuffer) else {
                 print("AVCaptureMultiCamSessionModel_formatDescription")
@@ -72,7 +78,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         videoMixer.pipFrame = normalizedPipFrame
         guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
                                                     pipPixelBuffer: pipPixelBuffer,
-                                                    fullScreenPixelBufferIsFrontCamera: pipDevicePosition == .back) else {
+                                                    sameRatio) else {
                                                         print("AVCaptureMultiCamSessionModel_mixedPixelBuffer")
                                                         return
         }
@@ -134,7 +140,7 @@ extension BothSidesMultiCamSessionModel {
         default: break
         }
 
-        if let fullScreenSampleBuffer = fullScreenSampleBuffer { processFullScreenSampleBuffer(fullScreenSampleBuffer) }
+        if let fullScreenSampleBuffer = fullScreenSampleBuffer { processFullScreenSampleBuffer(fullScreenSampleBuffer, sameRatio) }
 
         if let pipSampleBuffer = pipSampleBuffer { processPiPSampleBuffer(pipSampleBuffer) }
     }
