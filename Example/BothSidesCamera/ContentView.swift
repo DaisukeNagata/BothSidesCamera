@@ -30,7 +30,7 @@ struct ContentView: View {
                         self.bView.screenShot()
                 },
                     label: {
-                        Image(systemName: .init())
+                        Text("")
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.gray)
@@ -49,7 +49,7 @@ struct ContentView: View {
                         self.bView.cameraStart()
                 },
                     label: {
-                        Image(systemName: .init())
+                        Text("")
                             .padding(margin)
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
@@ -67,7 +67,7 @@ struct ContentView: View {
                         _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
                 },
                     label: {
-                        Image(systemName: .init())
+                        Text("")
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.blue)
@@ -82,7 +82,7 @@ struct ContentView: View {
                          self.bView.sameRatioFlg()
                 },
                     label: {
-                        Image(systemName: .init())
+                        Text("")
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.purple)
@@ -97,7 +97,7 @@ struct ContentView: View {
                          self.bView.flash()
                 },
                     label: {
-                        Image(systemName: .init())
+                        Text("")
                             .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .background(Color.yellow)
@@ -143,8 +143,9 @@ struct SidesView: UIViewRepresentable {
     func cameraStop() { bothSidesView.cameraStop()}
     
     func saveBtn() {
-//        orientationModel?.showingAlert = true
-        
+        DispatchQueue.main.async {
+            self.orientationModel?.showingAlert = true
+        }
     }
     
     func sameRatioFlg() {bothSidesView.sameRatioFlg()}
@@ -153,10 +154,11 @@ struct SidesView: UIViewRepresentable {
 
     func cameraStart() { bothSidesView.cameraMixStart(completion: saveBtn) }
 
-    func updateUIView(_ bView: BothSidesView, context: Context)
-    {
-//        bothSidesView = bView
-        
+    // Modifying state during view update, this will cause undefined behavior.  bothSidesView = bView
+    func updateUIView(_ bView: BothSidesView, context: Context) {
+        DispatchQueue.main.async {
+            self.bothSidesView = bView
+        }
     }
 
     func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView { return  bothSidesView }
