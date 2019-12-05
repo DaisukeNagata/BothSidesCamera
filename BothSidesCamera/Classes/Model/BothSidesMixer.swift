@@ -71,7 +71,7 @@ final class BothSidesMixer {
     }
 
     // Fixed with memory measures
-    func getSMtlize(mtl: MTLTexture, sameRatio: Bool) {
+    func getMtlSize(mtl: MTLTexture, sameRatio: Bool) {
         if sameRatio == true && pixelBuffer == nil {
             let options = [
                 kCVPixelBufferCGImageCompatibilityKey as String: true,
@@ -103,7 +103,7 @@ final class BothSidesMixer {
 
         if sameRatio == true {
             // Fixed with memory measures
-            getSMtlize(mtl: fullScreenTexture,sameRatio: sameRatio)
+            getMtlSize(mtl: fullScreenTexture,sameRatio: sameRatio)
             
             if (cvRetrun == kCVReturnSuccess && pixelBuffer != nil) {
                 let ciContext = CIContext()
