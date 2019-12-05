@@ -76,10 +76,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aModel.screenShot(call: call, orientation: orientation)
     }
     
-    public func sameRatioFlg(call: @escaping() -> Void) {
+    public func sameRatioFlg() {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        sameBothViewSetting(flg: aModel.sameRatioFlg())
-        call()
+        aModel.sameRatioFlg()
+        sameBothViewSetting()
     }
 
     public func cameraMixStart(completion: @escaping() -> Void) {
@@ -117,16 +117,19 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
     }
 
-    private func sameBothViewSetting(flg: Bool) {
+    private func sameBothViewSetting() {
         if let recognizers = gestureView.gestureRecognizers {
             for recognizer in recognizers {
                 gestureView.removeGestureRecognizer(recognizer)
             }
         }
-        if flg == true {
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        if aModel.sameRatio == true {
             if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                 frontCameraVideoPreviewView.transform = .identity
+                backCameraVideoPreviewView.transform = .identity
                 frontCameraVideoPreviewView.frame = self.frame
+                backCameraVideoPreviewView.frame = self.frame
                 
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
                 frontCameraVideoPreviewView.frame.origin.y = 0
@@ -227,7 +230,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             default: break
             }
-            self.updateNormalizedPiPFrame()
+            self.updateNormalizedPiPFrame(false)
         }
     }
 
@@ -236,7 +239,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         switch sender.state {
         case .changed:
-            updateNormalizedPiPFrame()
+            updateNormalizedPiPFrame(false)
             if orientation.isPortrait {
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                     frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
@@ -316,6 +319,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
-        updateNormalizedPiPFrame()
+        updateNormalizedPiPFrame(false)
     }
 }

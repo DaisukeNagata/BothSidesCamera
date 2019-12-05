@@ -79,7 +79,21 @@ struct ContentView: View {
 
                 Button(
                     action: {
-                        
+                         self.bView.sameRatioFlg()
+                },
+                    label: {
+                        Image(systemName: .init())
+                            .frame(width: 50, height: 50)
+                            .imageScale(.large)
+                            .background(Color.purple)
+                            .clipShape(Circle())
+                }
+                ).padding(.top, margin)
+                    .padding(.leading, margin)
+                    .padding(.trailing, margin)
+
+                Button(
+                    action: {
                          self.bView.flash()
                 },
                     label: {
@@ -129,6 +143,8 @@ struct SidesView: UIViewRepresentable {
     func cameraStop() { bothSidesView.cameraStop()}
     
     func saveBtn() { orientationModel?.showingAlert = true }
+    
+    func sameRatioFlg() {bothSidesView.sameRatioFlg{}}
     
     func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 

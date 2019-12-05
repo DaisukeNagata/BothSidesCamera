@@ -19,8 +19,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
+    var sameRatio                                = false
 
-    private var sameRatio                        = false
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
     private var backMicrophoneAudioDataOutput    : AVCaptureAudioDataOutput?
@@ -44,9 +44,12 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         bind()
     }
 
-    func sameRatioFlg () -> Bool {
-        sameRatio = sameRatio ? false : true
-        return sameRatio
+    func sameRatioFlg () {
+        if sameRatio == false {
+            sameRatio = true
+        } else {
+            sameRatio = false
+        }
     }
 
     private func reset() {
