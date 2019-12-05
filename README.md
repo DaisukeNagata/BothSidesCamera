@@ -14,9 +14,9 @@
 - iOS 13.2+
 - Xcode 11.2.1
 
-## Version 0.7 Preview screen with the same ratio and recording function 
+## Version 0.7 ~ Preview screen with the same ratio and recording function 
 <p align="center">
-<img src=https://user-images.githubusercontent.com/16457165/70241701-d007a180-17b2-11ea-8aa4-ebb789200621.gif width="350" height="700">
+<img src=hhttps://user-images.githubusercontent.com/16457165/70255233-c63d6880-17c9-11ea-84c1-e0cae2fedb2c.gif>
 </p>
 
 ## Version 0.6 ~　Equipped with screenshot function. You can shoot images with the left button, even during video recording, when not recording.
@@ -33,12 +33,6 @@ Yellow Button is lighting.
 ```
 <p align="center">
 <img src=https://user-images.githubusercontent.com/16457165/70024317-13a8b280-15dd-11ea-925c-6e84e2aff3d8.jpeg width="350" height="700">
-</p>
-
-
-## Action
-<p align="center">
-<img src=https://user-images.githubusercontent.com/16457165/69488327-5070fd00-0eab-11ea-841f-08cf82e95971.gif>
 </p>
 
 ## Function
