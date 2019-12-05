@@ -117,40 +117,43 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
     }
 
+    //TODO: orientation.isPortrait only 
     private func sameBothViewSetting() {
-        if let recognizers = gestureView.gestureRecognizers {
-            for recognizer in recognizers {
-                gestureView.removeGestureRecognizer(recognizer)
+        if orientation.isPortrait {
+            if let recognizers = gestureView.gestureRecognizers {
+                for recognizer in recognizers {
+                    gestureView.removeGestureRecognizer(recognizer)
+                }
             }
-        }
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        if aModel.sameRatio == true {
-            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                frontCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = self.frame
-                backCameraVideoPreviewView.frame = self.frame
-                
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-                frontCameraVideoPreviewView.frame.origin.y = 0
-                
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-                backCameraVideoPreviewView.frame.origin.y = self.frame.height/2
+            guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+            if aModel.sameRatio == true {
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    frontCameraVideoPreviewView.transform = .identity
+                    backCameraVideoPreviewView.transform = .identity
+                    frontCameraVideoPreviewView.frame = self.frame
+                    backCameraVideoPreviewView.frame = self.frame
+                    
+                    frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+                    frontCameraVideoPreviewView.frame.origin.y = 0
+                    
+                    backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+                    backCameraVideoPreviewView.frame.origin.y = self.frame.height/2
+                } else {
+                    frontCameraVideoPreviewView.transform = .identity
+                    backCameraVideoPreviewView.transform = .identity
+                    frontCameraVideoPreviewView.frame = self.frame
+                    backCameraVideoPreviewView.frame = self.frame
+                    
+                    frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+                    frontCameraVideoPreviewView.frame.origin.y = self.frame.height/2
+                    
+                    backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+                    backCameraVideoPreviewView.frame.origin.y = 0
+                }
+                updateNormalizedPiPFrame(true)
             } else {
-                frontCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = self.frame
-                backCameraVideoPreviewView.frame = self.frame
-                
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-                frontCameraVideoPreviewView.frame.origin.y = self.frame.height/2
-                
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-                backCameraVideoPreviewView.frame.origin.y = 0
+                tapped()
             }
-            updateNormalizedPiPFrame(true)
-        } else {
-            tapped()
         }
     }
 
