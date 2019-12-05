@@ -14,7 +14,7 @@ public class BothSidesPreviewView: UIView {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
             fatalError("Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation.")
         }
-        layer.videoGravity = .resizeAspect
+        layer.videoGravity = .resizeAspectFill
         return layer
     }
     public override class var layerClass: AnyClass {
