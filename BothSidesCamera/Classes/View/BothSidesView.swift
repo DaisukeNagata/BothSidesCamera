@@ -149,7 +149,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
-        updateNormalizedPiPFrame(false)
     }
 
     // TODO Screen ratio question
