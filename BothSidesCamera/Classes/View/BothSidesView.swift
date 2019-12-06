@@ -120,10 +120,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     //TODO: orientation.isPortrait only
     private func sameBothViewSetting() {
-        if let recognizers = gestureView.gestureRecognizers {
-            for recognizer in recognizers {
-                gestureView.removeGestureRecognizer(recognizer)
-            }
+        if let recognizers = gestureView.gestureRecognizers,
+            let frontrecognizers = frontCameraVideoPreviewView.gestureRecognizers,
+            let backrecognizers = backCameraVideoPreviewView.gestureRecognizers {
+            for recognizer in recognizers { gestureView.removeGestureRecognizer(recognizer)}
+            for frontrecognizers in frontrecognizers { frontCameraVideoPreviewView.removeGestureRecognizer(frontrecognizers) }
+            for backrecognizers in backrecognizers { backCameraVideoPreviewView.removeGestureRecognizer(backrecognizers) }
         }
         if orientation.isPortrait {
             guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
@@ -317,8 +319,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     @objc private func tapped() { tappedLogic() }
 
     private func tappedLogic() {
-        tapPanGesture = nil
-        pinchGesture = nil
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
