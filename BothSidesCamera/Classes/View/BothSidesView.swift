@@ -112,6 +112,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.changeDviceType()
         updateNormalizedPiPFrame(false)
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+        backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
         // TODO Screen ratio question
         self.frame = UIScreen.main.bounds
         transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
@@ -119,12 +120,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     //TODO: orientation.isPortrait only
     private func sameBothViewSetting() {
-        if orientation.isPortrait {
-            if let recognizers = gestureView.gestureRecognizers {
-                for recognizer in recognizers {
-                    gestureView.removeGestureRecognizer(recognizer)
-                }
+        if let recognizers = gestureView.gestureRecognizers {
+            for recognizer in recognizers {
+                gestureView.removeGestureRecognizer(recognizer)
             }
+        }
+        if orientation.isPortrait {
             guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
             if aModel.sameRatio == true {
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
@@ -216,10 +217,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 if orientation.isPortrait {
                     self.frame = UIScreen.main.bounds
                     transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-                    backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 } else {
                     self.frame = UIScreen.main.bounds
-                    backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                     self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
                 }
             case .back:
@@ -227,10 +226,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 if orientation.isPortrait {
                     self.frame = UIScreen.main.bounds
                     transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-                    frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                 } else {
                     self.frame = UIScreen.main.bounds
-                    frontCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
                     self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
                 }
             default: break
