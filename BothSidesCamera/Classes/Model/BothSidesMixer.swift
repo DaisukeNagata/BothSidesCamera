@@ -13,7 +13,6 @@ final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
 
-    private var margin: CGFloat              = 0
     private (set) var isPrepared             = false
     private var pixelBuffer                  :CVPixelBuffer?
     private var cvRetrun                     :CVReturn?
@@ -104,22 +103,20 @@ final class BothSidesMixer {
         if sameRatio == true {
             // Fixed with memory measures
             getMtlSize(mtl: fullScreenTexture,sameRatio: sameRatio)
-            
-            if (cvRetrun == kCVReturnSuccess && pixelBuffer != nil) {
+
+            if cvRetrun == kCVReturnSuccess {
+                guard let pixelBuffer = pixelBuffer else { return nil }
                 let ciContext = CIContext()
-                let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 0))
+                let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 15))
                 let colorSpace = CGColorSpaceCreateDeviceRGB()
-                ciContext.render(inputImage, to: pixelBuffer!, bounds: inputImage.extent, colorSpace: colorSpace)
+                ciContext.render(inputImage, to: pixelBuffer, bounds: inputImage.extent, colorSpace: colorSpace)
 
                 guard let newfullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pixelBuffer) else { return nil}
-                margin = 15
                 fullScreenTexture = newfullScreenTexture
             }
-        } else {
-            margin = 0
         }
 
-        let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y-margin) * Float(fullScreenTexture.height))
+        let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
         let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
         var parameters = MixerParameters(pipPosition: pipPosition, pipSize: pipSize)
 
