@@ -196,7 +196,9 @@ final class OrientationModel: ObservableObject {
         guard let contentView = contentView ,let bothSidesView = bothSidesView else { return }
         contentView.didTap = false
         bothSidesView.cameraStop()
-        _ = bothSidesView.changeDviceType(bothSidesView.bothSidesView,numbers: contentView.selectorIndex)
+        bothSidesView.bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
+        frontDeviceType: .builtInWideAngleCamera)
+
     }
 
 }
