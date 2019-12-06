@@ -36,6 +36,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         backCameraVideoPreviewView.frame = self.frame
         frontCameraVideoPreviewView.frame = self.frame
 
+        backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
         
@@ -110,9 +112,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                              frontDeviceType: AVCaptureDevice.DeviceType) {
 
         aVCaptureMultiCamViewModel?.changeDviceType()
-        updateNormalizedPiPFrame(false)
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        updateNormalizedPiPFrame(aModel.sameRatio )
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-        backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
         // TODO Screen ratio question
         self.frame = UIScreen.main.bounds
         transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
