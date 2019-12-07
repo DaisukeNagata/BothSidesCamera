@@ -139,11 +139,7 @@ final class BothSidesMixer {
         let ciContext = CIContext()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let inputImage = CIImage(cvImageBuffer: pipMargin, options: nil)
-        if orientation.isPortrait == true {
-            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.x), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
-        } else {
-            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.y), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
-        }
+        ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.x), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
         guard let pipMarginTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pipMargin) else { return nil}
 
         guard let commandQueue = commandQueue,
@@ -176,6 +172,7 @@ final class BothSidesMixer {
         commandEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
+        self.pipMargin = nil
 
         return outputPixelBuffer
     }
