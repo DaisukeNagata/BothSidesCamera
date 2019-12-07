@@ -19,8 +19,9 @@ constant sampler kBilinearSampler(filter::linear,  coord::pixel, address::clamp_
 
 // Compute kernel
 kernel void reporterMixer(texture2d<half, access::read>      newfullScreenTexture       [[ texture(0) ]],
-                          texture2d<half, access::sample>    pipInput                   [[ texture(1) ]],
-                          texture2d<half, access::write>     outputTexture              [[ texture(2) ]],
+                          texture2d<half, access::sample>    pipMargin                  [[ texture(1) ]],
+                          texture2d<half, access::sample>    pipInput                   [[ texture(2) ]],
+                          texture2d<half, access::write>     outputTexture              [[ texture(3) ]],
                           const device    MixerParameters&   mixerParameters            [[ buffer(0) ]],
                           uint2 gid [[thread_position_in_grid]])
 
@@ -36,7 +37,7 @@ kernel void reporterMixer(texture2d<half, access::read>      newfullScreenTextur
     {
         // Position and scale the PIP window
         float2 pipSamplingCoord =  float2(gid - pipPosition) * float2(pipInput.get_width(), pipInput.get_height()) / float2(pipSize);
-        output = pipInput.sample(kBilinearSampler, pipSamplingCoord + 0.5);
+        output = pipInput.sample(kBilinearSampler, pipSamplingCoord + pipMargin.get_height());
     }
     else
     {

@@ -162,8 +162,6 @@ struct SidesView: UIViewRepresentable {
     }
 
     func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView {
-        bothSidesView.backCameraVideoPreviewView.videoPreviewLayer.videoGravity = .resizeAspectFill
-        bothSidesView.frontCameraVideoPreviewView.videoPreviewLayer.videoGravity = .resizeAspectFill
         return  bothSidesView
     }
 
