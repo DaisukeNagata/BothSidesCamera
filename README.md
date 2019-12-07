@@ -16,7 +16,7 @@
 
 ## Version 0.7 ~ Preview screen with the same ratio and recording function 
 <p align="center">
-<img src=https://user-images.githubusercontent.com/16457165/70255233-c63d6880-17c9-11ea-84c1-e0cae2fedb2c.gif>
+<img src=https://user-images.githubusercontent.com/16457165/70306631-b5810700-184a-11ea-88e6-69ced997ddde.gif>
 </p>
 
 ## Version 0.6 ~　Equipped with screenshot function. You can shoot images with the left button, even during video recording, when not recording.
