@@ -32,7 +32,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             return
         }
 
+        // TODO Screen ratio question
         self.frame = UIScreen.main.bounds
+        transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
+
         backCameraVideoPreviewView.frame = self.frame
         frontCameraVideoPreviewView.frame = self.frame
 
@@ -115,9 +118,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
         updateNormalizedPiPFrame(aModel.sameRatio )
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-        // TODO Screen ratio question
-        self.frame = UIScreen.main.bounds
-        transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
     }
 
     //TODO: orientation.isPortrait only
@@ -129,10 +129,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             for recognizer in recognizers { gestureView.removeGestureRecognizer(recognizer)
             }
         }
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        frontCameraVideoPreviewView.frame = self.frame
+        backCameraVideoPreviewView.frame = self.frame
         if orientation.isPortrait {
-            guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-            frontCameraVideoPreviewView.frame = self.frame
-            backCameraVideoPreviewView.frame = self.frame
             if aModel.sameRatio == true {
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
@@ -142,6 +142,32 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 } else {
                     frontCameraVideoPreviewView.frame.origin.y = self.frame.height/2
                     backCameraVideoPreviewView.frame.origin.y = 0
+                }
+                updateNormalizedPiPFrame(true)
+            } else {
+                tapped()
+            }
+        } else {
+            if aModel.sameRatio == true {
+                let window = UIApplication.shared.windows[0]
+                let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+                let safeAreaHlfeight = (window.frame.maxY - safeFrame.maxY)/2
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    frontCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
+                    frontCameraVideoPreviewView.frame.size.height = self.frame.width/2
+                    frontCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
+                    backCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
+                    backCameraVideoPreviewView.frame.origin.y = self.frame.width/2
+                    backCameraVideoPreviewView.frame.size.height = self.frame.width/2
+                    backCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
+                } else {
+                    backCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
+                    backCameraVideoPreviewView.frame.size.height =  self.frame.width/2
+                    backCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
+                    frontCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
+                    frontCameraVideoPreviewView.frame.origin.y = self.frame.width/2
+                    frontCameraVideoPreviewView.frame.size.height = self.frame.width/2
+                    frontCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
                 }
                 updateNormalizedPiPFrame(true)
             } else {
