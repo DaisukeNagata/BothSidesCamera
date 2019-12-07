@@ -212,7 +212,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                     self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
                 case .back:
                     //iPhone Pro11 Bug?
-                    self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+                    self.frontCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
                 default: break
                 }
             default: break
