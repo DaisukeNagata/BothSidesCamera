@@ -130,11 +130,12 @@ struct SidesView: UIViewRepresentable {
                                              frontDeviceType: .builtInWideAngleCamera)
 
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
+        bView.backCameraVideoPreviewView.videoPreviewLayer.videoGravity = .resizeAspectFill
+        bView.frontCameraVideoPreviewView.videoPreviewLayer.videoGravity = .resizeAspectFill
         // Super wide angle compatible
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
-
         return nil
     }
 

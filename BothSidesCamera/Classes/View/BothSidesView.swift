@@ -41,6 +41,13 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         frontCameraVideoPreviewView.frame = self.bounds
 
         backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
+        print(UIScreen.main.nativeBounds.height)
+        switch UIScreen.main.nativeBounds.height {
+            case 2436:
+            //iPhone Pro11 Bug?
+            backCameraVideoPreviewView.frame.size.width = self.bounds.width + 4
+            default: break
+        }
 
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
@@ -194,9 +201,21 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         } else {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
+                switch (UIScreen.main.nativeBounds.width) {
+                    case 2436:
+                    //iPhone Pro11 Bug?
+                    self.frame.size.width += 4
+                    default: break
+                }
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
             } else {
                 self.frame = UIScreen.main.bounds
+                switch (UIScreen.main.nativeBounds.width) {
+                    case 2436:
+                    //iPhone Pro11 Bug?
+                    self.frame.size.width += 4
+                    default: break
+                }
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
         }
@@ -267,18 +286,31 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
-        let position: CGPoint = sender.location(in: self)
-        switch sender.state {
-        case .changed:
-            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                frontCameraVideoPreviewView.center = position
-            } else {
-                backCameraVideoPreviewView.center = position
-            }
-            self.updateNormalizedPiPFrame(false)
-        default: break
-        }
-    }
+           let position: CGPoint = sender.location(in: self)
+           switch sender.state {
+           case .changed:
+               if orientation.isPortrait {
+                   if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                       frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
+                       frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+                   } else {
+                       backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
+                       backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+                   }
+                   self.updateNormalizedPiPFrame(false)
+               } else {
+                   if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                       frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
+                       frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+                   } else {
+                       backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
+                       backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+                   }
+                   self.updateNormalizedPiPFrame(false)
+               }
+           default: break
+           }
+       }
 
     @objc private func tapped() {
         CATransaction.begin()
