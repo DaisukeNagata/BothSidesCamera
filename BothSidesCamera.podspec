@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'BothSidesCamera'
-  s.version          = '0.8.0'
+  s.version          = '0.8.1'
   s.summary          = 'infomation BothSidesCamera.'
 
   s.description      = 'TODO:　Simultaneous recording of both screens.'
