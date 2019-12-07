@@ -77,7 +77,6 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         }
 
         videoMixer.prepare(with: formatDescription, outputRetainedBufferCountHint: 3)
-
         videoMixer.pipFrame = normalizedPipFrame
         guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
                                                     pipPixelBuffer: pipPixelBuffer,

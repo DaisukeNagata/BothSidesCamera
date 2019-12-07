@@ -24,6 +24,7 @@ final class BothSidesMixer {
     private var computePipelineState         : MTLComputePipelineState?
     private(set) var inputFormatDescription  : CMFormatDescription?
     private(set) var outputFormatDescription : CMFormatDescription?
+    private var orientation                  : UIInterfaceOrientation = .unknown
 
     private lazy var commandQueue            : MTLCommandQueue? = {
         guard let metalDevice = metalDevice else {
@@ -129,20 +130,21 @@ final class BothSidesMixer {
                                         kCVPixelFormatType_32BGRA,
                                         options as CFDictionary,
                                         &pipMargin)
-        guard let pipMargin = pipMargin else { return nil}
-        let ciContext = CIContext()
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let inputImage = CIImage(cvImageBuffer: pipMargin, options: nil)
-        if UIInterfaceOrientation.portrait.isPortrait == true {
-            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: 0.5, height: 0.5), colorSpace: colorSpace)
-        } else {
-            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: 0.25, height: 0.25), colorSpace: colorSpace)
-        }
-        guard let pipMarginTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pipMargin) else { return nil}
 
         let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
         let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
         var parameters = MixerParameters(pipPosition: pipPosition, pipSize: pipSize)
+
+        guard let pipMargin = pipMargin else { return nil}
+        let ciContext = CIContext()
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let inputImage = CIImage(cvImageBuffer: pipMargin, options: nil)
+        if orientation.isPortrait == true {
+            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.x), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
+        } else {
+            ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.y), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
+        }
+        guard let pipMarginTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pipMargin) else { return nil}
 
         guard let commandQueue = commandQueue,
             let commandBuffer = commandQueue.makeCommandBuffer(),

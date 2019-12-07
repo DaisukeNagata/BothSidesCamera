@@ -37,7 +37,7 @@ kernel void reporterMixer(texture2d<half, access::read>      newfullScreenTextur
     {
         // Position and scale the PIP window
         float2 pipSamplingCoord =  float2(gid - pipPosition) * float2(pipInput.get_width(), pipInput.get_height()) / float2(pipSize);
-        output = pipInput.sample(kBilinearSampler, pipSamplingCoord + pipMargin.get_height());
+        output = pipInput.sample(kBilinearSampler, pipSamplingCoord, pipMargin.get_width() + pipMargin.get_height());
     }
     else
     {
