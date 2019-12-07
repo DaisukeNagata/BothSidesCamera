@@ -12,11 +12,9 @@ import CoreVideo
 final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
-    
-    private var pipMargin                    : CVPixelBuffer?
+
     private var pixelBuffer                  : CVPixelBuffer?
     private var cvReturn                     : CVReturn?
-    private var pipReturn                    : CVReturn?
     private let metalDevice                  = MTLCreateSystemDefaultDevice()
     private var fullRangeVertexBuffer        : MTLBuffer?
     private var outputPixelBufferPool        : CVPixelBufferPool?
@@ -118,29 +116,9 @@ final class BothSidesMixer {
             }
         }
 
-        let options = [
-            kCVPixelBufferCGImageCompatibilityKey as String: true,
-            kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
-            kCVPixelBufferIOSurfacePropertiesKey as String: [:]
-            ] as [String : Any]
-        
-        pipReturn = CVPixelBufferCreate(kCFAllocatorDefault,
-                                        Int(1),
-                                        Int(1),
-                                        kCVPixelFormatType_32BGRA,
-                                        options as CFDictionary,
-                                        &pipMargin)
-
         let pipPosition = SIMD2(Float(pipFrame.origin.x) * Float(fullScreenTexture.width), Float(pipFrame.origin.y) * Float(fullScreenTexture.height))
         let pipSize = SIMD2(Float(pipFrame.size.width) * Float(pipTexture.width), Float(pipFrame.size.height) * Float(pipTexture.height))
         var parameters = MixerParameters(pipPosition: pipPosition, pipSize: pipSize)
-
-        guard let pipMargin = pipMargin else { return nil}
-        let ciContext = CIContext()
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let inputImage = CIImage(cvImageBuffer: pipMargin, options: nil)
-        ciContext.render(inputImage, to: pipMargin, bounds: CGRect(x: 0, y: 0, width: CGFloat(pipPosition.x), height: CGFloat(pipPosition.y)), colorSpace: colorSpace)
-        guard let pipMarginTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pipMargin) else { return nil}
 
         guard let commandQueue = commandQueue,
             let commandBuffer = commandQueue.makeCommandBuffer(),
@@ -156,7 +134,6 @@ final class BothSidesMixer {
 
         commandEncoder.setComputePipelineState(computePipelineState)
         commandEncoder.setTexture(fullScreenTexture, index: 0)
-        commandEncoder.setTexture(pipMarginTexture, index: 1)
         commandEncoder.setTexture(pipTexture, index: 2)
         commandEncoder.setTexture(outputTexture, index: 3)
         commandEncoder.setBytes(UnsafeMutableRawPointer(&parameters), length: MemoryLayout<MixerParameters>.size, index: 0)
@@ -172,11 +149,10 @@ final class BothSidesMixer {
         commandEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-        self.pipMargin = nil
 
         return outputPixelBuffer
     }
-    
+
     private func reset() {
         outputPixelBufferPool = nil
         outputFormatDescription = nil

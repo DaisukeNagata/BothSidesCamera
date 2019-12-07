@@ -34,14 +34,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         self.frame = UIScreen.main.bounds
 
-        // TODO Screen ratio question
-        transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
+        backCameraVideoPreviewView.videoPreviewLayer.frame = self.frame
+        frontCameraVideoPreviewView.videoPreviewLayer.frame = self.frame
 
-        backCameraVideoPreviewView.frame = self.bounds
-        frontCameraVideoPreviewView.frame = self.bounds
-
-        backCameraVideoPreviewView.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
-        print(UIScreen.main.nativeBounds.height)
         switch UIScreen.main.nativeBounds.height {
             case 2436:
             //iPhone Pro11 Bug?
@@ -54,13 +49,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         
         backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
         frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
-
+        
         updateNormalizedPiPFrame(false)
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
         frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-        frontCameraVideoPreviewView.frame.origin.y -= UINavigationController.init().navigationBar.frame.height
         aVCaptureMultiCamViewModel?.configureMicrophone()
 
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
@@ -201,7 +195,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         } else {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
-                switch (UIScreen.main.nativeBounds.width) {
+                switch UIScreen.main.nativeBounds.width {
                     case 2436:
                     //iPhone Pro11 Bug?
                     self.frame.size.width += 4
@@ -210,7 +204,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
             } else {
                 self.frame = UIScreen.main.bounds
-                switch (UIScreen.main.nativeBounds.width) {
+                switch UIScreen.main.nativeBounds.width {
                     case 2436:
                     //iPhone Pro11 Bug?
                     self.frame.size.width += 4
