@@ -203,18 +203,20 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
         }
         self.frame = UIScreen.main.bounds
-        switch UIScreen.main.nativeBounds.height {
-        case 2436:
-            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-            case .front:
-                //iPhone Pro11 Bug?
-                self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
-            case .back:
-                //iPhone Pro11 Bug?
-                self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+        if orientation.isPortrait {
+            switch UIScreen.main.nativeBounds.height {
+            case 2436:
+                switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+                case .front:
+                    //iPhone Pro11 Bug?
+                    self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+                case .back:
+                    //iPhone Pro11 Bug?
+                    self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+                default: break
+                }
             default: break
             }
-        default: break
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
