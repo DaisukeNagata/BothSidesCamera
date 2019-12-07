@@ -13,7 +13,6 @@ final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
 
-    private (set) var isPrepared             = false
     private var pixelBuffer                  :CVPixelBuffer?
     private var cvRetrun                     :CVReturn?
     private let metalDevice                  = MTLCreateSystemDefaultDevice()
@@ -61,7 +60,6 @@ final class BothSidesMixer {
         var metalTextureCache: CVMetalTextureCache?
         guard  CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, metalDevice, nil, &metalTextureCache) == kCVReturnSuccess else { return }
         textureCache = metalTextureCache
-        isPrepared = true
     }
 
     struct MixerParameters {
@@ -158,7 +156,6 @@ final class BothSidesMixer {
         outputFormatDescription = nil
         inputFormatDescription = nil
         textureCache = nil
-        isPrepared = false
     }
 
     private func makeTextureFromCVPixelBuffer(pixelBuffer: CVPixelBuffer?) -> MTLTexture? {
