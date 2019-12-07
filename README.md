@@ -14,6 +14,18 @@
 - iOS 13.2+
 - Xcode 11.2.1
 
+## Version 0.8 ~ Preview screen with the same ratio and recording function 
+
+```ruby
+Purple button logic 　Horizontal support
+```
+
+<p align="center">
+<img src=https://user-images.githubusercontent.com/16457165/70378328-5f06ec00-1962-11ea-80a1-537d74855814.gif>
+</p>
+
+
+
 ## Version 0.7 ~ Preview screen with the same ratio and recording function 
 <p align="center">
 <img src=https://user-images.githubusercontent.com/16457165/70306631-b5810700-184a-11ea-88e6-69ced997ddde.gif>
