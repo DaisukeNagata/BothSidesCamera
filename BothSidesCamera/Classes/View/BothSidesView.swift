@@ -86,7 +86,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func cameraMixStart(completion: @escaping() -> Void) {
-
         guard let session = self.aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
@@ -102,7 +101,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             aVCaptureMultiCamViewModel?.aModel?.recorderSet{ self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion) }
             return
         }
-
+        
         self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
     }
 
@@ -264,10 +263,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
         let position: CGPoint = sender.location(in: self)
-
         switch sender.state {
         case .changed:
-            updateNormalizedPiPFrame(false)
             if orientation.isPortrait {
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                     frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
@@ -276,14 +273,16 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                     backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
                     backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
                 }
+                self.updateNormalizedPiPFrame(false)
             } else {
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/3
+                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
                     frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
                 } else {
-                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/3
+                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
                     backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
                 }
+                self.updateNormalizedPiPFrame(false)
             }
         default: break
         }
