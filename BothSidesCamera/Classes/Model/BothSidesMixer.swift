@@ -105,7 +105,7 @@ final class BothSidesMixer {
             if cvRetrun == kCVReturnSuccess {
                 guard let pixelBuffer = pixelBuffer else { return nil }
                 let ciContext = CIContext()
-                let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 15))
+                let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 0))
                 let colorSpace = CGColorSpaceCreateDeviceRGB()
                 ciContext.render(inputImage, to: pixelBuffer, bounds: inputImage.extent, colorSpace: colorSpace)
 
