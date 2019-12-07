@@ -34,8 +34,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         self.frame = UIScreen.main.bounds
 
-        backCameraVideoPreviewView.videoPreviewLayer.frame = self.frame
-        frontCameraVideoPreviewView.videoPreviewLayer.frame = self.frame
+        backCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
+        frontCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
 
         switch UIScreen.main.nativeBounds.height {
             case 2436:
