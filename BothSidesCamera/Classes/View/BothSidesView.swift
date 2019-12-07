@@ -203,6 +203,11 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
+        if aModel.sameRatio == true {
+            updateNormalizedPiPFrame(true)
+        } else {
+            updateNormalizedPiPFrame(false)
+        }
         bind()
     }
 
@@ -265,25 +270,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         let position: CGPoint = sender.location(in: self)
         switch sender.state {
         case .changed:
-            if orientation.isPortrait {
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
-                    frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
-                } else {
-                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
-                    backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
-                }
-                self.updateNormalizedPiPFrame(false)
+            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                frontCameraVideoPreviewView.center = position
             } else {
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
-                    frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
-                } else {
-                    backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
-                    backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
-                }
-                self.updateNormalizedPiPFrame(false)
+                backCameraVideoPreviewView.center = position
             }
+            self.updateNormalizedPiPFrame(false)
         default: break
         }
     }
