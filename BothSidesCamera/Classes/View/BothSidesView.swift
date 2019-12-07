@@ -37,6 +37,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         backCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
         frontCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
 
+        backCameraVideoPreviewView.videoPreviewLayer.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
         switch UIScreen.main.nativeBounds.height {
             case 2436:
             //iPhone Pro11 Bug?
@@ -196,23 +197,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         } else {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
-                switch UIScreen.main.nativeBounds.width {
-                    case 2436:
-                    //iPhone Pro11 Bug?
-                    self.frame.size.width += 4
-                    default: break
-                }
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
             } else {
-                self.frame = UIScreen.main.bounds
-                switch UIScreen.main.nativeBounds.width {
-                    case 2436:
-                    //iPhone Pro11 Bug?
-                    self.frame.size.width += 4
-                    default: break
-                }
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
+        }
+        self.frame = UIScreen.main.bounds
+        switch UIScreen.main.nativeBounds.height {
+        case 2436:
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                //iPhone Pro11 Bug?
+                self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+            case .back:
+                //iPhone Pro11 Bug?
+                self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+            default: break
+            }
+        default: break
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
