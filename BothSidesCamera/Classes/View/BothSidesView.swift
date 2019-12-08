@@ -50,8 +50,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         
         backCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
         frontCameraVideoPreviewView.videoPreviewLayer.setSessionWithNoConnection(session)
-        
-        updateNormalizedPiPFrame(false)
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
