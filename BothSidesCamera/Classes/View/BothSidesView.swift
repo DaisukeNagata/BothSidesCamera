@@ -203,7 +203,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
         }
         self.frame = UIScreen.main.bounds
-        if orientation.isPortrait {
+        if aModel.sameRatio == false {
             switch UIScreen.main.nativeBounds.height {
             case 2436:
                 switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
