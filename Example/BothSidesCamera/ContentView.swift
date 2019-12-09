@@ -145,8 +145,7 @@ struct SidesView: UIViewRepresentable {
         bView.frontCameraVideoPreviewView.frame.size = CGSize(width: bView.backCameraVideoPreviewView.frame.width/5,
                                                               height: bView.backCameraVideoPreviewView.frame.height/5)
 
-        bView.frontCameraVideoPreviewView.frame.origin = CGPoint(x: bView.backCameraVideoPreviewView.frame.width/2 - bView.frontCameraVideoPreviewView.frame.width/2,
-                                                                 y: bView.backCameraVideoPreviewView.frame.height/2 - bView.frontCameraVideoPreviewView.frame.height/2)
+        bView.frontCameraVideoPreviewView.center = bView.backCameraVideoPreviewView.center
         bView.deviceAspect(rect: bView.backCameraVideoPreviewView.frame)
         return nil
     }
