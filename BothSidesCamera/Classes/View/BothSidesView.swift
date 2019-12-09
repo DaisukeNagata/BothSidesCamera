@@ -196,24 +196,17 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
+                self.frame = UIScreen.main.bounds
+                if aModel.sameRatio == false {
+                    switch UIScreen.main.nativeBounds.height {
+                    case 2436:
+                        //iPhone Pro11 Bug?
+                        self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
+                    default: break
+                    }
+                }
             } else {
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-            }
-        }
-        self.frame = UIScreen.main.bounds
-        if aModel.sameRatio == false {
-            switch UIScreen.main.nativeBounds.height {
-            case 2436:
-                switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-                case .front:
-                    //iPhone Pro11 Bug?
-                    self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
-                case .back:
-                    //iPhone Pro11 Bug?
-                    self.frontCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
-                default: break
-                }
-            default: break
             }
         }
         CATransaction.commit()
