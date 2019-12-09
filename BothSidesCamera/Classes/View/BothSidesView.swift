@@ -119,7 +119,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
     }
 
-    //TODO: orientation.isPortrait only
     private func sameBothViewSetting() {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
@@ -133,8 +132,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         backCameraVideoPreviewView.frame = self.frame
         if orientation.isPortrait {
             if aModel.sameRatio == true {
+    
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                     frontCameraVideoPreviewView.frame.origin.y = 0
                     backCameraVideoPreviewView.frame.origin.y = self.frame.height/2
@@ -152,21 +153,26 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 let safeFrame = window.safeAreaLayoutGuide.layoutFrame
                 let safeAreaHlfeight = (window.frame.maxY - safeFrame.maxY)/2
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
-                    frontCameraVideoPreviewView.frame.size.height = self.frame.width/2
-                    frontCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
-                    backCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
-                    backCameraVideoPreviewView.frame.origin.y = self.frame.width/2
-                    backCameraVideoPreviewView.frame.size.height = self.frame.width/2
-                    backCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
+
+                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
+                                                               y: self.frame.width/2,
+                                                               width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
+                                                               height: self.frame.height)
+
+                    backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
+                                                              y: self.frame.width/2,
+                                                              width: self.frame.width/2,
+                                                              height: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height)
                 } else {
-                    backCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
-                    backCameraVideoPreviewView.frame.size.height =  self.frame.width/2
-                    backCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
-                    frontCameraVideoPreviewView.frame.origin.x = UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight
-                    frontCameraVideoPreviewView.frame.origin.y = self.frame.width/2
-                    frontCameraVideoPreviewView.frame.size.height = self.frame.width/2
-                    frontCameraVideoPreviewView.frame.size.width = self.frame.height/2 + UINavigationController.init().navigationBar.frame.height
+                    backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
+                                                               y: self.frame.width/2,
+                                                               width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
+                                                               height: self.frame.height)
+
+                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
+                                                              y: self.frame.width/2,
+                                                              width: self.frame.width/2,
+                                                              height: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height)
                 }
                 updateNormalizedPiPFrame(true)
             } else {
@@ -178,13 +184,13 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.setDisableActions(false)
     }
 
-    // TODO Screen ratio question
     private func oriantation(_ bind: ()->()) {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
         if aModel.sameRatio == true {
+            //iPhone Pro11 Bug?
             if transform == CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) {
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             } else {
