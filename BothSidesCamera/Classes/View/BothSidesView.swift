@@ -10,6 +10,7 @@ import AVFoundation
 
 public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
+    public var preViewRect                 = CGRect()
     public var backCameraVideoPreviewView  = BothSidesPreviewView()
     public var frontCameraVideoPreviewView = BothSidesPreviewView()
 
@@ -36,8 +37,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         backCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
         frontCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
-
-        backCameraVideoPreviewView.videoPreviewLayer.frame.origin.y = -UINavigationController.init().navigationBar.frame.height
         switch UIScreen.main.nativeBounds.height {
             case 2436:
             //iPhone Pro11 Bug?
@@ -53,10 +52,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
-        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-        frontCameraVideoPreviewView.frame.origin.y -= UINavigationController.init().navigationBar.frame.height
         aVCaptureMultiCamViewModel?.configureMicrophone()
-
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
         initSetting(self)
     }
@@ -65,6 +61,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    public func deviceAspect(rect: CGRect) { preViewRect = rect }
+    
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
 
     public func cameraStop() {
@@ -310,14 +308,14 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
                 frontCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
+                frontCameraVideoPreviewView.frame = preViewRect
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
                 self.bringSubviewToFront(backCameraVideoPreviewView)
                 initSetting(backCameraVideoPreviewView)
             case .back:
                 backCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
+                backCameraVideoPreviewView.frame = preViewRect
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
                 self.bringSubviewToFront(frontCameraVideoPreviewView)
@@ -328,9 +326,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
                 frontCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = CGRect(x: 0,
-                                                           y: -UINavigationController.init().navigationBar.frame.height,
-                                                           width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+                frontCameraVideoPreviewView.frame = preViewRect
                 backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
@@ -338,9 +334,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 initSetting(backCameraVideoPreviewView)
             case .back:
                 backCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.frame = CGRect(x: 0,
-                                                          y: -UINavigationController.init().navigationBar.frame.height,
-                                                          width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+                backCameraVideoPreviewView.frame = preViewRect
                 frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
                 aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
