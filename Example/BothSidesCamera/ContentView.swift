@@ -134,6 +134,20 @@ struct SidesView: UIViewRepresentable {
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
+
+        // preview orign set example
+        bView.backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
+                                                                          y: 0,
+                                                                          width : self.bothSidesView.frame.width+4,
+                                                                          height: self.bothSidesView.frame.width * 1.77777777777)
+        bView.frontCameraVideoPreviewView.transform = .identity
+
+        bView.frontCameraVideoPreviewView.frame.size = CGSize(width: bView.backCameraVideoPreviewView.frame.width/5,
+                                                              height: bView.backCameraVideoPreviewView.frame.height/5)
+
+        bView.frontCameraVideoPreviewView.frame.origin = CGPoint(x: bView.backCameraVideoPreviewView.frame.width/2 - bView.frontCameraVideoPreviewView.frame.width/2,
+                                                                 y: bView.backCameraVideoPreviewView.frame.height/2 - bView.frontCameraVideoPreviewView.frame.height/2)
+        bView.deviceAspect(rect: bView.backCameraVideoPreviewView.frame)
         return nil
     }
 
