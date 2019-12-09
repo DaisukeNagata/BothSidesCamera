@@ -194,7 +194,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-                self.frame = UIScreen.main.bounds
                 if aModel.sameRatio == false {
                     switch UIScreen.main.nativeBounds.height {
                     case 2436:
