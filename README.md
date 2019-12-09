@@ -92,6 +92,9 @@ previewView.preViewSizeSet()
 // Switch camera　Please check the in-camera as the camera type is different.
 previewView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInUltraWideCamera)
 
+//　Method to match the preview screen and playback screen
+previewView.deviceAspect(rect: bView.backCameraVideoPreviewView.frame)
+
 ```
 
 ## How to
