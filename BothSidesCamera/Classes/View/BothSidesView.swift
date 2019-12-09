@@ -52,6 +52,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
+        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.2, y: 0.2)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
         initSetting(self)
