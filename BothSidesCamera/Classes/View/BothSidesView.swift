@@ -304,44 +304,22 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        if orientation.isPortrait {
-            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-            case .front:
-                frontCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = preViewRect
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
-                self.bringSubviewToFront(backCameraVideoPreviewView)
-                initSetting(backCameraVideoPreviewView)
-            case .back:
-                backCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.frame = preViewRect
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
-                self.bringSubviewToFront(frontCameraVideoPreviewView)
-                initSetting(frontCameraVideoPreviewView)
-            default: break
-            }
-        } else {
-            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-            case .front:
-                frontCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame = preViewRect
-                backCameraVideoPreviewView.frame = frontCameraVideoPreviewView.frame
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
-                self.bringSubviewToFront(backCameraVideoPreviewView)
-                initSetting(backCameraVideoPreviewView)
-            case .back:
-                backCameraVideoPreviewView.transform = .identity
-                backCameraVideoPreviewView.frame = preViewRect
-                frontCameraVideoPreviewView.frame = backCameraVideoPreviewView.frame
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-                aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
-                self.bringSubviewToFront(frontCameraVideoPreviewView)
-                initSetting(frontCameraVideoPreviewView)
-            default: break
-            }
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+        case .front:
+            frontCameraVideoPreviewView.transform = .identity
+            frontCameraVideoPreviewView.frame = preViewRect
+            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
+            self.bringSubviewToFront(backCameraVideoPreviewView)
+            initSetting(backCameraVideoPreviewView)
+        case .back:
+            backCameraVideoPreviewView.transform = .identity
+            backCameraVideoPreviewView.frame = preViewRect
+            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
+            self.bringSubviewToFront(frontCameraVideoPreviewView)
+            initSetting(frontCameraVideoPreviewView)
+        default: break
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
