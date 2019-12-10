@@ -47,7 +47,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
         bind()
     }
 
-    func sameRatioFlg () {
+    func sameRatioFlg() {
         vm.sameValueSet(sameRatioModel)
         vm.observe(for: vm.sameRatioModel ?? BothObservable()) { v in
             self.sameRatioModel.sameRatio = v.sameRatio

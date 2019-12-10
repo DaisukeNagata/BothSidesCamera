@@ -49,7 +49,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
-        initSetting(self)
+        recognizerstSet(self)
     }
 
     public required init?(coder: NSCoder) {
@@ -226,7 +226,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         bind()
     }
 
-    private func initSetting(_ view: UIView? = nil) {
+    private func recognizerstSet(_ view: UIView? = nil) {
         if let recognizers = gestureView.gestureRecognizers {
             for recognizer in recognizers { gestureView.removeGestureRecognizer(recognizer)
             }
@@ -311,12 +311,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
             self.bringSubviewToFront(backCameraVideoPreviewView)
-            initSetting(backCameraVideoPreviewView)
+            recognizerstSet(backCameraVideoPreviewView)
         case .back:
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
             self.bringSubviewToFront(frontCameraVideoPreviewView)
-            initSetting(frontCameraVideoPreviewView)
+            recognizerstSet(frontCameraVideoPreviewView)
         default: break
         }
         CATransaction.commit()
