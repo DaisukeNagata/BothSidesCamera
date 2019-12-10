@@ -67,11 +67,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         case .front:
             backCameraVideoPreviewView.transform = .identity
             backCameraVideoPreviewView.frame = preViewRect
-            frontCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            frontCameraVideoPreviewView.transform = .identity
+            frontCameraVideoPreviewView.frame = preViewRect
+            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         case .back:
             frontCameraVideoPreviewView.transform = .identity
             frontCameraVideoPreviewView.frame = preViewRect
-            backCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            backCameraVideoPreviewView.transform = .identity
+            backCameraVideoPreviewView.frame = preViewRect
+            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         default:break
         }
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
