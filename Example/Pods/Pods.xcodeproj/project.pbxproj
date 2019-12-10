@@ -98,7 +98,7 @@
 		B79FC6E46F642C3FC74B3E6D9175B1AB /* SatisfyAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E611812719C92923F842BE28D512C4 /* SatisfyAllOf.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		BB406406239F98BF00DDDA48 /* BothObserveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB406405239F98BF00DDDA48 /* BothObserveViewModel.swift */; };
 		BB406408239F991A00DDDA48 /* BothObservarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB406407239F991A00DDDA48 /* BothObservarModel.swift */; };
-		BB40640A239FB33D00DDDA48 /* BothObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB406409239FB33D00DDDA48 /* BothObservable.swift */; };
+		BB62C52323A0526D00924532 /* BothObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62C52223A0526D00924532 /* BothObservable.swift */; };
 		C051C0411627BD5FCDA031782EB1F716 /* DSL.h in Headers */ = {isa = PBXBuildFile; fileRef = 71DE2B8A1B62C6FB8A6C45B9354ADACF /* DSL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0C98C8C7D07E1598F20EE2F0539197D /* NMBExpectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6ADAF6F36FDE647689D8CA401D88A5 /* NMBExpectation.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		C271B106D26C7852C5CE48CCCDAC15C8 /* ExampleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B74EA112DFC77FDF3328BF903D21B2 /* ExampleGroup.swift */; };
@@ -284,7 +284,7 @@
 		BAE263041362D074978BB3B577DF0A05 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB406405239F98BF00DDDA48 /* BothObserveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BothObserveViewModel.swift; sourceTree = "<group>"; };
 		BB406407239F991A00DDDA48 /* BothObservarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BothObservarModel.swift; sourceTree = "<group>"; };
-		BB406409239FB33D00DDDA48 /* BothObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BothObservable.swift; path = ../BothSidesCamera/Classes/Binding/BothObservable.swift; sourceTree = "<group>"; };
+		BB62C52223A0526D00924532 /* BothObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BothObservable.swift; sourceTree = "<group>"; };
 		BBBD08504CD9D0F2BFF2793ABCADB87A /* Pods-BothSidesCamera_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BothSidesCamera_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		C0446BC3B11E9912861E3119A5EF381D /* BothSidesCamera-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "BothSidesCamera-Info.plist"; sourceTree = "<group>"; };
 		C190570886B9E956C84E47BA2C38DBE5 /* QuickSpecBase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickSpecBase.m; path = Sources/QuickSpecBase/QuickSpecBase.m; sourceTree = "<group>"; };
@@ -433,7 +433,7 @@
 		298610266814FE7A0BBC9FF854A9CBDD /* BothSidesCamera */ = {
 			isa = PBXGroup;
 			children = (
-				BB406402239F981F00DDDA48 /* Binding */,
+				BB62C52123A0526D00924532 /* Binding */,
 				954D57923E4CB4BF6468119AD8EA8276 /* Model */,
 				F0A0D9D7768D9288CBE0B89A8DFDF865 /* Pod */,
 				132B08DB48C57E08540672B5A35BDB19 /* Support Files */,
@@ -630,12 +630,13 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		BB406402239F981F00DDDA48 /* Binding */ = {
+		BB62C52123A0526D00924532 /* Binding */ = {
 			isa = PBXGroup;
 			children = (
-				BB406409239FB33D00DDDA48 /* BothObservable.swift */,
+				BB62C52223A0526D00924532 /* BothObservable.swift */,
 			);
-			path = Binding;
+			name = Binding;
+			path = BothSidesCamera/Classes/Binding;
 			sourceTree = "<group>";
 		};
 		C34791B2E0FC001E17367B2D439079C7 /* View */ = {
@@ -950,7 +951,7 @@
 				43E12FA25EA1541F761B97B3B8B60876 /* BothSidesMixer.metal in Sources */,
 				4F8CF02F44E29FB9D775E6660CD48FDE /* BothSidesMixer.swift in Sources */,
 				A210300974AFDFCE50AB30288CEF5C8A /* BothSidesMultiCamSessionModel.swift in Sources */,
-				BB40640A239FB33D00DDDA48 /* BothObservable.swift in Sources */,
+				BB62C52323A0526D00924532 /* BothObservable.swift in Sources */,
 				6EB6273FF92E8FF61DA1FA62E5962FD1 /* BothSidesMultiCamViewModel.swift in Sources */,
 				BB406406239F98BF00DDDA48 /* BothObserveViewModel.swift in Sources */,
 				502FAE472FBCAA919F41CAAA4F835A40 /* BothSidesPreviewView.swift in Sources */,
