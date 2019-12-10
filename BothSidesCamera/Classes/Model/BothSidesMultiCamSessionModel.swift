@@ -19,9 +19,10 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
+
     let vm                                       = BothObserveViewModel()
-    var bothObservarModel                        = BothObservarModel()
-    var sameRatio                                = false
+    var bothObservarModel                        = IsRunningModel()
+    var sameRatioModel                           = SameRatioModel()
 
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
@@ -47,10 +48,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     }
 
     func sameRatioFlg () {
-        if sameRatio == false {
-            sameRatio = true
-        } else {
-            sameRatio = false
+        vm.sameValueSet(sameRatioModel)
+        vm.observe(for: vm.sameRatioModel ?? BothObservable()) { v in
+            self.sameRatioModel.sameRatio = v.sameRatio
         }
     }
 
@@ -144,7 +144,7 @@ extension BothSidesMultiCamSessionModel {
         default: break
         }
 
-        if let fullScreenSampleBuffer = fullScreenSampleBuffer { processFullScreenSampleBuffer(fullScreenSampleBuffer, sameRatio) }
+        if let fullScreenSampleBuffer = fullScreenSampleBuffer { processFullScreenSampleBuffer(fullScreenSampleBuffer, self.sameRatioModel.sameRatio) }
 
         if let pipSampleBuffer = pipSampleBuffer { processPiPSampleBuffer(pipSampleBuffer) }
     }

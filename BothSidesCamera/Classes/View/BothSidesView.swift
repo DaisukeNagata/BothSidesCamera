@@ -69,7 +69,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         default:break
         }
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        updateNormalizedPiPFrame(aModel.sameRatio)
+        updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
     }
 
     public func deviceAspect(rect: CGRect) { preViewRect = rect }
@@ -91,6 +91,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     
     public func sameRatioFlg() {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        aModel.sameRatioModel.sameRatio = aModel.sameRatioModel.sameRatio == false ? true : false
         aModel.sameRatioFlg()
         sameBothViewSetting()
     }
@@ -130,7 +131,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         aVCaptureMultiCamViewModel?.changeDviceType()
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        updateNormalizedPiPFrame(aModel.sameRatio )
+        updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         preViewRect = self.frame
     }
@@ -147,7 +148,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         frontCameraVideoPreviewView.frame = self.frame
         backCameraVideoPreviewView.frame = self.frame
         if orientation.isPortrait {
-            if aModel.sameRatio == true {
+            if  aModel.sameRatioModel.sameRatio == true {
     
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
@@ -164,7 +165,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 tapped()
             }
         } else {
-            if aModel.sameRatio == true {
+            if aModel.sameRatioModel.sameRatio == true {
                 let window = UIApplication.shared.windows[0]
                 let safeFrame = window.safeAreaLayoutGuide.layoutFrame
                 let safeAreaHlfeight = (window.frame.maxY - safeFrame.maxY)/2
@@ -213,7 +214,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        if aModel.sameRatio == true {
+        if aModel.sameRatioModel.sameRatio == true {
             updateNormalizedPiPFrame(true)
         } else {
             updateNormalizedPiPFrame(false)
