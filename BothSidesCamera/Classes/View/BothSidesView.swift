@@ -52,7 +52,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         // builtInWideAngleCamera only
         aVCaptureMultiCamViewModel?.configureFrontCamera(frontCameraVideoPreviewView.videoPreviewLayer, deviceType: frontDeviceType)
-        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.2, y: 0.2)
+        frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         aVCaptureMultiCamViewModel?.configureMicrophone()
         aVCaptureMultiCamViewModel?.aModel?.recorderSet{ session.startRunning() }
         initSetting(self)
@@ -60,6 +60,22 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public func resetAspect() {
+        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+        case .front:
+            backCameraVideoPreviewView.transform = .identity
+            backCameraVideoPreviewView.frame = preViewRect
+            frontCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+        case .back:
+            frontCameraVideoPreviewView.transform = .identity
+            frontCameraVideoPreviewView.frame = preViewRect
+            backCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+        default:break
+        }
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        updateNormalizedPiPFrame(aModel.sameRatio)
     }
 
     public func deviceAspect(rect: CGRect) { preViewRect = rect }

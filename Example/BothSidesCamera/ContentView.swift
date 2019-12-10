@@ -142,8 +142,8 @@ struct SidesView: UIViewRepresentable {
                                                                           height: self.bothSidesView.frame.width * 1.77777777777)
         bView.frontCameraVideoPreviewView.transform = .identity
 
-        bView.frontCameraVideoPreviewView.frame.size = CGSize(width: bView.backCameraVideoPreviewView.frame.width/5,
-                                                              height: bView.backCameraVideoPreviewView.frame.height/5)
+        bView.frontCameraVideoPreviewView.frame.size = CGSize(width: bView.backCameraVideoPreviewView.frame.width/4,
+                                                              height: bView.backCameraVideoPreviewView.frame.height/4)
 
         bView.frontCameraVideoPreviewView.center = bView.backCameraVideoPreviewView.center
         bView.deviceAspect(rect: bView.backCameraVideoPreviewView.frame)
@@ -203,6 +203,7 @@ final class OrientationModel: ObservableObject {
 
     @objc func foreGround(notification: Notification) {
         guard let bothSidesView = bothSidesView else { return }
+        bothSidesView.bothSidesView.resetAspect()
         bothSidesView.cameraStart()
     }
 
@@ -210,9 +211,6 @@ final class OrientationModel: ObservableObject {
         guard let contentView = contentView ,let bothSidesView = bothSidesView else { return }
         contentView.didTap = false
         bothSidesView.cameraStop()
-        bothSidesView.bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
-        frontDeviceType: .builtInWideAngleCamera)
-
     }
 
 }
