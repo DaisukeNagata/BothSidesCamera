@@ -96,22 +96,26 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func cameraMixStart(completion: @escaping() -> Void) {
-        guard let session = self.aVCaptureMultiCamViewModel?.session else {
+        guard let model = aVCaptureMultiCamViewModel?.aModel, let session = aVCaptureMultiCamViewModel?.session else {
             print("AVCaptureMultiCamViewModel_session")
             return
         }
 
         guard session.isRunning == true  else {
             session.startRunning()
-            aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning = false
+            model.vm.valueSet(model.bothObservarModel)
             return
         }
 
-        guard aVCaptureMultiCamViewModel?.aModel?.movieRecorder?.isRunning == true  else {
+        guard model.bothObservarModel.isRunning == true  else {
             aVCaptureMultiCamViewModel?.aModel?.recorderSet{ self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion) }
+            model.bothObservarModel.isRunning = true
+            model.vm.valueSet(model.bothObservarModel)
             return
         }
-        
+
+        model.bothObservarModel.isRunning = false
+        model.vm.valueSet(model.bothObservarModel)
         self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion)
     }
 

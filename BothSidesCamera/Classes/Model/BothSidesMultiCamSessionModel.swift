@@ -19,6 +19,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
+    let vm                                       = BothObserveViewModel()
+    var bothObservarModel                        = BothObservarModel()
     var sameRatio                                = false
 
     private var videoTrackSourceFormatDescription: CMFormatDescription?
@@ -161,10 +163,16 @@ extension BothSidesMultiCamSessionModel {
 
 extension BothSidesMultiCamSessionModel {
 
-    func recordAction(completion: @escaping() -> Void){
+    func recordAction(completion: @escaping() -> Void) {
 
-        movieRecorder?.isRunning == false ? movieRecorder?.startRecording() :
-            movieRecorder?.stopRecording { movieURL in self.saveMovieToPhotoLibrary(movieURL, call: completion )
+        vm.observe(for: vm.model ?? BothObservable()) { value in
+            if value.isRunning == true {
+                self.movieRecorder?.startRecording()
+            } else {
+                self.movieRecorder?.stopRecording { movieURL in
+                    self.saveMovieToPhotoLibrary(movieURL, call: completion )
+                }
+            }
         }
     }
 
