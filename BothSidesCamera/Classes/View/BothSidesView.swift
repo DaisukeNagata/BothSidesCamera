@@ -168,26 +168,26 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 let safeFrame = window.safeAreaLayoutGuide.layoutFrame
                 let safeAreaHlfeight = (window.frame.maxY - safeFrame.maxY)/2
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-
+                    
                     frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                               y: self.frame.width/2,
+                                                               y: frontCameraVideoPreviewView.frame.origin.y,
                                                                width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                               height: self.frame.height)
-
+                                                               height: self.frame.width/2)
+                    
                     backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
                                                               y: self.frame.width/2,
-                                                              width: self.frame.width/2,
-                                                              height: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height)
+                                                              width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
+                                                              height: self.frame.width/2)
                 } else {
                     backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
+                                                              y: backCameraVideoPreviewView.frame.origin.y,
+                                                              width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
+                                                              height: self.frame.width/2)
+                    
+                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
                                                                y: self.frame.width/2,
                                                                width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                               height: self.frame.height)
-
-                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                              y: self.frame.width/2,
-                                                              width: self.frame.width/2,
-                                                              height: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height)
+                                                               height: self.frame.width/2)
                 }
                 updateNormalizedPiPFrame(true)
             } else {
@@ -203,24 +203,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
-        if aModel.sameRatio == true {
-            if transform == CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1) {
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-            } else {
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
-            }
+        if orientation.isPortrait {
+            transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
         } else {
-            if orientation.isPortrait {
-                self.frame = UIScreen.main.bounds
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
-            } else {
-                self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-            }
+            self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
         if aModel.sameRatio == true {
             updateNormalizedPiPFrame(true)
         } else {
