@@ -134,6 +134,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         preViewRect = self.frame
+        // Smooth implementation
+        self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
     }
 
     private func sameBothViewSetting() {
