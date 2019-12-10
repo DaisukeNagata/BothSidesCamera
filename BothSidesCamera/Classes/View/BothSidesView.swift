@@ -57,6 +57,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func resetAspect() {
+        // Smooth implementation
+        self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
         backCameraVideoPreviewView.transform = .identity
         backCameraVideoPreviewView.frame = preViewRect
         frontCameraVideoPreviewView.transform = .identity
