@@ -57,18 +57,14 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func resetAspect() {
+        backCameraVideoPreviewView.transform = .identity
+        backCameraVideoPreviewView.frame = preViewRect
+        frontCameraVideoPreviewView.transform = .identity
+        frontCameraVideoPreviewView.frame = preViewRect
         switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
         case .front:
-            backCameraVideoPreviewView.transform = .identity
-            backCameraVideoPreviewView.frame = preViewRect
-            frontCameraVideoPreviewView.transform = .identity
-            frontCameraVideoPreviewView.frame = preViewRect
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         case .back:
-            frontCameraVideoPreviewView.transform = .identity
-            frontCameraVideoPreviewView.frame = preViewRect
-            backCameraVideoPreviewView.transform = .identity
-            backCameraVideoPreviewView.frame = preViewRect
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
         default:break
         }
@@ -277,31 +273,21 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
-           let position: CGPoint = sender.location(in: self)
-           switch sender.state {
-           case .changed:
-               if orientation.isPortrait {
-                   if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                       frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
-                       frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
-                   } else {
-                       backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
-                       backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
-                   }
-                   self.updateNormalizedPiPFrame(false)
-               } else {
-                   if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                       frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
-                       frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
-                   } else {
-                       backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
-                       backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
-                   }
-                   self.updateNormalizedPiPFrame(false)
-               }
-           default: break
-           }
-       }
+        let position: CGPoint = sender.location(in: self)
+        switch sender.state {
+        case .ended:
+            self.updateNormalizedPiPFrame(false)
+        case .changed:
+            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                frontCameraVideoPreviewView.frame.origin.x = position.x - frontCameraVideoPreviewView.frame.width/2
+                frontCameraVideoPreviewView.frame.origin.y = position.y - frontCameraVideoPreviewView.frame.height/2
+            } else {
+                backCameraVideoPreviewView.frame.origin.x = position.x - backCameraVideoPreviewView.frame.width/2
+                backCameraVideoPreviewView.frame.origin.y = position.y - backCameraVideoPreviewView.frame.height/2
+            }
+        default: break
+        }
+    }
 
     @objc private func tapped() {
         CATransaction.begin()
