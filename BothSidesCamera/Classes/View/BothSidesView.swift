@@ -205,16 +205,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.setDisableActions(true)
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
         if aModel.sameRatio == true {
-            //iPhone Pro11 Bug?
-            if transform == CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) {
+            if transform == CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1) {
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             } else {
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
+                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
             }
         } else {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
-                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
+                transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
             } else {
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
