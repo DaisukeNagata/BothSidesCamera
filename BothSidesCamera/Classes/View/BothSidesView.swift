@@ -37,12 +37,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         backCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
         frontCameraVideoPreviewView.videoPreviewLayer.frame = self.bounds
-        switch UIScreen.main.nativeBounds.height {
-            case 2436:
-            //iPhone Pro11 Bug?
-            backCameraVideoPreviewView.frame.size.width = self.bounds.width + 4
-            default: break
-        }
 
         self.layer.addSublayer(backCameraVideoPreviewView.videoPreviewLayer)
         self.layer.addSublayer(frontCameraVideoPreviewView.videoPreviewLayer)
@@ -221,14 +215,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             if orientation.isPortrait {
                 self.frame = UIScreen.main.bounds
                 transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-                if aModel.sameRatio == false {
-                    switch UIScreen.main.nativeBounds.height {
-                    case 2436:
-                        //iPhone Pro11 Bug?
-                        self.backCameraVideoPreviewView.videoPreviewLayer.frame.size.width += 4
-                    default: break
-                    }
-                }
             } else {
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
             }
