@@ -11,10 +11,10 @@ import AVFoundation
 public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public var preViewRect                 = CGRect()
-    public var backCameraVideoPreviewView  = BothSidesPreviewView()
-    public var frontCameraVideoPreviewView = BothSidesPreviewView()
+    public var backCameraVideoPreviewView  : BothSidesPreviewView?
+    public var frontCameraVideoPreviewView : BothSidesPreviewView?
 
-    var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
+    var aVCaptureMultiCamViewModel         : BothSidesMultiCamViewModel?
 
     private var gestureView                : UIView?
     private var pinchGesture               : UIPinchGestureRecognizer?
@@ -27,9 +27,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                  frontDeviceType: AVCaptureDevice.DeviceType) {
         super.init(frame: .zero)
 
+        backCameraVideoPreviewView = BothSidesPreviewView()
+        frontCameraVideoPreviewView = BothSidesPreviewView()
+        
+
         aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
-        guard let session = self.aVCaptureMultiCamViewModel?.session else {
-            print("AVCaptureMultiCamViewModel_session")
+        guard let session = self.aVCaptureMultiCamViewModel?.session,
+            let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+            print("AVCaptureMultiCamViewModel_init")
             return
         }
 
@@ -57,6 +63,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func resetAspect() {
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                return
+        }
         // Smooth implementation
         self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
         backCameraVideoPreviewView.transform = .identity
@@ -100,13 +110,14 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func cameraMixStart(completion: @escaping() -> Void) {
         guard let model = aVCaptureMultiCamViewModel?.aModel, let session = aVCaptureMultiCamViewModel?.session else {
-            print("AVCaptureMultiCamViewModel_session")
+            print("AVCaptureMultiCamViewModel_cameraMixStart")
             return
         }
 
         guard session.isRunning == true  else {
             session.startRunning()
             model.vm.valueSet(model.bothObservarModel)
+            print("AVCaptureMultiCamViewModel_cameraMixStart_isRunning")
             return
         }
 
@@ -114,6 +125,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             aVCaptureMultiCamViewModel?.aModel?.recorderSet{ self.aVCaptureMultiCamViewModel?.aModel?.recordAction(completion: completion) }
             model.bothObservarModel.isRunning = true
             model.vm.valueSet(model.bothObservarModel)
+            print("AVCaptureMultiCamViewModel_cameraMixStart_isRunning")
             return
         }
 
@@ -132,7 +144,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                              frontDeviceType: AVCaptureDevice.DeviceType) {
 
         aVCaptureMultiCamViewModel?.changeDviceType()
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel,
+            let backCameraVideoPreviewView = backCameraVideoPreviewView else {
+                return
+        }
         updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
         preViewRect = self.frame
@@ -148,7 +163,13 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             for recognizer in recognizers { gestureView?.removeGestureRecognizer(recognizer)
             }
         }
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
+        guard let aModel = aVCaptureMultiCamViewModel?.aModel,
+            let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print()
+                return
+        }
+        
         frontCameraVideoPreviewView.frame = self.frame
         backCameraVideoPreviewView.frame = self.frame
         if orientation.isPortrait {
@@ -245,6 +266,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         let fullScreenVideoPreviewView: BothSidesPreviewView
         let pipVideoPreviewView: BothSidesPreviewView
 
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print("AVCaptureMultiCamViewModel_updateNormalizedPiPFrame")
+                return
+        }
+
         if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .back {
             fullScreenVideoPreviewView = frontCameraVideoPreviewView
             pipVideoPreviewView = backCameraVideoPreviewView
@@ -266,12 +293,18 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     @objc private func pinchSwipGesture(_ sender: UIPinchGestureRecognizer) {
 
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print("AVCaptureMultiCamViewModel_pinchSwipGesture")
+                return
+        }
+
         UIView.animate(withDuration: 0.5) {
             switch self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
-                self.frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+                    frontCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             case .back:
-                self.backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+                    backCameraVideoPreviewView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
             default: break
             }
             self.updateNormalizedPiPFrame(false)
@@ -280,6 +313,11 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     @objc private func panTapped(sender: UIPanGestureRecognizer) {
         let position: CGPoint = sender.location(in: self)
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print("AVCaptureMultiCamViewModel_panTapped")
+                return
+        }
         switch sender.state {
         case .ended:
             self.updateNormalizedPiPFrame(false)
@@ -296,6 +334,11 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func tapped() {
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print("AVCaptureMultiCamViewModel_tapped")
+                return
+        }
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
