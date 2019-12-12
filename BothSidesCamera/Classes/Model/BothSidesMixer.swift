@@ -13,16 +13,15 @@ final class BothSidesMixer {
 
     var pipFrame = CGRect.zero
 
-    private var pixelBuffer                  : CVPixelBuffer?
     private var cvReturn                     : CVReturn?
-    private let metalDevice                  = MTLCreateSystemDefaultDevice()
-    private var fullRangeVertexBuffer        : MTLBuffer?
+    private var pixelBuffer                  : CVPixelBuffer?
     private var outputPixelBufferPool        : CVPixelBufferPool?
     private var textureCache                 : CVMetalTextureCache?
     private var computePipelineState         : MTLComputePipelineState?
+    private let metalDevice                  = MTLCreateSystemDefaultDevice()
+
     private(set) var inputFormatDescription  : CMFormatDescription?
     private(set) var outputFormatDescription : CMFormatDescription?
-    private var orientation                  : UIInterfaceOrientation = .unknown
 
     private lazy var commandQueue            : MTLCommandQueue? = {
         guard let metalDevice = metalDevice else {
