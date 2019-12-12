@@ -102,7 +102,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     private func createVideoSampleBufferWithPixelBuffer(_ pixelBuffer: CVPixelBuffer, presentationTime: CMTime) -> CMSampleBuffer? {
         guard let videoTrackSourceFormatDescription = videoTrackSourceFormatDescription else {
-            print("AVCaptureMultiCamSessionModel_videoTrackSourceFormatDescription")
+            print("BothSidesMultiCamSessionModel_createVideoSampleBufferWithPixelBuffer")
             return nil
         }
         var sampleBuffer: CMSampleBuffer?
@@ -158,6 +158,7 @@ extension BothSidesMultiCamSessionModel {
         guard (pipDevicePosition == .back && audioDataOutput == backMicrophoneAudioDataOutput) ||
             (pipDevicePosition == .front && audioDataOutput == frontMicrophoneAudioDataOutput) else {
                 // 常に通る
+                print("PiPVideoMixer_makeTextureFromCVPixelBuffer")
                 return
         }
 
@@ -223,7 +224,7 @@ extension BothSidesMultiCamSessionModel {
 
     private func createVideoTransform() -> CGAffineTransform? {
         guard let backCameraVideoConnection = backCameraVideoDataOutput?.connection(with: .video) else {
-                print("AVCaptureMultiCamSessionModel_backCameraVideoConnection")
+                print("AVCaptureMultiCamSessionModel_createVideoTransform")
                 return nil
         }
 

@@ -104,13 +104,19 @@ final class BothSidesMixer {
             getMtlSize(mtl: fullScreenTexture,sameRatio: sameRatio)
 
             if cvReturn == kCVReturnSuccess {
-                guard let pixelBuffer = pixelBuffer else { return nil }
+                guard let pixelBuffer = pixelBuffer else {
+                    print("AVCaptureMultiCamViewModel_mix")
+                    return nil
+                }
                 let ciContext = CIContext()
                 let inputImage = CIImage(cvImageBuffer: fullScreenPixelBuffer, options: nil).transformed(by: CGAffineTransform(scaleX: 0.5, y: 0.5).translatedBy(x: CGFloat(fullScreenTexture.width/2), y: 0))
                 let colorSpace = CGColorSpaceCreateDeviceRGB()
                 ciContext.render(inputImage, to: pixelBuffer, bounds: inputImage.extent, colorSpace: colorSpace)
 
-                guard let newfullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pixelBuffer) else { return nil}
+                guard let newfullScreenTexture = makeTextureFromCVPixelBuffer(pixelBuffer: pixelBuffer) else {
+                    print("AVCaptureMultiCamViewModel_mix")
+                    return nil
+                }
                 fullScreenTexture = newfullScreenTexture
             }
         }
@@ -170,7 +176,7 @@ final class BothSidesMixer {
             , height, 0, &cvTextureOut)
 
         guard let cvTexture = cvTextureOut, let texture = CVMetalTextureGetTexture(cvTexture) else {
-            print("PiPVideoMixer_cvTexture")
+            print("PiPVideoMixer_makeTextureFromCVPixelBuffer")
             CVMetalTextureCacheFlush(textureCache, 0)
             return nil
         }
