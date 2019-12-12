@@ -16,7 +16,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     var aVCaptureMultiCamViewModel: BothSidesMultiCamViewModel?
 
-    private var gestureView                = UIView()
+    private var gestureView                : UIView?
     private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
@@ -144,8 +144,8 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        if let recognizers = gestureView.gestureRecognizers {
-            for recognizer in recognizers { gestureView.removeGestureRecognizer(recognizer)
+        if let recognizers = gestureView?.gestureRecognizers {
+            for recognizer in recognizers { gestureView?.removeGestureRecognizer(recognizer)
             }
         }
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else { return }
@@ -227,10 +227,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func recognizerstSet(_ view: UIView? = nil) {
-        if let recognizers = gestureView.gestureRecognizers {
-            for recognizer in recognizers { gestureView.removeGestureRecognizer(recognizer)
-            }
-        }
+        gestureView = nil
         swipePanGesture = UIPanGestureRecognizer(target: self, action:#selector(panTapped))
         view?.addGestureRecognizer(swipePanGesture ?? UIPanGestureRecognizer())
 
