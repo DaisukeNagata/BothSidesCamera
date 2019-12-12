@@ -14,11 +14,11 @@ final class BothSidesMultiCamSessionModel: NSObject, AVCaptureAudioDataOutputSam
 AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     var normalizedPipFrame                       = CGRect.zero
-    var videoMixer                               = BothSidesMixer()
-    var movieRecorder                            : BothSidesRecorder?
-    var pipDevicePosition                        : AVCaptureDevice.Position = .front
     var currentPiPSampleBuffer                   : CMSampleBuffer?
+    var videoMixer                               : BothSidesMixer?
+    var movieRecorder                            : BothSidesRecorder?
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
+    var pipDevicePosition                        : AVCaptureDevice.Position = .front
 
     let vm                                       = BothObserveViewModel()
     var bothObservarModel                        = IsRunningModel()
@@ -29,6 +29,10 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     private var backMicrophoneAudioDataOutput    : AVCaptureAudioDataOutput?
     private var frontMicrophoneAudioDataOutput   : AVCaptureAudioDataOutput?
     private var callBack                         = { () -> Void in }
+
+    override init() {
+        videoMixer = BothSidesMixer()
+    }
 
     func dataOutput(backdataOutput : AVCaptureVideoDataOutput? = nil,
                     frontDataOutput: AVCaptureVideoDataOutput? = nil,
@@ -78,9 +82,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
                 return
         }
 
-        videoMixer.prepare(with: formatDescription, outputRetainedBufferCountHint: 3)
-        videoMixer.pipFrame = normalizedPipFrame
-        guard let mixedPixelBuffer = videoMixer.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
+        videoMixer?.prepare(with: formatDescription, outputRetainedBufferCountHint: 3)
+        videoMixer?.pipFrame = normalizedPipFrame
+        guard let mixedPixelBuffer = videoMixer?.mix(fullScreenPixelBuffer: fullScreenPixelBuffer,
                                                     pipPixelBuffer: pipPixelBuffer,
                                                     sameRatio) else {
                                                         print("AVCaptureMultiCamSessionModel_mixedPixelBuffer")
