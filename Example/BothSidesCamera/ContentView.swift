@@ -145,23 +145,28 @@ struct SidesView: UIViewRepresentable {
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
                                              frontDeviceType: .builtInWideAngleCamera)
 
+    func saveBtn() {
+        DispatchQueue.main.async {
+            self.orientationModel?.showingAlert = true
+        }
+    }
+
+    // Super wide angle compatible
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
-        // Super wide angle compatible
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
         return nil
     }
 
+    // Modifying state during view update, this will cause undefined behavior.  bothSidesView = bView
+    func updateUIView(_ bView: BothSidesView, context: Context) {
+        DispatchQueue.main.async { self.bothSidesView = bView }
+    }
+
     func flash() { bothSidesView.pushFlash() }
 
     func cameraStop() { bothSidesView.cameraStop()}
-    
-    func saveBtn() {
-        DispatchQueue.main.async {
-            self.orientationModel?.showingAlert = true
-        }
-    }
     
     func sameRatioFlg() {bothSidesView.sameRatioFlg()}
     
@@ -169,16 +174,7 @@ struct SidesView: UIViewRepresentable {
 
     func cameraStart() { bothSidesView.cameraMixStart(completion: saveBtn) }
 
-    // Modifying state during view update, this will cause undefined behavior.  bothSidesView = bView
-    func updateUIView(_ bView: BothSidesView, context: Context) {
-        DispatchQueue.main.async {
-            self.bothSidesView = bView
-        }
-    }
-
-    func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView {
-        return  bothSidesView
-    }
+    func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView { return  bothSidesView }
 
     func orientation(model: OrientationModel) { bothSidesView.preViewSizeSet(orientation:  model.orientation) }
 
