@@ -112,6 +112,22 @@ struct ContentView: View {
                 self.model.bothSidesView = self.bView
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+
+                guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView,
+                    let frontCameraVideoPreviewView = self.bView.bothSidesView.frontCameraVideoPreviewView else {
+                        return
+                }
+
+                // preview orign set example
+                backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
+                                                                            y: 0,
+                                                                            width : backCameraVideoPreviewView.frame.width,
+                                                                            height: backCameraVideoPreviewView.frame.width * 1.77777777777778)
+                frontCameraVideoPreviewView.transform = .identity
+                frontCameraVideoPreviewView.frame.size = CGSize(width: backCameraVideoPreviewView.frame.width/4,
+                                                                      height: backCameraVideoPreviewView.frame.height/4)
+    
+                self.bView.bothSidesView.deviceAspect(rect: backCameraVideoPreviewView.frame)
             }
         }
     }
@@ -134,23 +150,6 @@ struct SidesView: UIViewRepresentable {
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
             bView.changeDviceType(backDeviceType: .builtInUltraWideCamera, frontDeviceType:.builtInWideAngleCamera)
-
-        guard let backCameraVideoPreviewView = bView.backCameraVideoPreviewView,
-            let frontCameraVideoPreviewView = bView.frontCameraVideoPreviewView else {
-                return nil
-        }
-        // preview orign set example
-        backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
-                                                                          y: 0,
-                                                                          width : self.bothSidesView.frame.width+4,
-                                                                          height: self.bothSidesView.frame.width * 1.77777777777)
-        frontCameraVideoPreviewView.transform = .identity
-
-        frontCameraVideoPreviewView.frame.size = CGSize(width: backCameraVideoPreviewView.frame.width/4,
-                                                              height: backCameraVideoPreviewView.frame.height/4)
-
-        frontCameraVideoPreviewView.center = backCameraVideoPreviewView.center
-        bView.deviceAspect(rect: backCameraVideoPreviewView.frame)
         return nil
     }
 
