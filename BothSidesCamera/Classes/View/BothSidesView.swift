@@ -17,9 +17,9 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     var aVCaptureMultiCamViewModel         : BothSidesMultiCamViewModel?
 
     private var gestureView                : UIView?
-    private var pinchGesture               : UIPinchGestureRecognizer?
     private var swipePanGesture            : UIPanGestureRecognizer?
     private var tapPanGesture              : UITapGestureRecognizer?
+    private var pinchGesture               : UIPinchGestureRecognizer?
     private var orientation                : UIInterfaceOrientation = .unknown
 
 

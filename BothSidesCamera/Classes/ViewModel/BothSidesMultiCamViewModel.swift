@@ -11,18 +11,20 @@ import AVFoundation
 
 final class BothSidesMultiCamViewModel: NSObject {
 
-    var aModel  : BothSidesMultiCamSessionModel?
-    var session = AVCaptureMultiCamSession()
-    let backCameraVideoDataOutput = AVCaptureVideoDataOutput()
+    var session                   = AVCaptureMultiCamSession()
+    var aModel                    : BothSidesMultiCamSessionModel?
 
-    var frontDeviceInput                       : AVCaptureDeviceInput?
-    var backDeviceInput                        : AVCaptureDeviceInput?
     var backCamera                             : AVCaptureDevice?
+    var backDeviceInput                        : AVCaptureDeviceInput?
+    var frontDeviceInput                       : AVCaptureDeviceInput?
 
     private var microphoneDeviceInput          : AVCaptureDeviceInput?
+
+    private let backCameraVideoDataOutput      = AVCaptureVideoDataOutput()
     private let frontCameraVideoDataOutput     = AVCaptureVideoDataOutput()
     private let backMicrophoneAudioDataOutput  = AVCaptureAudioDataOutput()
     private let frontMicrophoneAudioDataOutput = AVCaptureAudioDataOutput()
+
     private let dataOutputQueue                = DispatchQueue(label: "data output queue")
 
 

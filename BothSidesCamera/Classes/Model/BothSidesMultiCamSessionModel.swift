@@ -20,9 +20,9 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
 
-    let vm                                       = BothObserveViewModel()
     var bothObservarModel                        = IsRunningModel()
     var sameRatioModel                           = SameRatioModel()
+    let vm                                       = BothObserveViewModel()
 
     private var videoTrackSourceFormatDescription: CMFormatDescription?
     private var frontCameraVideoDataOutput       : AVCaptureVideoDataOutput?
