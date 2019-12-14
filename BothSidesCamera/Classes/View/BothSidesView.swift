@@ -185,28 +185,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 print("AVCaptureMultiCamViewModel_frontCameraVideoPreviewView")
                 return
         }
-        
         backCameraVideoPreviewView.transform = .identity
         backCameraVideoPreviewView.frame = preViewRect
         frontCameraVideoPreviewView.transform = .identity
         frontCameraVideoPreviewView.frame = preViewRect
-
-        oriantation {
-            if  aModel.sameRatioModel.sameRatio == true {
-                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.y = 0
-                    backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
-                } else {
-                    frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
-                    backCameraVideoPreviewView.frame.origin.y = 0
-                }
-                updateNormalizedPiPFrame(true)
+        if  aModel.sameRatioModel.sameRatio == true {
+            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+            
+            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                frontCameraVideoPreviewView.frame.origin.y = 0
+                backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
             } else {
-                tapped()
+                frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
+                backCameraVideoPreviewView.frame.origin.y = 0
             }
+            updateNormalizedPiPFrame(true)
+        } else {
+            tapped()
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
