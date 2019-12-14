@@ -186,51 +186,22 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 return
         }
         
-        frontCameraVideoPreviewView.frame = self.frame
-        backCameraVideoPreviewView.frame = self.frame
-        if orientation.isPortrait {
+        backCameraVideoPreviewView.transform = .identity
+        backCameraVideoPreviewView.frame = preViewRect
+        frontCameraVideoPreviewView.transform = .identity
+        frontCameraVideoPreviewView.frame = preViewRect
+
+        oriantation {
             if  aModel.sameRatioModel.sameRatio == true {
-    
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
 
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                     frontCameraVideoPreviewView.frame.origin.y = 0
-                    backCameraVideoPreviewView.frame.origin.y = self.frame.height/2
+                    backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
                 } else {
-                    frontCameraVideoPreviewView.frame.origin.y = self.frame.height/2
+                    frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
                     backCameraVideoPreviewView.frame.origin.y = 0
-                }
-                updateNormalizedPiPFrame(true)
-            } else {
-                tapped()
-            }
-        } else {
-            if aModel.sameRatioModel.sameRatio == true {
-                let window = UIApplication.shared.windows[0]
-                let safeFrame = window.safeAreaLayoutGuide.layoutFrame
-                let safeAreaHlfeight = (window.frame.maxY - safeFrame.maxY)/2
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    
-                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                               y: frontCameraVideoPreviewView.frame.origin.y,
-                                                               width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                               height: self.frame.width/2)
-                    
-                    backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                              y: self.frame.width/2,
-                                                              width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                              height: self.frame.width/2)
-                } else {
-                    backCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                              y: backCameraVideoPreviewView.frame.origin.y,
-                                                              width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                              height: self.frame.width/2)
-                    
-                    frontCameraVideoPreviewView.frame = CGRect(x: UIScreen.main.bounds.height - self.frame.height + safeAreaHlfeight,
-                                                               y: self.frame.width/2,
-                                                               width: self.frame.height/2 + UINavigationController.init().navigationBar.frame.height,
-                                                               height: self.frame.width/2)
                 }
                 updateNormalizedPiPFrame(true)
             } else {
@@ -254,15 +225,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
-            print("AVCaptureMultiCamViewModel_oriantation")
-            return
-        }
-        if aModel.sameRatioModel.sameRatio == true {
-            updateNormalizedPiPFrame(true)
-        } else {
-            updateNormalizedPiPFrame(false)
-        }
         bind()
     }
 
