@@ -76,8 +76,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
             case .front:
                 frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                frontCameraVideoPreviewView.frame.origin = CGPoint(x: 0, y: 0)
             case .back:
                 backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+                backCameraVideoPreviewView.frame.origin = CGPoint(x: 0, y: 0)
             default:break
             }
             guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
@@ -366,11 +368,13 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
         case .front:
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            backCameraVideoPreviewView.frame.origin = CGPoint(x: 0, y: 0)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .back
             self.bringSubviewToFront(backCameraVideoPreviewView)
             recognizerstSet(backCameraVideoPreviewView)
         case .back:
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            frontCameraVideoPreviewView.frame.origin = CGPoint(x: 0, y: 0)
             aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition = .front
             self.bringSubviewToFront(frontCameraVideoPreviewView)
             recognizerstSet(frontCameraVideoPreviewView)
