@@ -112,21 +112,15 @@ struct ContentView: View {
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
 
-                guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView,
-                    let frontCameraVideoPreviewView = self.bView.bothSidesView.frontCameraVideoPreviewView else {
-                        return
-                }
+                guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
 
                 // preview orign set example
                 backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
                                                                             y: 0,
                                                                             width : backCameraVideoPreviewView.frame.width,
                                                                             height: backCameraVideoPreviewView.frame.width * 1.77777777777778)
-                frontCameraVideoPreviewView.transform = .identity
-                frontCameraVideoPreviewView.frame.size = CGSize(width: backCameraVideoPreviewView.frame.width/4,
-                                                                      height: backCameraVideoPreviewView.frame.height/4)
-    
                 self.bView.bothSidesView.deviceAspect(rect: backCameraVideoPreviewView.frame)
+                self.bView.bothSidesView.resetAspect()
             }
         }
     }
