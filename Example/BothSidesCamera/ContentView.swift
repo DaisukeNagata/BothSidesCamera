@@ -109,7 +109,6 @@ struct ContentView: View {
 
             }.onAppear {
                 self.model.contentView = self
-                self.model.bothSidesView = self.bView
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
 
@@ -185,7 +184,6 @@ final class OrientationModel: ObservableObject {
     @Published var showingAlert = false
     @Published var orientation: UIInterfaceOrientation = .unknown
 
-    var bothSidesView: SidesView?
     var contentView: ContentView?
 
     private var notificationCenter: NotificationCenter
@@ -201,15 +199,15 @@ final class OrientationModel: ObservableObject {
     }
 
     @objc func foreGround(notification: Notification) {
-        guard let bothSidesView = bothSidesView else { return }
-        bothSidesView.bothSidesView.resetAspect()
-        bothSidesView.cameraStart()
+        guard let contentView = contentView else { return }
+        contentView.bView.bothSidesView.resetAspect()
+        contentView.bView.cameraStart()
     }
 
     @objc func backGround(notification: Notification) {
-        guard let contentView = contentView ,let bothSidesView = bothSidesView else { return }
+        guard let contentView = contentView else { return }
         contentView.didTap = false
-        bothSidesView.cameraStop()
+        contentView.bView.cameraStop()
     }
 
 }
