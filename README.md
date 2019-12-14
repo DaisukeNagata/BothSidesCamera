@@ -1,6 +1,6 @@
 # BothSidesCamera
 <p align="center">
-<img src="https://user-images.githubusercontent.com/16457165/70841787-811bd500-1e60-11ea-8391-74b19f65dc59.png">
+<img src="https://user-images.githubusercontent.com/16457165/70843118-58034080-1e70-11ea-9461-99cf56db8d61.png">
 </p>
 
 [![CI Status](https://img.shields.io/travis/daisukenagata/BothSidesCamera.svg?style=flat)](https://travis-ci.org/daisukenagata/BothSidesCamera)
