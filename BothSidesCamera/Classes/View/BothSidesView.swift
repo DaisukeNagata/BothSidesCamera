@@ -68,24 +68,24 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 print("AVCaptureMultiCamViewModel_resetAspect")
                 return
         }
-        // Smooth implementation
-        self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-        backCameraVideoPreviewView.transform = .identity
-        backCameraVideoPreviewView.frame = preViewRect
-        frontCameraVideoPreviewView.transform = .identity
-        frontCameraVideoPreviewView.frame = preViewRect
-        switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-        case .front:
-            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-        case .back:
-            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
-        default:break
+        oriantation {
+            backCameraVideoPreviewView.transform = .identity
+            backCameraVideoPreviewView.frame = preViewRect
+            frontCameraVideoPreviewView.transform = .identity
+            frontCameraVideoPreviewView.frame = preViewRect
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            case .back:
+                backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.3, y: 0.3)
+            default:break
+            }
+            guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
+                print("AVCaptureMultiCamViewModel_resetAspect")
+                return
+            }
+            updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         }
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
-            print("AVCaptureMultiCamViewModel_resetAspect")
-            return
-        }
-        updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
     }
 
     public func deviceAspect(rect: CGRect) { preViewRect = rect }
@@ -154,19 +154,19 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     public func changeDviceType(backDeviceType : AVCaptureDevice.DeviceType,
-                             frontDeviceType: AVCaptureDevice.DeviceType) {
-
-        aVCaptureMultiCamViewModel?.changeDviceType()
-        guard let aModel = aVCaptureMultiCamViewModel?.aModel,
-            let backCameraVideoPreviewView = backCameraVideoPreviewView else {
-                print("AVCaptureMultiCamViewModel_changeDviceType")
-                return
+                                frontDeviceType: AVCaptureDevice.DeviceType) {
+        
+        oriantation {
+            aVCaptureMultiCamViewModel?.changeDviceType()
+            guard let aModel = aVCaptureMultiCamViewModel?.aModel,
+                let backCameraVideoPreviewView = backCameraVideoPreviewView else {
+                    print("AVCaptureMultiCamViewModel_changeDviceType")
+                    return
+            }
+            updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
+            aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
+            preViewRect = self.frame
         }
-        updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
-        aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-        preViewRect = self.frame
-        // Smooth implementation
-        self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
     }
 
     private func sameBothViewSetting() {
@@ -245,7 +245,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
         if orientation.isPortrait {
-            transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 1)
+            transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
         } else {
             transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
         }
