@@ -10,6 +10,7 @@ import Foundation
 class BothObserveViewModel: Observer {
 
     var model : BothObservable<IsRunningModel>?
+
     var sameRatioModel : BothObservable<SameRatioModel>?
 
     init() {

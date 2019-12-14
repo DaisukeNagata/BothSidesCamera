@@ -267,7 +267,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func recognizerstSet(_ view: UIView? = nil) {
-        gestureView = nil
+        if let recognizers = gestureView?.gestureRecognizers {
+            for recognizer in recognizers { gestureView?.removeGestureRecognizer(recognizer)
+            }
+        }
         swipePanGesture = UIPanGestureRecognizer(target: self, action:#selector(panTapped))
         view?.addGestureRecognizer(swipePanGesture ?? UIPanGestureRecognizer())
 
