@@ -29,7 +29,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         backCameraVideoPreviewView = BothSidesPreviewView()
         frontCameraVideoPreviewView = BothSidesPreviewView()
-        
 
         aVCaptureMultiCamViewModel = BothSidesMultiCamViewModel()
         guard let session = self.aVCaptureMultiCamViewModel?.session,
@@ -150,13 +149,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
             updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
             aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-            case .front:
-                preViewRect = self.backCameraVideoPreviewView?.frame ?? CGRect()
-            case .back:
-                preViewRect = self.frontCameraVideoPreviewView?.frame ?? CGRect()
-            default: break
-            }
         }
     }
 
