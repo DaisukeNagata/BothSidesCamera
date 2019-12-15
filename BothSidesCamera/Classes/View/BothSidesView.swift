@@ -150,7 +150,13 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
             updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
             aVCaptureMultiCamViewModel?.configureBackCamera(backCameraVideoPreviewView.videoPreviewLayer, deviceType: backDeviceType)
-            preViewRect = self.frame
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                preViewRect = self.backCameraVideoPreviewView?.frame ?? CGRect()
+            case .back:
+                preViewRect = self.frontCameraVideoPreviewView?.frame ?? CGRect()
+            default: break
+            }
         }
     }
 
