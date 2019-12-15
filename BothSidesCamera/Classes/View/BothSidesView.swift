@@ -213,11 +213,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        if orientation.isPortrait {
-            transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01)
-        } else {
-            transform = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-        }
+
+        self.transform = orientation.isPortrait == true ?
+            CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01):
+            CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+        aVCaptureMultiCamViewModel?.aModel?.transFormCheck = self.transform
+
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)

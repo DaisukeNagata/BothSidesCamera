@@ -20,6 +20,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var backCameraVideoDataOutput                : AVCaptureVideoDataOutput?
     var pipDevicePosition                        : AVCaptureDevice.Position = .front
 
+    var transFormCheck                           = CGAffineTransform()
     var bothObservarModel                        = IsRunningModel()
     var sameRatioModel                           = SameRatioModel()
     let vm                                       = BothObserveViewModel()
@@ -46,7 +47,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
 
     }
 
-    func recorderSet(bind: ()->()) {
+    func recorderSet(bind: () -> ()) {
         movieRecorder = BothSidesRecorder(audioSettings:  createAudioSettings(), videoSettings:  createVideoSettings(),videoTransform: createVideoTransform())
         bind()
     }
@@ -227,12 +228,16 @@ extension BothSidesMultiCamSessionModel {
                 print("AVCaptureMultiCamSessionModel_createVideoTransform")
                 return nil
         }
-
         let deviceOrientation = UIDevice.current.orientation
         let videoOrientation = AVCaptureVideoOrientation(rawValue: deviceOrientation.rawValue) ?? .portraitUpsideDown
-        let backCameraTransform = backCameraVideoConnection.videoOrientationTransform(relativeTo: videoOrientation)
-
-        return backCameraTransform
+        if UIDevice.current.orientation.isFlat == true {
+            transFormCheck = transFormCheck == CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) ?
+                backCameraVideoConnection.videoOrientationTransform(relativeTo: .portrait) :
+                backCameraVideoConnection.videoOrientationTransform(relativeTo: .landscapeLeft)
+        } else {
+            transFormCheck = backCameraVideoConnection.videoOrientationTransform(relativeTo: videoOrientation)
+        }
+        return transFormCheck
     }
 }
 
