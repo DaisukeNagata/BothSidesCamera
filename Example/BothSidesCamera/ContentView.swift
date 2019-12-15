@@ -119,8 +119,7 @@ struct ContentView: View {
                                                                             y: 0,
                                                                             width : backCameraVideoPreviewView.frame.width,
                                                                             height: backCameraVideoPreviewView.frame.width * 1.77777777777778)
-                self.bView.bothSidesView.deviceAspect(rect: backCameraVideoPreviewView.frame)
-                self.bView.bothSidesView.resetAspect()
+                self.bView.bothSidesView.deviceAspect(backCameraVideoPreviewView.frame)
             }
         }
     }
@@ -194,7 +193,6 @@ final class OrientationModel: ObservableObject {
 
     @objc func foreGround(notification: Notification) {
         guard let contentView = contentView else { return }
-        contentView.bView.bothSidesView.resetAspect()
         contentView.bView.cameraStart()
     }
 
