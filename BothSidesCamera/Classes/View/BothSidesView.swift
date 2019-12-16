@@ -184,6 +184,11 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
                 backCameraVideoPreviewView.frame.origin.y = 0
             }
+
+            if UIInterfaceOrientation.landscapeRight == orientation  {
+                backCameraVideoPreviewView.frame.origin.x = 0
+                frontCameraVideoPreviewView.frame.origin.x = 0
+            }
             updateNormalizedPiPFrame(true)
         } else {
             tapped(false)
@@ -198,24 +203,34 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
+        guard let backCameraVideoPreviewView = backCameraVideoPreviewView,
+            let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
+                print("AVCaptureMultiCamViewModel_oriantation")
+                return
+        }
 
         if UIInterfaceOrientation.landscapeRight == orientation  {
             self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
             let window = UIApplication.shared.windows[0]
             let safeFrame = window.safeAreaLayoutGuide.layoutFrame
             let safeAreaHeight = (window.frame.maxY - safeFrame.maxY)
-
-            backCameraVideoPreviewView?.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
-            frontCameraVideoPreviewView?.frame.origin.x = self.frame.width - (frontCameraVideoPreviewView?.frame.width ?? 0.0)
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                backCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
+                frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width/2
+            case .back:
+                frontCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
+                backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width/2
+            default: break
+            }
         } else {
             self.transform = orientation.isPortrait == true ?
                 CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
                 CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
-            backCameraVideoPreviewView?.frame.origin.x = 0
-            frontCameraVideoPreviewView?.frame.origin.x = 0
+            backCameraVideoPreviewView.frame.origin.x = 0
+            frontCameraVideoPreviewView.frame.origin.x = 0
         }
         aVCaptureMultiCamViewModel?.aModel?.transFormCheck = self.transform
-
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
         CATransaction.setDisableActions(false)
@@ -338,6 +353,20 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             self.bringSubviewToFront(frontCameraVideoPreviewView)
             flg == false ? recognizerstSet(frontCameraVideoPreviewView):nil
         default: break
+        }
+        if UIInterfaceOrientation.landscapeRight == orientation  {
+            let window = UIApplication.shared.windows[0]
+            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+            let safeAreaHeight = (window.frame.maxY - safeFrame.maxY)
+            switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+            case .front:
+                backCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
+                frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width/2
+            case .back:
+                frontCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
+                backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width/2
+            default: break
+            }
         }
         CATransaction.commit()
         UIView.setAnimationsEnabled(true)
