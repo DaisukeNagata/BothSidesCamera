@@ -169,7 +169,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 return
         }
 
-        if  aModel.sameRatioModel.sameRatio == true {
+        if aModel.sameRatioModel.sameRatio == true {
             backCameraVideoPreviewView.transform = .identity
             backCameraVideoPreviewView.frame = preViewRect
             frontCameraVideoPreviewView.transform = .identity
@@ -199,9 +199,21 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
 
-        self.transform = orientation.isPortrait == true ?
-            CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01):
-            CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
+        if UIInterfaceOrientation.landscapeRight == orientation  {
+            self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
+            let window = UIApplication.shared.windows[0]
+            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+            let safeAreaHeight = (window.frame.maxY - safeFrame.maxY)
+
+            backCameraVideoPreviewView?.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
+            frontCameraVideoPreviewView?.frame.origin.x = self.frame.width - (frontCameraVideoPreviewView?.frame.width ?? 0.0)
+        } else {
+            self.transform = orientation.isPortrait == true ?
+                CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+            backCameraVideoPreviewView?.frame.origin.x = 0
+            frontCameraVideoPreviewView?.frame.origin.x = 0
+        }
         aVCaptureMultiCamViewModel?.aModel?.transFormCheck = self.transform
 
         CATransaction.commit()

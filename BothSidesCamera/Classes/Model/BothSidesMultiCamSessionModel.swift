@@ -225,17 +225,21 @@ extension BothSidesMultiCamSessionModel {
 
     private func createVideoTransform() -> CGAffineTransform? {
         guard let backCameraVideoConnection = backCameraVideoDataOutput?.connection(with: .video) else {
-                print("AVCaptureMultiCamSessionModel_createVideoTransform")
-                return nil
+            print("AVCaptureMultiCamSessionModel_createVideoTransform")
+            return nil
         }
         let deviceOrientation = UIDevice.current.orientation
         let videoOrientation = AVCaptureVideoOrientation(rawValue: deviceOrientation.rawValue) ?? .portraitUpsideDown
-        if UIDevice.current.orientation.isFlat == true {
-            transFormCheck = transFormCheck == CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) ?
-                backCameraVideoConnection.videoOrientationTransform(relativeTo: .portrait) :
-                backCameraVideoConnection.videoOrientationTransform(relativeTo: .landscapeLeft)
+        if UIInterfaceOrientation.landscapeRight.rawValue == UIDevice.current.orientation.rawValue  {
+            transFormCheck = backCameraVideoConnection.videoOrientationTransform(relativeTo: .landscapeRight)
         } else {
-            transFormCheck = backCameraVideoConnection.videoOrientationTransform(relativeTo: videoOrientation)
+            if UIDevice.current.orientation.isFlat == true {
+                transFormCheck = transFormCheck == CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) ?
+                    backCameraVideoConnection.videoOrientationTransform(relativeTo: .portrait) :
+                    backCameraVideoConnection.videoOrientationTransform(relativeTo: .landscapeLeft)
+            } else {
+                transFormCheck = backCameraVideoConnection.videoOrientationTransform(relativeTo: videoOrientation)
+            }
         }
         return transFormCheck
     }
