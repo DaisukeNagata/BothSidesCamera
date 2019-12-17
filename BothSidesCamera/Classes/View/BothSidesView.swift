@@ -173,14 +173,14 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
             if UIInterfaceOrientation.landscapeRight == orientation  {
                 var safeAreaWidth: CGFloat = 0
+                if UIApplication.shared.windows == [] {
+                    safeAreaWidth = 44
+                } else {
+                    let window = UIApplication.shared.windows
+                    let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
+                    safeAreaWidth = (window[0].frame.maxX - safeFrame.maxX)
+                }
                 if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    if UIApplication.shared.windows == [] {
-                        safeAreaWidth = 44
-                    } else {
-                        let window = UIApplication.shared.windows
-                        let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
-                        safeAreaWidth = (window[0].frame.maxX - safeFrame.maxX)
-                    }
                     frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
                     backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
                     frontCameraVideoPreviewView.frame.origin.y = 0
@@ -188,7 +188,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 } else {
                     frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
                     backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
-                    
                     frontCameraVideoPreviewView.frame.origin.y = preViewRect.height/2
                     backCameraVideoPreviewView.frame.origin.y = 0
                 }
