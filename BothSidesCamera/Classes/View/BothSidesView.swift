@@ -210,28 +210,28 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
 
         if UIInterfaceOrientation.landscapeRight == orientation  {
-            var safeAreaHeight: CGFloat = 0
+            var safeAreaWidth: CGFloat = 0
             if UIApplication.shared.windows == [] {
-                safeAreaHeight = 21
+                safeAreaWidth = 44
             } else {
                 let window = UIApplication.shared.windows
                 let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
-                safeAreaHeight = (window[0].frame.maxY - safeFrame.maxY)
+                safeAreaWidth = (window[0].frame.maxX - safeFrame.maxX)
             }
-            
+
             if aModel.sameRatioModel.sameRatio == false {
                 switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
                 case .front:
-                    backCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
-                    frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width/2 + safeAreaHeight/2
+                    backCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaWidth
+                    frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width - (frontCameraVideoPreviewView.frame.width + UINavigationController.init().navigationBar.frame.height + safeAreaWidth)
                 case .back:
-                    frontCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
-                    backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width/2 + safeAreaHeight/2
+                    frontCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaWidth
+                    backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width - (backCameraVideoPreviewView.frame.width + UINavigationController.init().navigationBar.frame.height + safeAreaWidth)
                 default: break
                 }
             } else {
-                backCameraVideoPreviewView.frame.origin.x = safeAreaHeight
-                frontCameraVideoPreviewView.frame.origin.x = safeAreaHeight
+                backCameraVideoPreviewView.frame.origin.x = safeAreaWidth
+                frontCameraVideoPreviewView.frame.origin.x = safeAreaWidth
             }
             self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
         } else {
