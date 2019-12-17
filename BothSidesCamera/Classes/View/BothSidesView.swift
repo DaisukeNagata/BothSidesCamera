@@ -171,20 +171,36 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
 
-            if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                frontCameraVideoPreviewView.frame.origin.y = 0
-                backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
-            } else {
-                frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
-                backCameraVideoPreviewView.frame.origin.y = 0
-            }
-
             if UIInterfaceOrientation.landscapeRight == orientation  {
-                let window = UIApplication.shared.windows[0]
-                let safeFrame = window.safeAreaLayoutGuide.layoutFrame
-                let safeAreaHeight = (window.frame.maxY - safeFrame.maxY)
-                backCameraVideoPreviewView.frame.origin.x = safeAreaHeight
-                frontCameraVideoPreviewView.frame.origin.x = safeAreaHeight
+                var safeAreaWidth: CGFloat = 0
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    if UIApplication.shared.windows == [] {
+                        safeAreaWidth = 44
+                    } else {
+                        let window = UIApplication.shared.windows
+                        let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
+                        safeAreaWidth = (window[0].frame.maxX - safeFrame.maxX)
+                    }
+                    frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
+                    backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
+                    frontCameraVideoPreviewView.frame.origin.y = 0
+                    backCameraVideoPreviewView.frame.origin.y = preViewRect.height/2
+                } else {
+                    frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
+                    backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + safeAreaWidth/2
+                    
+                    frontCameraVideoPreviewView.frame.origin.y = preViewRect.height/2
+                    backCameraVideoPreviewView.frame.origin.y = 0
+                }
+            } else {
+                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                    frontCameraVideoPreviewView.frame.origin.y = 0
+                    backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
+                } else {
+                    frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
+                    backCameraVideoPreviewView.frame.origin.y = 0
+                }
+                
             }
             updateNormalizedPiPFrame(true)
         } else {
@@ -230,8 +246,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 default: break
                 }
             } else {
-                backCameraVideoPreviewView.frame.origin.x = safeAreaWidth
-                frontCameraVideoPreviewView.frame.origin.x = safeAreaWidth
+                sameBothViewSetting()
             }
             self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
         } else {
@@ -260,12 +275,12 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                     default: break
                     }
                     self.transform = orientation.isPortrait == true ?
-                                                  CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
-                                                  CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
                 } else {
                     self.transform = orientation.isPortrait == true ?
-                                                  CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
-                                                  CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
                     sameBothViewSetting()
                 }
             }
