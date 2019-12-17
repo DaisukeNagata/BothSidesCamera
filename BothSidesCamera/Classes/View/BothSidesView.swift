@@ -202,6 +202,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.setDisableActions(false)
     }
 
+    // TODO think logic
     private func oriantation(_ bind: ()->()) {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
@@ -241,26 +242,31 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
             updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         } else {
-
-            if aModel.sameRatioModel.sameRatio == false {
-                backCameraVideoPreviewView.frame.origin.x = 0
-                frontCameraVideoPreviewView.frame.origin.x = 0
-                switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
-                case .front:
-                    backCameraVideoPreviewView.frame = self.frame
-                case .back:
-                    frontCameraVideoPreviewView.frame = self.frame
-                default: break
-                }
+            if UIInterfaceOrientation.landscapeLeft == orientation  {
                 self.transform = orientation.isPortrait == true ?
                     CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
                     CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
-                updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
             } else {
-                self.transform = orientation.isPortrait == true ?
-                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
-                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
-                sameBothViewSetting()
+                if aModel.sameRatioModel.sameRatio == false {
+                    backCameraVideoPreviewView.frame.origin.x = 0
+                    frontCameraVideoPreviewView.frame.origin.x = 0
+                    switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+                    case .front:
+                        backCameraVideoPreviewView.frame = self.frame
+                    case .back:
+                        frontCameraVideoPreviewView.frame = self.frame
+                    default: break
+                    }
+                    self.transform = orientation.isPortrait == true ?
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+                    updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
+                } else {
+                    self.transform = orientation.isPortrait == true ?
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                        CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+                    sameBothViewSetting()
+                }
             }
         }
         aVCaptureMultiCamViewModel?.aModel?.transFormCheck = self.transform
