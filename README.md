@@ -14,6 +14,8 @@
 - iOS 13.2+
 - Xcode 11.2.1
 
+## Version 1.1.1 ~　Supported all screen positions.
+
 ## Version 0.8.9 ~ The preview screen and playback screen are perfectly matched
 
 ## Version 0.8 ~ Preview screen with the same ratio and recording function 
