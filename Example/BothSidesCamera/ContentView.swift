@@ -114,7 +114,7 @@ struct ContentView: View {
 
                 guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
 
-                // preview orign set example
+                // preview origin set example
                 backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
                                                                             y: 0,
                                                                             width : backCameraVideoPreviewView.frame.width,
