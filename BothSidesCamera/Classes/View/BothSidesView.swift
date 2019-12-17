@@ -216,7 +216,6 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         if UIInterfaceOrientation.landscapeRight == orientation  {
             self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
-            print(UIApplication.shared.windows)
             var safeAreaHeight: CGFloat = 0
             if UIApplication.shared.windows == [] {
                 safeAreaHeight = 21
@@ -229,10 +228,10 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
                 case .front:
                     backCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
-                    frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width/2
+                    frontCameraVideoPreviewView.frame.origin.x = backCameraVideoPreviewView.frame.width/2 + safeAreaHeight/2
                 case .back:
                     frontCameraVideoPreviewView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - safeAreaHeight
-                    backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width/2
+                    backCameraVideoPreviewView.frame.origin.x = frontCameraVideoPreviewView.frame.width/2 + safeAreaHeight/2
                 default: break
                 }
             } else {
@@ -240,20 +239,29 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 backCameraVideoPreviewView.frame.origin.x = safeAreaHeight
                 frontCameraVideoPreviewView.frame.origin.x = safeAreaHeight
             }
+            updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
         } else {
 
             if aModel.sameRatioModel.sameRatio == false {
-                if frontCameraVideoPreviewView.frame.origin.x == backCameraVideoPreviewView.frame.width/2 ||
-                    backCameraVideoPreviewView.frame.origin.x == frontCameraVideoPreviewView.frame.width/2 {
-                    backCameraVideoPreviewView.frame.origin.x = 0
-                    frontCameraVideoPreviewView.frame.origin.x = 0
+                backCameraVideoPreviewView.frame.origin.x = 0
+                frontCameraVideoPreviewView.frame.origin.x = 0
+                switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
+                case .front:
+                    backCameraVideoPreviewView.frame = self.frame
+                case .back:
+                    frontCameraVideoPreviewView.frame = self.frame
+                default: break
                 }
+                self.transform = orientation.isPortrait == true ?
+                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
+                updateNormalizedPiPFrame(aModel.sameRatioModel.sameRatio)
             } else {
+                self.transform = orientation.isPortrait == true ?
+                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
+                    CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
                 sameBothViewSetting()
             }
-            self.transform = orientation.isPortrait == true ?
-                CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
-                CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
         }
         aVCaptureMultiCamViewModel?.aModel?.transFormCheck = self.transform
         CATransaction.commit()
