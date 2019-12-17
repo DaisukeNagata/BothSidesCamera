@@ -20,4 +20,16 @@ public class BothSidesPreviewView: UIView {
     public override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
+    
+    func videoViewAreaWidth() -> CGFloat {
+        var safeAreaWidth: CGFloat = 0
+        if UIApplication.shared.windows == [] {
+            safeAreaWidth = 44
+        } else {
+            let window = UIApplication.shared.windows
+            let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
+            safeAreaWidth = (window[0].frame.maxX - safeFrame.maxX)
+        }
+        return safeAreaWidth
+    }
 }
