@@ -133,7 +133,7 @@ extension BothSidesMultiCamSessionModel {
     }
 
     private func processVideoSampleBuffer(_ sampleBuffer: CMSampleBuffer, fromOutput videoDataOutput: AVCaptureVideoDataOutput) {
-        
+
         if videoTrackSourceFormatDescription == nil { videoTrackSourceFormatDescription = CMSampleBufferGetFormatDescription( sampleBuffer ) }
 
         var fullScreenSampleBuffer: CMSampleBuffer?

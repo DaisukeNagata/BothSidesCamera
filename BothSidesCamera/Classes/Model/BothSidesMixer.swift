@@ -88,7 +88,7 @@ final class BothSidesMixer {
     func mix(fullScreenPixelBuffer: CVPixelBuffer,
              pipPixelBuffer: CVPixelBuffer,
              _ sameRatio: Bool) -> CVPixelBuffer? {
-       
+
         guard let outputPixelBufferPool = outputPixelBufferPool else { return nil }
 
         var newPixelBuffer: CVPixelBuffer?
@@ -248,7 +248,7 @@ final class BothSidesMixer {
             CMVideoFormatDescriptionCreateForImageBuffer(allocator: kCFAllocatorDefault,
                                                          imageBuffer: pixel,
                                                          formatDescriptionOut: &outputFormatDescription)
-            
+
             pixelBuffer = nil
 
             return (pixelBufferPool, cgColorSpace, outputFormatDescription)

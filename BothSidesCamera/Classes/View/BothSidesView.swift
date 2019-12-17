@@ -73,7 +73,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             tapped(true)
         }
     }
-    
+
     public func pushFlash() { aVCaptureMultiCamViewModel?.pushFlash() }
 
     public func cameraStop() {
@@ -83,7 +83,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
         session.stopRunning()
     }
-    
+
     public func screenShot(call: @escaping() -> Void) {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
             print("AVCaptureMultiCamViewModel_screenShot")
@@ -91,7 +91,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         }
         aModel.screenShot(call: call, orientation: orientation)
     }
-    
+
     public func sameRatioFlg() {
         guard let aModel = aVCaptureMultiCamViewModel?.aModel else {
             print("AVCaptureMultiCamViewModel_sameRatioFlg")
@@ -139,7 +139,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     public func changeDviceType(backDeviceType : AVCaptureDevice.DeviceType,
                                 frontDeviceType: AVCaptureDevice.DeviceType) {
-        
+
         oriantation {
             aVCaptureMultiCamViewModel?.changeDviceType()
             guard let aModel = aVCaptureMultiCamViewModel?.aModel,
@@ -176,7 +176,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             frontCameraVideoPreviewView.frame = preViewRect
             frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
             backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-            
+
             if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
                 frontCameraVideoPreviewView.frame.origin.y = 0
                 backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
@@ -206,7 +206,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         UIView.setAnimationsEnabled(false)
         CATransaction.setDisableActions(true)
-        
+
         guard let aModel = aVCaptureMultiCamViewModel?.aModel,
             let backCameraVideoPreviewView = backCameraVideoPreviewView,
             let frontCameraVideoPreviewView = frontCameraVideoPreviewView else {
@@ -216,9 +216,15 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
         if UIInterfaceOrientation.landscapeRight == orientation  {
             self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
-            let window = UIApplication.shared.windows[0]
-            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
-            let safeAreaHeight = (window.frame.maxY - safeFrame.maxY)
+            print(UIApplication.shared.windows)
+            var safeAreaHeight: CGFloat = 0
+            if UIApplication.shared.windows == [] {
+                safeAreaHeight = 21
+            } else {
+                let window = UIApplication.shared.windows
+                let safeFrame = window[0].safeAreaLayoutGuide.layoutFrame
+                safeAreaHeight = (window[0].frame.maxY - safeFrame.maxY)
+            }
             if aModel.sameRatioModel.sameRatio == false {
                 switch aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition {
                 case .front:

@@ -15,11 +15,11 @@ final class BothSidesRecorder {
     private var assetWriter           : AVAssetWriter?
     private var assetWriterVideoInput : AVAssetWriterInput?
     private var assetWriterAudioInput : AVAssetWriterInput?
-    
+
     private var assetWriterScreen           : AVAssetWriter?
     private var assetWriterVideoInputScreen : AVAssetWriterInput?
     private var assetWriterAudioInputScreen : AVAssetWriterInput?
-    
+
     private var videoTransform        : CGAffineTransform
     private var videoSettings         : [String: Any]
     private var audioSettings         : [String: Any]
@@ -61,7 +61,7 @@ final class BothSidesRecorder {
         self.assetWriter = nil
         assetWriter.finishWriting { completion(assetWriter.outputURL) }
     }
-    
+
     func startRecordBind(bind:()->()) {
         let outputFileName = NSUUID().uuidString
         let outputFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(outputFileName).appendingPathExtension("MOV")
@@ -102,7 +102,7 @@ final class BothSidesRecorder {
     func recordVideo(sampleBuffer: CMSampleBuffer) {
         self.sampleBuffer = sampleBuffer
         guard  let assetWriter = assetWriter else { return }
-        
+
         switch assetWriter.status {
         case .unknown:
             assetWriter.startWriting()

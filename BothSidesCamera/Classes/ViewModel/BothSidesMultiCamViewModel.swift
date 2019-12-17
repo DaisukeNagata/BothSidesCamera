@@ -33,7 +33,7 @@ final class BothSidesMultiCamViewModel: NSObject {
         super.init()
         dataSet()
     }
-    
+
     // Flash
     func pushFlash() {
         do {
@@ -75,7 +75,7 @@ final class BothSidesMultiCamViewModel: NSObject {
         defer {
             session.commitConfiguration()
         }
-    
+
         backCamera = AVCaptureDevice.default(deviceType, for: .video, position: .back)
 
         guard let backCamera = backCamera else {
