@@ -23,6 +23,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate  {
     var transFormCheck                           = CGAffineTransform()
     var bothObservarModel                        = IsRunningModel()
     var sameRatioModel                           = SameRatioModel()
+    var orientationModel                         = InterfaceOrientation()
     let vm                                       = BothObserveViewModel()
 
     private var videoTrackSourceFormatDescription: CMFormatDescription?

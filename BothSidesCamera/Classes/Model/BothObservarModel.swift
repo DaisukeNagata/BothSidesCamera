@@ -12,3 +12,7 @@ struct IsRunningModel {
 struct SameRatioModel {
     var sameRatio = false
 }
+
+struct InterfaceOrientation {
+    var interfaceOrientation: Bool?
+}
