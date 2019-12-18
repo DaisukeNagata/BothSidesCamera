@@ -162,36 +162,34 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
                 print("AVCaptureMultiCamViewModel_frontCameraVideoPreviewView")
                 return
         }
+        
+        let bView: BothSidesPreviewView
+        let fView: BothSidesPreviewView
+
+        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+            bView = backCameraVideoPreviewView
+            fView = frontCameraVideoPreviewView
+        } else {
+            bView = frontCameraVideoPreviewView
+            fView = backCameraVideoPreviewView
+        }
 
         if aModel.sameRatioModel.sameRatio == true {
-            backCameraVideoPreviewView.transform = .identity
-            backCameraVideoPreviewView.frame = preViewRect
-            frontCameraVideoPreviewView.transform = .identity
-            frontCameraVideoPreviewView.frame = preViewRect
-            frontCameraVideoPreviewView.transform = frontCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
-            backCameraVideoPreviewView.transform = backCameraVideoPreviewView.transform.scaledBy(x: 0.5, y: 0.5)
+            bView.transform = .identity
+            bView.frame = preViewRect
+            fView.transform = .identity
+            fView.frame = preViewRect
+            bView.transform = bView.transform.scaledBy(x: 0.5, y: 0.5)
+            fView.transform = fView.transform.scaledBy(x: 0.5, y: 0.5)
 
             if UIInterfaceOrientation.landscapeRight == orientation  {
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + frontCameraVideoPreviewView.videoViewAreaWidth()/2
-                    backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + backCameraVideoPreviewView.videoViewAreaWidth()/2
-                    frontCameraVideoPreviewView.frame.origin.y = 0
-                    backCameraVideoPreviewView.frame.origin.y = preViewRect.height/2
-                } else {
-                    frontCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - frontCameraVideoPreviewView.frame.width*2 + frontCameraVideoPreviewView.videoViewAreaWidth()/2
-                    backCameraVideoPreviewView.frame.origin.x = self.frame.width/2 - backCameraVideoPreviewView.frame.width*2 + backCameraVideoPreviewView.videoViewAreaWidth()/2
-                    frontCameraVideoPreviewView.frame.origin.y = preViewRect.height/2
-                    backCameraVideoPreviewView.frame.origin.y = 0
-                }
+                bView.frame.origin.x = self.frame.width/2 - bView.frame.width*2 + bView.videoViewAreaWidth()/2
+                fView.frame.origin.x = self.frame.width/2 - fView.frame.width*2 + fView.videoViewAreaWidth()/2
+                bView.frame.origin.y = preViewRect.height/2
+                fView.frame.origin.y = 0
             } else {
-                if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-                    frontCameraVideoPreviewView.frame.origin.y = 0
-                    backCameraVideoPreviewView.frame.origin.y = backCameraVideoPreviewView.frame.height
-                } else {
-                    frontCameraVideoPreviewView.frame.origin.y = frontCameraVideoPreviewView.frame.height
-                    backCameraVideoPreviewView.frame.origin.y = 0
-                }
-                
+                bView.frame.origin.y = bView.frame.height
+                fView.frame.origin.y = 0
             }
             updateNormalizedPiPFrame(true)
         } else {
