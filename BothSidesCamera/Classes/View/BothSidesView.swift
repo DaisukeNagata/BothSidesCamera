@@ -239,7 +239,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
 
     private func oriantationLogic(aModel: BothSidesMultiCamSessionModel, bPreviewView: BothSidesPreviewView, fPreviewView: BothSidesPreviewView) {
 
-        aModel.vm.observe(for: aModel.vm.orientationModel ?? BothObservable()) { value in
+        aModel.vm.observe(for: aModel.vm.orientationModel ?? BothObservable()) { _ in 
             let bView: BothSidesPreviewView
             let fView: BothSidesPreviewView
             
