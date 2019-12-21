@@ -238,29 +238,31 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func oriantationLogic(aModel: BothSidesMultiCamSessionModel, bPreviewView: BothSidesPreviewView, fPreviewView: BothSidesPreviewView) {
-        
-        let bView: BothSidesPreviewView
-        let fView: BothSidesPreviewView
-        
-        if aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
-            bView = bPreviewView
-            fView = fPreviewView
-        } else {
-            bView = fPreviewView
-            fView = bPreviewView
-        }
+
         aModel.vm.observe(for: aModel.vm.orientationModel ?? BothObservable()) { value in
+            let bView: BothSidesPreviewView
+            let fView: BothSidesPreviewView
+            
+            if self.aVCaptureMultiCamViewModel?.aModel?.pipDevicePosition == .front {
+                bView = bPreviewView
+                fView = fPreviewView
+            } else {
+                bView = fPreviewView
+                fView = bPreviewView
+            }
+    
             switch self.orientation {
             case.landscapeRight:
                 if aModel.sameRatioModel.sameRatio == false {
                     bView.frame.origin.x = -UINavigationController.init().navigationBar.frame.height - bView.videoViewAreaWidth()
-                    fView.frame.origin.x = bView.frame.width - (fView.frame.width + UINavigationController.init().navigationBar.frame.height + fView.videoViewAreaWidth())
+                    fView.frame.origin.x = self.preViewRect.width - (fView.frame.width + UINavigationController.init().navigationBar.frame.height + fView.videoViewAreaWidth())
                 }
                 self.transform = CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90).scaledBy(x: -1, y: -1)
             default:
-                bView.frame.origin.x = 0
-                fView.frame.origin.x = 0
-                
+                if aModel.sameRatioModel.sameRatio == false {
+                    bView.frame.origin.x = 0
+                    fView.frame.origin.x = 0
+                }
                 self.transform = self.orientation.isPortrait == true ?
                     CGAffineTransform(rotationAngle: CGFloat.pi/180 * -0.01) :
                     CGAffineTransform(rotationAngle: CGFloat.pi/180 * 90)
