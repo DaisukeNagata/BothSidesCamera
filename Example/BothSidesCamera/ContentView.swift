@@ -11,9 +11,10 @@ import BothSidesCamera
 
 struct ContentView: View {
 
+    @State var frameSize     : CGFloat = 25
     @State var selectorIndex = 0
-    @State var didTap: Bool = false
-    @State var bView = SidesView()
+    @State var didTap: Bool  = false
+    @State var bView         = SidesView()
 
     @EnvironmentObject var model: OrientationModel
 
@@ -27,11 +28,9 @@ struct ContentView: View {
                         self.bView.cameraLogic(.gray)
                 },
                     label: {
-                        Text("").modifier(MyModifier(color: .gray, frameSize: 25))
+                        Text("").modifier(MyModifier(color: .gray, frameSize: frameSize))
                 })
-                    .alert(isPresented: $model.showingAlert) {
-                    Alert(title: Text("Save Screen"))
-                }
+                    .alert(isPresented: $model.showingAlert) { Alert(title: Text("Save Screen")) }
 
                 Button(
                     action: {
@@ -39,7 +38,7 @@ struct ContentView: View {
                         self.bView.cameraLogic(.white)
                 },
                     label: {
-                        Text("").background(didTap ? Color.red : Color.white).modifier(MyModifier(color: .white, frameSize: 25))
+                        Text("").background(didTap ? Color.red : Color.white).modifier(MyModifier(color: .white, frameSize: frameSize))
                 })
 
                 Button(
@@ -47,7 +46,7 @@ struct ContentView: View {
                         self.bView.cameraLogic(.blue)
                 },
                     label: {
-                        Text("").modifier(MyModifier(color: .blue, frameSize: 25))
+                        Text("").modifier(MyModifier(color: .blue, frameSize: frameSize))
                 })
 
                 Button(
@@ -55,7 +54,7 @@ struct ContentView: View {
                         self.bView.cameraLogic(.purple)
                 },
                     label: {
-                          Text("").modifier(MyModifier(color: .purple, frameSize: 25))
+                          Text("").modifier(MyModifier(color: .purple, frameSize: frameSize))
                 })
 
                 Button(
@@ -63,7 +62,7 @@ struct ContentView: View {
                         self.bView.cameraLogic(.yellow)
                 },
                     label: {
-                        Text("").modifier(MyModifier(color: .yellow, frameSize: 25))
+                        Text("").modifier(MyModifier(color: .yellow, frameSize: frameSize))
                 })
 
             }.onAppear {
