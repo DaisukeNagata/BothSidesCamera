@@ -128,9 +128,9 @@ struct SidesView: UIViewRepresentable {
     func flash() { bothSidesView.pushFlash() }
 
     func cameraStop() { bothSidesView.cameraStop()}
-    
+
     func sameRatioFlg() {bothSidesView.sameRatioFlg()}
-    
+
     func screenShot() { bothSidesView.screenShot(call: saveBtn)}
 
     func cameraStart() { bothSidesView.cameraMixStart(completion: saveBtn) }
@@ -179,7 +179,7 @@ struct MyModifier: ViewModifier {
     var horizontalSet : Edge.Set? = nil
     var verticalSize  : CGFloat? = nil
     var horizontalSize: CGFloat? = nil
-    
+
     @State private var margin: CGFloat = 10
 
     func body(content: Content) -> some View {
