@@ -67,7 +67,7 @@ struct ContentView: View {
             }.onAppear {
                 self.model.contentView = self
                 self.bView.orientationModel = self.model
-                _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+                self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
 
                 // preview origin set example
                 guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
@@ -101,6 +101,7 @@ struct SidesView: UIViewRepresentable {
     }
 
     // Super wide angle compatible
+    @discardableResult
     func changeDviceType(_ bView: BothSidesView, numbers: Int) -> ContentView? {
         numbers == 0 ?
             bView.changeDviceType(backDeviceType: .builtInWideAngleCamera, frontDeviceType:.builtInWideAngleCamera) :
@@ -112,12 +113,12 @@ struct SidesView: UIViewRepresentable {
     func updateUIView(_ bView: BothSidesView, context: Context) {
         DispatchQueue.main.async { self.bothSidesView = bView }
     }
-    
+
     mutating func cameraLogic(_ color: Color) {
         switch color {
         case .gray: self.screenShot()
         case .white: self.cameraStart()
-        case .blue: index = index == 0 ? 1 : 0; _ = self.changeDviceType(self.bothSidesView, numbers: index)
+        case .blue: index = index == 0 ? 1 : 0; self.changeDviceType(self.bothSidesView, numbers: index)
         case .purple: self.sameRatioFlg()
         case.yellow: self.flash()
         default: break
@@ -137,7 +138,6 @@ struct SidesView: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<SidesView>) -> BothSidesView { return  bothSidesView }
 
     func orientation(model: OrientationModel) { bothSidesView.preViewSizeSet(orientation:  model.orientation) }
-
 }
 
 final class OrientationModel: ObservableObject {
