@@ -11,34 +11,24 @@ import BothSidesCamera
 
 struct ContentView: View {
 
-    @State var bView = SidesView()
-    @State var didTap: Bool = false
     @State var selectorIndex = 0
-
-    @State private var margin: CGFloat = 10
+    @State var didTap: Bool = false
+    @State var bView = SidesView()
 
     @EnvironmentObject var model: OrientationModel
 
     var body: some View {
         VStack {
-            bView
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            bView.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
 
             HStack {
                 Button(
                     action: {
-                        self.bView.screenShot()
+                        self.bView.cameraLogic(.gray)
                 },
                     label: {
-                        Text("")
-                            .frame(width: 50, height: 50)
-                            .imageScale(.large)
-                            .background(Color.gray)
-                            .clipShape(Circle())
-                }
-                ).padding(.top, margin)
-                    .padding(.leading, margin)
-                    .padding(.trailing, margin)
+                        Text("").modifier(MyModifier(color: .gray, frameSize: 25))
+                })
                     .alert(isPresented: $model.showingAlert) {
                     Alert(title: Text("Save Screen"))
                 }
@@ -46,75 +36,43 @@ struct ContentView: View {
                 Button(
                     action: {
                         self.didTap = self.didTap ? false : true
-                        self.bView.cameraStart()
+                        self.bView.cameraLogic(.white)
                 },
                     label: {
-                        Text("")
-                            .padding(margin)
-                            .frame(width: 50, height: 50)
-                            .imageScale(.large)
-                            .background(didTap ? Color.red : Color.white)
-                            .clipShape(Circle())
-                }
-                ).padding(.top, margin)
-                    .padding(.leading, margin)
-                    .padding(.trailing, margin)
+                        Text("").background(didTap ? Color.red : Color.white).modifier(MyModifier(color: .white, frameSize: 25))
+                })
 
                 Button(
                     action: {
-                        let index = self.selectorIndex == 0 ? 1 : 0
-                        self.selectorIndex = index
-                        _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
+                        self.bView.cameraLogic(.blue)
                 },
                     label: {
-                        Text("")
-                            .frame(width: 50, height: 50)
-                            .imageScale(.large)
-                            .background(Color.blue)
-                            .clipShape(Circle())
-                }
-                ).padding(.top, margin)
-                    .padding(.leading, margin)
-                    .padding(.trailing, margin)
+                        Text("").modifier(MyModifier(color: .blue, frameSize: 25))
+                })
 
                 Button(
                     action: {
-                         self.bView.sameRatioFlg()
+                        self.bView.cameraLogic(.purple)
                 },
                     label: {
-                        Text("")
-                            .frame(width: 50, height: 50)
-                            .imageScale(.large)
-                            .background(Color.purple)
-                            .clipShape(Circle())
-                }
-                ).padding(.top, margin)
-                    .padding(.leading, margin)
-                    .padding(.trailing, margin)
+                          Text("").modifier(MyModifier(color: .purple, frameSize: 25))
+                })
 
                 Button(
                     action: {
-                         self.bView.flash()
+                        self.bView.cameraLogic(.yellow)
                 },
                     label: {
-                        Text("")
-                            .frame(width: 50, height: 50)
-                            .imageScale(.large)
-                            .background(Color.yellow)
-                            .clipShape(Circle())
-                }
-                ).padding(.top, margin)
-                    .padding(.leading, margin)
-                    .padding(.trailing, margin)
+                        Text("").modifier(MyModifier(color: .yellow, frameSize: 25))
+                })
 
             }.onAppear {
                 self.model.contentView = self
                 self.bView.orientationModel = self.model
                 _ = self.bView.changeDviceType(self.bView.bothSidesView,numbers: self.selectorIndex)
 
-                guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
-
                 // preview origin set example
+                guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
                 backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
                                                                             y: 0,
                                                                             width : backCameraVideoPreviewView.frame.width,
@@ -133,6 +91,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct SidesView: UIViewRepresentable {
 
+    var index = 0
     var orientationModel: OrientationModel?
     @State var bothSidesView = BothSidesView(backDeviceType: .builtInUltraWideCamera,
                                              frontDeviceType: .builtInWideAngleCamera)
@@ -154,6 +113,17 @@ struct SidesView: UIViewRepresentable {
     // Modifying state during view update, this will cause undefined behavior.  bothSidesView = bView
     func updateUIView(_ bView: BothSidesView, context: Context) {
         DispatchQueue.main.async { self.bothSidesView = bView }
+    }
+    
+    mutating func cameraLogic(_ color: Color) {
+        switch color {
+        case .gray: self.screenShot()
+        case .white: self.cameraStart()
+        case .blue: index = index == 0 ? 1 : 0; _ = self.changeDviceType(self.bothSidesView, numbers: index)
+        case .purple: self.sameRatioFlg()
+        case.yellow: self.flash()
+        default: break
+        }
     }
 
     func flash() { bothSidesView.pushFlash() }
@@ -201,5 +171,27 @@ final class OrientationModel: ObservableObject {
         contentView.didTap = false
         contentView.bView.cameraStop()
     }
+}
 
+struct MyModifier: ViewModifier {
+
+    var color         : Color? = nil
+    var frameSize     : CGFloat? = nil
+    var verticalSet   : Edge.Set? = nil
+    var horizontalSet : Edge.Set? = nil
+    var verticalSize  : CGFloat? = nil
+    var horizontalSize: CGFloat? = nil
+    
+    @State private var margin: CGFloat = 10
+
+    func body(content: Content) -> some View {
+        return content
+            .padding(frameSize ?? 0.0)
+            .background(color)
+            .padding(verticalSet ?? Edge.Set.init(rawValue: 0), verticalSize ?? 0.0)
+            .padding(horizontalSet ?? Edge.Set.init(rawValue: 0), horizontalSize ?? 0.0)
+            .clipShape(Circle())
+            .padding(.leading, margin)
+            .padding(.trailing, margin)
+    }
 }
