@@ -11,11 +11,10 @@ import BothSidesCamera
 
 struct ContentView: View {
 
-    @State var frameSize     : CGFloat = 25
+    @State var didTap = false
     @State var selectorIndex = 0
-    @State var didTap: Bool  = false
-    @State var bView         = SidesView()
-
+    @State var frameSize: CGFloat = 25.0
+    @State var bView = SidesView()
     @EnvironmentObject var model: OrientationModel
 
     var body: some View {
