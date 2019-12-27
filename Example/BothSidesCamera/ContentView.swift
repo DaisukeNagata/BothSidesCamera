@@ -120,7 +120,7 @@ struct SidesView: UIViewRepresentable {
         case .white: self.cameraStart()
         case .blue: index = index == 0 ? 1 : 0; self.changeDviceType(self.bothSidesView, numbers: index)
         case .purple: self.sameRatioFlg()
-        case.yellow: self.flash()
+        case .yellow: self.flash()
         default: break
         }
     }
