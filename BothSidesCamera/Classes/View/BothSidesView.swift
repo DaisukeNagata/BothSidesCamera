@@ -113,6 +113,7 @@ public class BothSidesView: UIView, UIGestureRecognizerDelegate {
             }
             guard session.isRunning == true  else {
                 session.startRunning()
+                model.bothObservarModel.isRunning = false
                 model.vm.valueSet(model.bothObservarModel)
                 print("AVCaptureMultiCamViewModel_cameraMixStart_isRunning")
                 return
