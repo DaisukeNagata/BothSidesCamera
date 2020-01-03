@@ -37,7 +37,7 @@ struct ContentView: View {
                         self.bView.cameraLogic(.white)
                 },
                     label: {
-                        Text("").background(didTap ? Color.red : Color.white).modifier(MyModifier(color: .white, frameSize: frameSize))
+                        Text("").background(didTap ? Color.red : Color.white).modifier(MyModifier(color: didTap ? Color.red : Color.white, frameSize: frameSize))
                 })
 
                 Button(
