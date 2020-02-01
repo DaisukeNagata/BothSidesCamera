@@ -73,7 +73,7 @@ struct ContentView: View {
                 guard let backCameraVideoPreviewView = self.bView.bothSidesView.backCameraVideoPreviewView else { return }
                 backCameraVideoPreviewView.videoPreviewLayer.frame = CGRect(x: 0,
                                                                             y: 0,
-                                                                            width : backCameraVideoPreviewView.frame.width,
+                                                                            width : backCameraVideoPreviewView.frame.width+4, // TODO　from os13.3 or later ＋４
                                                                             height: backCameraVideoPreviewView.frame.width * 1.77777777777778)
                 self.bView.bothSidesView.deviceAspect(backCameraVideoPreviewView.frame)
             }
