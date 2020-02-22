@@ -2,6 +2,7 @@
 <p align="center">
 <img src="https://user-images.githubusercontent.com/16457165/70843118-58034080-1e70-11ea-9461-99cf56db8d61.png">
 </p>
+
 [![CI Status](https://img.shields.io/travis/daisukenagata/BothSidesCamera.svg?style=flat)](https://travis-ci.org/daisukenagata/BothSidesCamera)
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/iphone/index.action)
 [![Version](https://img.shields.io/cocoapods/v/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
