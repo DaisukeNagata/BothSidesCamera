@@ -12,7 +12,7 @@
 ## Requirements
 - iPhoneX, Xs, XR, XsMax, Pro
 - iOS 13.2+
-- Xcode 11.3
+- Xcode 11.3+
 
 ## Version 1.1.1 ~　Supported all screen positions.
 
