@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/cocoapods/l/BothSidesCamera.svg?style=flat)](https://cocoapods.org/pods/BothSidesCamera)
 
 ## Requirements
-- iPhoneX, Xs, XR, XsMax, Pro
+- iPhone　ProMax, Pro
 - iOS 13.2+
 - Xcode 11.3+
 
